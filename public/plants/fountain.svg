@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="128" height="128" style="image-rendering: pixelated; shape-rendering: crispEdges;">
+  <style>
+    @keyframes stardewBlink {
+      0%, 40%, 100% { opacity: 0; }
+      20% { opacity: 1; }
+    }
+    .sparkle-1 { animation: stardewBlink 2.5s step-end infinite; }
+    .sparkle-2 { animation: stardewBlink 3.0s step-end infinite 0.8s; }
+    .sparkle-3 { animation: stardewBlink 2.8s step-end infinite 1.5s; }
+  </style>
+
+  <path fill="#2f2417" opacity="0.4" d="M10 24 h12 v1 h-12 Z M8 25 h16 v1 h-16 Z M6 26 h20 v2 h-20 Z M8 28 h16 v1 h-16 Z"/>
+
+  <path fill="#2a241c" d="M12 5 h8 v1 h-8 Z M10 6 h2 v1 h-2 Z M20 6 h2 v1 h-2 Z M9 7 h1 v1 h-1 Z M22 7 h1 v1 h-1 Z M8 8 h1 v1 h-1 Z M23 8 h1 v1 h-1 Z M7 9 h1 v1 h-1 Z M24 9 h1 v1 h-1 Z M6 10 h1 v2 h-1 Z M25 10 h1 v2 h-1 Z M5 12 h1 v10 h-1 Z M26 12 h1 v10 h-1 Z M6 22 h1 v1 h-1 Z M25 22 h1 v1 h-1 Z M7 23 h2 v1 h-2 Z M23 23 h2 v1 h-2 Z M9 24 h14 v1 h-14 Z"/>
+
+  <path fill="#706a5d" d="M12 6 h8 v1 h-8 Z M10 7 h12 v1 h-12 Z M9 8 h14 v1 h-14 Z M8 9 h16 v1 h-16 Z M7 10 h18 v1 h-18 Z M7 11 h18 v1 h-18 Z M6 12 h20 v10 h-20 Z M7 22 h18 v1 h-18 Z M9 23 h14 v1 h-14 Z"/>
+
+  <path fill="#4b463d" d="M10 18 h12 v1 h-12 Z M8 19 h16 v1 h-16 Z M7 20 h18 v3 h-18 Z M9 23 h14 v1 h-14 Z"/>
+
+  <path fill="#2a241c" d="M11 8 h10 v1 h-10 Z M10 9 h1 v1 h-1 Z M21 9 h1 v1 h-1 Z M9 10 h1 v1 h-1 Z M22 10 h1 v1 h-1 Z M8 11 h1 v1 h-1 Z M23 11 h1 v1 h-1 Z M7 12 h1 v3 h-1 Z M24 12 h1 v3 h-1 Z M8 15 h1 v1 h-1 Z M23 15 h1 v1 h-1 Z M9 16 h2 v1 h-2 Z M21 16 h2 v1 h-2 Z M11 17 h10 v1 h-10 Z"/>
+
+  <path fill="#4b463d" d="M11 9 h10 v1 h-10 Z M10 10 h12 v1 h-12 Z M9 11 h14 v5 h-14 Z M11 16 h10 v1 h-10 Z"/>
+
+  <path fill="#2f6f8f" d="M11 10 h10 v1 h-10 Z M10 11 h12 v1 h-12 Z M9 12 h14 v3 h-14 Z M10 15 h12 v1 h-12 Z"/>
+
+  <path fill="#4fa8c8" d="M11 10 h10 v1 h-10 Z M10 11 h12 v1 h-12 Z M9 12 h14 v2 h-14 Z M10 14 h12 v1 h-12 Z"/>
+
+  <path fill="#a79f8b" d="M12 6 h5 v1 h-5 Z M18 6 h2 v1 h-2 Z M10 7 h2 v1 h-2 Z M21 7 h1 v1 h-1 Z M9 8 h1 v1 h-1 Z M7 10 h1 v1 h-1 Z M6 12 h1 v3 h-1 Z M14 18 h1 v1 h-1 Z M8 21 h1 v1 h-1 Z M11 22 h2 v1 h-2 Z"/>
+
+  <path fill="#2a241c" d="M16 18 h1 v2 h-1 Z M13 20 h1 v1 h-1 Z M23 21 h1 v1 h-1 Z"/>
+  <path fill="#4b463d" d="M7 15 h1 v2 h-1 Z M8 17 h1 v1 h-1 Z"/>
+
+  <path fill="#b8ecf2" d="M13 11 h4 v1 h-4 Z M18 12 h5 v1 h-5 Z M11 13 h3 v1 h-3 Z M16 14 h4 v1 h-4 Z"/>
+
+  <rect x="14" y="12" width="1" height="1" fill="#ffffff" class="sparkle-1" />
+  <rect x="20" y="13" width="1" height="1" fill="#ffffff" class="sparkle-2" />
+  <rect x="12" y="14" width="1" height="1" fill="#ffffff" class="sparkle-3" />
+</svg>
