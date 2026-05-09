@@ -7,7 +7,7 @@ interface GardenState {
 
   // UI state
   selectedSeedId: string | null;
-  activeView: "garden" | "board" | "harvest";
+  activeView: "garden" | "board" | "harvest" | "compost";
   sidebarOpen: boolean;
 
   // Actions
@@ -17,7 +17,7 @@ interface GardenState {
   updateSeedStatus: (id: string, status: SeedStatus) => void;
   deleteSeed: (id: string) => void;
   selectSeed: (id: string | null) => void;
-  setActiveView: (view: "garden" | "board" | "harvest") => void;
+  setActiveView: (view: "garden" | "board" | "harvest" | "compost") => void;
   setSidebarOpen: (open: boolean) => void;
 }
 

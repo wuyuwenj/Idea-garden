@@ -3,8 +3,8 @@
 import { insforge } from "@/lib/insforge";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import type { Seed, SeedPriority, SeedTag, PlantType, ContextRoot, SeedComment, CommentType } from "@/types";
-import { saveNiaContext, writeVaultSeedPage, searchVault, appendVaultSeedComment } from "@/lib/nia";
+import type { Seed, SeedPriority, SeedTag, PlantType, ContextRoot, Attachment, SeedComment, CommentType } from "@/types";
+import { saveNiaContext, writeVaultSeedPage, searchVault, appendVaultSeedComment, indexUrl, addSourceToVault, ingestVault } from "@/lib/nia";
 import type { VaultSearchMatch } from "@/lib/nia";
 
 async function getAuthToken() {
@@ -75,6 +75,7 @@ export async function createSeed(input: CreateSeedInput): Promise<SeedActionStat
       plant_type: input.plant_type,
       created_by: userId,
       context_roots: [],
+      attachments: [],
       blockers: [],
       related_issue_ids: [],
       is_revived: false,
@@ -142,6 +143,7 @@ export type UpdateSeedInput = {
   suggested_tickets?: string[];
   agent_brief?: string;
   context_roots?: ContextRoot[];
+  attachments?: Attachment[];
   nia_context_id?: string;
 };
 
@@ -256,6 +258,76 @@ export async function searchSimilarSeeds(
   scored.sort((a, b) => b.score - a.score);
 
   return { matches: scored.map((s) => s.seed).slice(0, 5) };
+}
+
+// ── URL Attachment ──
+
+export async function addUrlAttachment(
+  seedId: string,
+  url: string,
+  title: string,
+  syncToNia: boolean = false
+): Promise<{ attachment?: Attachment; error?: string }> {
+  const userId = await getCurrentUserId();
+  if (!userId) return { error: "Not authenticated" };
+
+  // Get current seed to read existing attachments and find vault
+  const { data: seed } = await insforge.database
+    .from("seeds")
+    .select("attachments, project_id")
+    .eq("id", seedId)
+    .single();
+
+  if (!seed) return { error: "Seed not found" };
+
+  const attachment: Attachment = {
+    url,
+    title: title || url,
+    type: "url",
+    added_at: new Date().toISOString(),
+  };
+
+  const existing = (seed.attachments as Attachment[]) || [];
+  const updated = [...existing, attachment];
+
+  const { error } = await insforge.database
+    .from("seeds")
+    .update({ attachments: updated, updated_at: new Date().toISOString() })
+    .eq("id", seedId);
+
+  if (error) return { error: error.message };
+
+  // Index URL in Nia and link to project vault (fire-and-forget)
+  if (syncToNia && seed.project_id) {
+    indexUrl(url, title).then(async (result) => {
+      if (!result.sourceId) return;
+
+      // Update attachment with nia_source_id
+      const withSourceId = updated.map((a) =>
+        a.url === url && a.added_at === attachment.added_at
+          ? { ...a, nia_source_id: result.sourceId }
+          : a
+      );
+      await insforge.database
+        .from("seeds")
+        .update({ attachments: withSourceId })
+        .eq("id", seedId);
+
+      // Link source to project vault
+      const { data: project } = await insforge.database
+        .from("projects")
+        .select("nia_vault_id")
+        .eq("id", seed.project_id)
+        .single();
+
+      if (project?.nia_vault_id && result.sourceId) {
+        await addSourceToVault(project.nia_vault_id, result.sourceId);
+        await ingestVault(project.nia_vault_id);
+      }
+    });
+  }
+
+  return { attachment };
 }
 
 // ── Assignee functions (used by AssigneePicker) ──
