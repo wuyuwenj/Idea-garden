@@ -97,7 +97,8 @@ export async function verifyEmail(
 
   if (loginError || !data?.accessToken) {
     // Verification succeeded, but auto-login failed — send to login page
-    redirect("/login");
+    const redirectTo = formData.get("redirect") as string;
+    redirect(redirectTo ? `/login?redirect=${encodeURIComponent(redirectTo)}` : "/login");
   }
 
   const cookieStore = await cookies();
@@ -148,6 +149,21 @@ export async function login(
 
   const redirectTo = formData.get("redirect") as string;
   redirect(redirectTo || "/");
+}
+
+export async function checkAuth(): Promise<boolean> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("insforge-token")?.value;
+  if (!token) return false;
+
+  insforge.setAccessToken(token);
+  const { data, error } = await insforge.auth.getCurrentUser();
+  if (error || !data?.user) {
+    // Token is invalid/expired — clear it
+    cookieStore.delete("insforge-token");
+    return false;
+  }
+  return true;
 }
 
 export async function logout() {
