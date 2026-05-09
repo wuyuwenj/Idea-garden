@@ -55,7 +55,7 @@ export function BoardView() {
     >
       {PRIORITIES.map((priority) => {
         const priorityIssues = issues.filter(
-          (i) => i.priority === priority && i.status !== "fruit" && i.status !== "compost"
+          (i) => i.priority === priority && i.status !== "flower" && i.status !== "compost"
         );
         return (
           <div

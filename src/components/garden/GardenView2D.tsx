@@ -46,7 +46,7 @@ function PlantSprite({ issue }: { issue: GardenIssue }) {
 
 export function GardenView2D() {
   const issues = useGardenStore((s) => s.issues);
-  const activeIssues = issues.filter((i) => i.status !== "fruit" && i.status !== "compost");
+  const activeIssues = issues.filter((i) => i.status !== "flower" && i.status !== "compost");
 
   return (
     <div className="relative grid grid-cols-2 gap-12 p-12 border-[6px] border-dashed border-[#486334] rounded-xl bg-[#618a48] overflow-hidden">

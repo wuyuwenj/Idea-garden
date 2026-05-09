@@ -8,7 +8,7 @@ import { Flower2, Archive } from "lucide-react";
 export function HarvestView() {
   const issues = useGardenStore((s) => s.issues);
   const selectIssue = useGardenStore((s) => s.selectIssue);
-  const harvested = issues.filter((i) => i.status === "fruit");
+  const harvested = issues.filter((i) => i.status === "flower");
   const composted = issues.filter((i) => i.status === "compost");
 
   return (
@@ -26,13 +26,12 @@ export function HarvestView() {
         </p>
       </div>
 
-      {/* Fruit / Harvested */}
       {harvested.length === 0 && composted.length === 0 ? (
         <div className="text-center py-16 text-[#a6754b] border-4 border-dashed border-[#d4a373] max-w-md mx-auto">
           <Flower2 size={48} className="mx-auto mb-4 opacity-40" />
           <p className={`${stardew.fontPixel} text-lg`}>No blooms yet</p>
           <p className="text-sm mt-2">
-            Issues that reach Fruit stage will appear here.
+            Issues that reach Flower stage will appear here.
           </p>
         </div>
       ) : (
@@ -49,7 +48,7 @@ export function HarvestView() {
                   >
                     <div className="w-full h-32 bg-[#e8d6b3] border-4 border-[#4a2f1e] shadow-[inset_2px_2px_8px_rgba(0,0,0,0.2)] flex items-center justify-center mb-4 relative">
                       <img
-                        src={plant.fruit}
+                        src={plant.flower}
                         alt={issue.title}
                         className="w-24 h-24 object-contain"
                         style={{ imageRendering: "pixelated" }}

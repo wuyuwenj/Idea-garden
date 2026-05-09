@@ -3,8 +3,7 @@
 export type IssueStatus =
   | "seed"      // raw idea / backlog
   | "sprout"    // context found / validated
-  | "flower"    // in progress
-  | "fruit"     // shipped / done
+  | "flower"    // shipped / done
   | "compost";  // paused / rejected / failed, but preserved
 
 export type Priority = "urgent" | "high" | "medium" | "low";
