@@ -1,54 +1,54 @@
 import { create } from "zustand";
-import type { Seed, SeedStatus, SeedPriority, PlantType } from "@/types";
+import type { GardenIssue, IssueStatus } from "@/types";
 
 interface GardenState {
   // Data
-  seeds: Seed[];
+  issues: GardenIssue[];
 
   // UI state
-  selectedSeedId: string | null;
+  selectedIssueId: string | null;
   activeView: "garden" | "board" | "harvest";
   sidebarOpen: boolean;
 
   // Actions
-  setSeeds: (seeds: Seed[]) => void;
-  addSeed: (seed: Seed) => void;
-  updateSeed: (id: string, updates: Partial<Seed>) => void;
-  updateSeedStatus: (id: string, status: SeedStatus) => void;
-  deleteSeed: (id: string) => void;
-  selectSeed: (id: string | null) => void;
+  setIssues: (issues: GardenIssue[]) => void;
+  addIssue: (issue: GardenIssue) => void;
+  updateIssue: (id: string, updates: Partial<GardenIssue>) => void;
+  updateIssueStatus: (id: string, status: IssueStatus) => void;
+  deleteIssue: (id: string) => void;
+  selectIssue: (id: string | null) => void;
   setActiveView: (view: "garden" | "board" | "harvest") => void;
   setSidebarOpen: (open: boolean) => void;
 }
 
 export const useGardenStore = create<GardenState>((set) => ({
-  seeds: [],
+  issues: [],
 
-  selectedSeedId: null,
+  selectedIssueId: null,
   activeView: "garden",
   sidebarOpen: false,
 
-  setSeeds: (seeds) => set({ seeds }),
-  addSeed: (seed) => set((s) => ({ seeds: [...s.seeds, seed] })),
-  updateSeed: (id, updates) =>
+  setIssues: (issues) => set({ issues }),
+  addIssue: (issue) => set((s) => ({ issues: [...s.issues, issue] })),
+  updateIssue: (id, updates) =>
     set((s) => ({
-      seeds: s.seeds.map((seed) =>
-        seed.id === id ? { ...seed, ...updates, updated_at: new Date().toISOString() } : seed
+      issues: s.issues.map((issue) =>
+        issue.id === id ? { ...issue, ...updates, updatedAt: Date.now() } : issue
       ),
     })),
-  updateSeedStatus: (id, status) =>
+  updateIssueStatus: (id, status) =>
     set((s) => ({
-      seeds: s.seeds.map((seed) =>
-        seed.id === id ? { ...seed, status, updated_at: new Date().toISOString() } : seed
+      issues: s.issues.map((issue) =>
+        issue.id === id ? { ...issue, status, updatedAt: Date.now() } : issue
       ),
     })),
-  deleteSeed: (id) =>
+  deleteIssue: (id) =>
     set((s) => ({
-      seeds: s.seeds.filter((seed) => seed.id !== id),
-      selectedSeedId: s.selectedSeedId === id ? null : s.selectedSeedId,
-      sidebarOpen: s.selectedSeedId === id ? false : s.sidebarOpen,
+      issues: s.issues.filter((issue) => issue.id !== id),
+      selectedIssueId: s.selectedIssueId === id ? null : s.selectedIssueId,
+      sidebarOpen: s.selectedIssueId === id ? false : s.sidebarOpen,
     })),
-  selectSeed: (id) => set({ selectedSeedId: id, sidebarOpen: id !== null }),
+  selectIssue: (id) => set({ selectedIssueId: id, sidebarOpen: id !== null }),
   setActiveView: (view) => set({ activeView: view }),
   setSidebarOpen: (open) => set({ sidebarOpen: open }),
 }));

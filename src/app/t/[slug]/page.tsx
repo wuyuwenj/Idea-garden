@@ -3,14 +3,14 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useGardenStore } from "@/store";
-import { getSeeds } from "@/app/actions/seed";
+import { getIssues } from "@/app/actions/seed";
 import { checkAuth } from "@/app/actions/auth";
 import { stardew } from "@/lib/stardewTheme";
 import { GardenView2D } from "@/components/garden/GardenView2D";
 import { BoardView } from "@/components/board";
 import { HarvestView } from "@/components/harvest/HarvestView";
-import { SeedDetailPanel } from "@/components/panels/IdeaDetailPanel";
-import { CreateSeedDialog } from "@/components/panels/CreateSeedDialog";
+import { IssueDetailPanel } from "@/components/panels/IdeaDetailPanel";
+import { CreateIssueDialog } from "@/components/panels/CreateSeedDialog";
 import { InviteMemberDialog } from "@/components/panels/InviteMemberDialog";
 import { Plus, Flower2, UserPlus, ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -23,23 +23,23 @@ export default function TeamGardenPage() {
 
   const activeView = useGardenStore((s) => s.activeView);
   const setActiveView = useGardenStore((s) => s.setActiveView);
-  const setSeeds = useGardenStore((s) => s.setSeeds);
+  const setIssues = useGardenStore((s) => s.setIssues);
   const harvestCount = useGardenStore(
-    (s) => s.seeds.filter((sd) => sd.status === "blooming").length
+    (s) => s.issues.filter((i) => i.status === "flower").length
   );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isInviteOpen, setIsInviteOpen] = useState(false);
 
-  const refreshSeeds = useCallback(() => {
-    getSeeds(slug).then(setSeeds);
-  }, [slug, setSeeds]);
+  const refreshIssues = useCallback(() => {
+    getIssues(slug).then(setIssues);
+  }, [slug, setIssues]);
 
   useEffect(() => {
     checkAuth().then((valid) => {
       if (!valid) { router.push("/login"); return; }
-      refreshSeeds();
+      refreshIssues();
     });
-  }, [refreshSeeds, router]);
+  }, [refreshIssues, router]);
 
   return (
     <div
@@ -133,7 +133,7 @@ export default function TeamGardenPage() {
 
       {/* MODALS */}
       {isDialogOpen && (
-        <CreateSeedDialog teamSlug={slug} onClose={() => { setIsDialogOpen(false); refreshSeeds(); }} />
+        <CreateIssueDialog teamSlug={slug} onClose={() => { setIsDialogOpen(false); refreshIssues(); }} />
       )}
       {isInviteOpen && (
         <InviteMemberDialog
@@ -141,7 +141,7 @@ export default function TeamGardenPage() {
           onClose={() => setIsInviteOpen(false)}
         />
       )}
-      <SeedDetailPanel teamSlug={slug} />
+      <IssueDetailPanel teamSlug={slug} />
     </div>
   );
 }

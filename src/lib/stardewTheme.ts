@@ -1,4 +1,4 @@
-import type { SeedPriority } from "@/types";
+import type { Priority, IssueTag } from "@/types";
 
 export const stardew = {
   woodPanel:
@@ -15,7 +15,7 @@ export const stardew = {
   fontBody: "font-serif",
 } as const;
 
-export function getPriorityColor(priority: SeedPriority): string {
+export function getPriorityColor(priority: Priority): string {
   switch (priority) {
     case "urgent":
       return "bg-[#c75438]";
@@ -25,5 +25,20 @@ export function getPriorityColor(priority: SeedPriority): string {
       return "bg-[#e9c85a]";
     case "low":
       return "bg-[#5aa6d1]";
+  }
+}
+
+export function getTagColor(tag: IssueTag): string {
+  switch (tag) {
+    case "bug":
+      return "bg-[#c75438] text-[#fce8cc]";
+    case "feature":
+      return "bg-[#5a8043] text-[#fce8cc]";
+    case "idea":
+      return "bg-[#e9c85a] text-[#4a2f1e]";
+    case "research":
+      return "bg-[#5aa6d1] text-[#fce8cc]";
+    case "decision":
+      return "bg-[#8b5aab] text-[#fce8cc]";
   }
 }

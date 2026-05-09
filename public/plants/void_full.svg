@@ -1,4 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="96" height="96" style="image-rendering: pixelated; shape-rendering: crispEdges;">
+
+    <style>
+        @keyframes idleBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-0.4px); } }
+        @keyframes leafSway { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(1.5deg); } }
+        @keyframes petalPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+        @keyframes glowBreath { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.85; } }
+        @keyframes twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+        @keyframes emberFloat { 0% { transform: translateY(0); opacity: 0.9; } 50% { transform: translateY(-0.5px); opacity: 1; } 100% { transform: translateY(-1px); opacity: 0.1; } }
+        @keyframes lightningFlash { 0%, 65%, 100% { opacity: 0.45; } 68%, 74% { opacity: 1; } }
+        @keyframes shimmer { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+        .anim-bob { animation: idleBob 3.5s ease-in-out infinite; transform-origin: 8px 16px; transform-box: fill-box; }
+        .anim-sway { animation: leafSway 3s ease-in-out infinite alternate; transform-origin: 8px 16px; transform-box: fill-box; }
+        .anim-pulse { animation: petalPulse 4s ease-in-out infinite; transform-origin: 8px 12px; transform-box: fill-box; }
+        .anim-glow { animation: glowBreath 3.5s ease-in-out infinite; }
+        .anim-twinkle { animation: twinkle 2.5s ease-in-out infinite; }
+        .anim-ember { animation: emberFloat 2.5s linear infinite; }
+        .anim-lightning { animation: lightningFlash 3s infinite; }
+        .anim-shimmer { animation: shimmer 3s ease-in-out infinite; }
+    </style>
+    
     <defs>
         <filter id="outline-soil" x="-30%" y="-30%" width="160%" height="160%">
             <feDropShadow dx="1" dy="0" stdDeviation="0" flood-color="#4a2f1e" result="right"/>
@@ -121,20 +141,23 @@
             <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
     </defs>
-    
     <g filter="url(#outline-soil)">
         <path fill="#6a4427" d="M 11 12 h 1 v 1 h -1 z M 2 13 h 1 v 1 h -1 z M 11 13 h 1 v 1 h -1 z M 3 14 h 1 v 1 h -1 z M 4 14 h 1 v 1 h -1 z M 9 14 h 1 v 1 h -1 z M 10 14 h 1 v 1 h -1 z M 4 15 h 1 v 1 h -1 z M 5 15 h 1 v 1 h -1 z M 6 15 h 1 v 1 h -1 z M 7 15 h 1 v 1 h -1 z M 8 15 h 1 v 1 h -1 z M 9 15 h 1 v 1 h -1 z"/>
         <path fill="#8a5e3b" d="M 6 10 h 1 v 1 h -1 z M 7 10 h 1 v 1 h -1 z M 8 10 h 1 v 1 h -1 z M 4 11 h 1 v 1 h -1 z M 5 11 h 1 v 1 h -1 z M 6 11 h 1 v 1 h -1 z M 7 11 h 1 v 1 h -1 z M 8 11 h 1 v 1 h -1 z M 9 11 h 1 v 1 h -1 z M 3 12 h 1 v 1 h -1 z M 4 12 h 1 v 1 h -1 z M 5 12 h 1 v 1 h -1 z M 6 12 h 1 v 1 h -1 z M 7 12 h 1 v 1 h -1 z M 8 12 h 1 v 1 h -1 z M 9 12 h 1 v 1 h -1 z M 10 12 h 1 v 1 h -1 z M 3 13 h 1 v 1 h -1 z M 4 13 h 1 v 1 h -1 z M 5 13 h 1 v 1 h -1 z M 6 13 h 1 v 1 h -1 z M 7 13 h 1 v 1 h -1 z M 8 13 h 1 v 1 h -1 z M 9 13 h 1 v 1 h -1 z M 10 13 h 1 v 1 h -1 z M 5 14 h 1 v 1 h -1 z M 6 14 h 1 v 1 h -1 z M 7 14 h 1 v 1 h -1 z M 8 14 h 1 v 1 h -1 z"/>
         <path fill="#a6754b" d="M 6 9 h 1 v 1 h -1 z M 7 9 h 1 v 1 h -1 z M 8 9 h 1 v 1 h -1 z M 4 10 h 1 v 1 h -1 z M 5 10 h 1 v 1 h -1 z M 9 10 h 1 v 1 h -1 z M 3 11 h 1 v 1 h -1 z M 10 11 h 1 v 1 h -1 z M 2 12 h 1 v 1 h -1 z"/>
     </g>
-    <g filter="url(#outline-leaf)">
-        <path fill="#7ba65e" d="M 4 8 h 1 v 1 h -1 z M 5 9 h 1 v 1 h -1 z M 5 10 h 1 v 1 h -1 z"/>
-        <path fill="#5a8043" d="M 9 8 h 1 v 1 h -1 z M 4 9 h 1 v 1 h -1 z M 8 9 h 1 v 1 h -1 z M 7 10 h 1 v 1 h -1 z"/>
-        <path fill="#364d26" d="M 7 8 h 1 v 1 h -1 z M 7 9 h 1 v 1 h -1 z M 6 10 h 1 v 1 h -1 z M 6 11 h 1 v 1 h -1 z"/>
-    </g>
-    <g filter="url(#outline-void)">
-        <path fill="#2d1b36" d="M 6 1 h 1 v 1 h -1 z M 7 1 h 1 v 1 h -1 z M 5 2 h 1 v 1 h -1 z M 6 2 h 1 v 1 h -1 z M 7 2 h 1 v 1 h -1 z M 8 2 h 1 v 1 h -1 z M 4 3 h 1 v 1 h -1 z M 5 3 h 1 v 1 h -1 z M 6 3 h 1 v 1 h -1 z M 8 3 h 1 v 1 h -1 z M 9 3 h 1 v 1 h -1 z M 4 4 h 1 v 1 h -1 z M 5 4 h 1 v 1 h -1 z M 8 4 h 1 v 1 h -1 z M 9 4 h 1 v 1 h -1 z M 5 5 h 1 v 1 h -1 z M 6 5 h 1 v 1 h -1 z M 7 5 h 1 v 1 h -1 z M 8 5 h 1 v 1 h -1 z M 6 6 h 1 v 1 h -1 z M 7 6 h 1 v 1 h -1 z"/>
-        <path fill="#4a2b4f" d="M 6 0 h 1 v 1 h -1 z M 5 1 h 1 v 1 h -1 z M 4 2 h 1 v 1 h -1 z M 9 2 h 1 v 1 h -1 z M 4 5 h 1 v 1 h -1 z M 9 5 h 1 v 1 h -1 z M 5 6 h 1 v 1 h -1 z M 8 6 h 1 v 1 h -1 z M 6 7 h 1 v 1 h -1 z M 7 7 h 1 v 1 h -1 z"/>
-        <path fill="#7ba65e" d="M 7 3 h 1 v 1 h -1 z M 6 4 h 1 v 1 h -1 z M 7 4 h 1 v 1 h -1 z"/>
+    <g class="anim-bob">
+        <g class="anim-sway" filter="url(#outline-leaf)">
+            <path fill="#7ba65e" d="M 4 8 h 1 v 1 h -1 z M 5 9 h 1 v 1 h -1 z M 5 10 h 1 v 1 h -1 z"/>
+            <path fill="#5a8043" d="M 9 8 h 1 v 1 h -1 z M 4 9 h 1 v 1 h -1 z M 8 9 h 1 v 1 h -1 z M 7 10 h 1 v 1 h -1 z"/>
+            <path fill="#364d26" d="M 7 8 h 1 v 1 h -1 z M 7 9 h 1 v 1 h -1 z M 6 10 h 1 v 1 h -1 z M 6 11 h 1 v 1 h -1 z"/>
+        </g>
+        <g class="anim-pulse" filter="url(#outline-void)">
+            <path fill="#2d1b36" d="M 6 1 h 1 v 1 h -1 z M 7 1 h 1 v 1 h -1 z M 5 2 h 1 v 1 h -1 z M 6 2 h 1 v 1 h -1 z M 7 2 h 1 v 1 h -1 z M 8 2 h 1 v 1 h -1 z M 4 3 h 1 v 1 h -1 z M 5 3 h 1 v 1 h -1 z M 6 3 h 1 v 1 h -1 z M 8 3 h 1 v 1 h -1 z M 9 3 h 1 v 1 h -1 z M 4 4 h 1 v 1 h -1 z M 5 4 h 1 v 1 h -1 z M 8 4 h 1 v 1 h -1 z M 9 4 h 1 v 1 h -1 z M 5 5 h 1 v 1 h -1 z M 6 5 h 1 v 1 h -1 z M 7 5 h 1 v 1 h -1 z M 8 5 h 1 v 1 h -1 z M 6 6 h 1 v 1 h -1 z M 7 6 h 1 v 1 h -1 z"/>
+            <path fill="#4a2b4f" d="M 6 0 h 1 v 1 h -1 z M 5 1 h 1 v 1 h -1 z M 4 2 h 1 v 1 h -1 z M 9 2 h 1 v 1 h -1 z M 4 5 h 1 v 1 h -1 z M 9 5 h 1 v 1 h -1 z M 5 6 h 1 v 1 h -1 z M 8 6 h 1 v 1 h -1 z M 6 7 h 1 v 1 h -1 z M 7 7 h 1 v 1 h -1 z"/>
+        </g>
+        <g class="anim-twinkle" filter="url(#outline-void)">
+            <path fill="#7ba65e" d="M 7 3 h 1 v 1 h -1 z M 6 4 h 1 v 1 h -1 z M 7 4 h 1 v 1 h -1 z"/>
+        </g>
     </g>
 </svg>
