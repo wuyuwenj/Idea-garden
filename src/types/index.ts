@@ -35,6 +35,14 @@ export interface ContextRoot {
   relevance: string;
 }
 
+export interface Attachment {
+  url: string;
+  title: string;
+  type: "url";
+  nia_source_id?: string;
+  added_at: string;
+}
+
 // ── Project ──
 
 export interface Project {
@@ -64,6 +72,7 @@ export interface Seed {
 
   nia_context_id?: string;
   context_roots: ContextRoot[];
+  attachments: Attachment[];
 
   blockers: string[];
   related_issue_ids: string[];

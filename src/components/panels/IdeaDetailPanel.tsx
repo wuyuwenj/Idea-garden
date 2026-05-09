@@ -2,11 +2,11 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useGardenStore } from "@/store";
-import { updateSeed, getComments, addComment, compostSeed } from "@/app/actions/seeds";
+import { updateSeed, getComments, addComment, compostSeed, addUrlAttachment } from "@/app/actions/seeds";
 import { plantAssetMap } from "@/lib/plantAssets";
 import { stardew, getPriorityColor, getTagColor } from "@/lib/stardewTheme";
 import { AssigneePicker } from "@/components/panels/AssigneePicker";
-import { ArrowLeft, Archive, Save, Send, MessageSquare } from "lucide-react";
+import { ArrowLeft, Archive, Save, Send, MessageSquare, Link2, Plus, Brain } from "lucide-react";
 import type { SeedStatus, SeedComment, CommentType } from "@/types";
 
 const STAGES: { id: SeedStatus; label: string }[] = [
@@ -34,6 +34,12 @@ export function SeedDetailView({ teamSlug, projectSlug }: { teamSlug: string; pr
   const [submittingComment, setSubmittingComment] = useState(false);
   const [showCompostDialog, setShowCompostDialog] = useState(false);
   const [compostReason, setCompostReason] = useState("");
+  const [urlInput, setUrlInput] = useState("");
+  const [urlTitleInput, setUrlTitleInput] = useState("");
+  const [syncToNia, setSyncToNia] = useState(false);
+  const [addingUrl, setAddingUrl] = useState(false);
+  const [showUrlForm, setShowUrlForm] = useState(false);
+  const updateSeedStore = useGardenStore((s) => s.updateSeed);
 
   const seed = seeds.find((s) => s.id === selectedSeedId);
 
@@ -237,6 +243,78 @@ export function SeedDetailView({ teamSlug, projectSlug }: { teamSlug: string; pr
               </div>
             </div>
           )}
+
+          {/* Links */}
+          <div className="mb-8">
+            <h3 className={`${stardew.fontPixel} text-[#e8d6b3] mb-3 text-sm flex items-center gap-2`}>
+              <Link2 size={14} />
+              Links
+              {!showUrlForm && (
+                <button type="button" onClick={() => setShowUrlForm(true)} className="ml-auto text-[#a6754b] hover:text-[#e8d6b3]">
+                  <Plus size={14} />
+                </button>
+              )}
+            </h3>
+
+            {seed.attachments?.length > 0 && (
+              <div className="space-y-2 mb-3">
+                {seed.attachments.map((att, i) => (
+                  <a
+                    key={i}
+                    href={att.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${stardew.parchmentPanel} p-3 flex items-center gap-2 hover:brightness-105 transition-all block`}
+                  >
+                    <Link2 size={14} className="text-[#5aa6d1] shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold text-[#4a2f1e] truncate">{att.title}</p>
+                      <p className="text-[10px] text-[#8b5a2b] truncate">{att.url}</p>
+                    </div>
+                    {att.nia_source_id && (
+                      <span title="Synced to Nia"><Brain size={12} className="text-[#7ba65e] shrink-0" /></span>
+                    )}
+                  </a>
+                ))}
+              </div>
+            )}
+
+            {showUrlForm && (
+              <div className={`${stardew.parchmentPanel} p-4 space-y-2`}>
+                <input type="text" value={urlTitleInput} onChange={(e) => setUrlTitleInput(e.target.value)} className={`${stardew.parchmentInput} text-sm`} placeholder="Title" />
+                <input type="url" value={urlInput} onChange={(e) => setUrlInput(e.target.value)} className={`${stardew.parchmentInput} text-sm`} placeholder="https://..." />
+                <label className="flex items-center gap-2 text-xs text-[#8b5a2b] cursor-pointer">
+                  <input type="checkbox" checked={syncToNia} onChange={(e) => setSyncToNia(e.target.checked)} className="accent-[#7ba65e]" />
+                  <Brain size={12} />
+                  Sync to Nia knowledge base
+                </label>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    disabled={!urlInput.trim() || addingUrl}
+                    onClick={async () => {
+                      setAddingUrl(true);
+                      const result = await addUrlAttachment(seed.id, urlInput.trim(), urlTitleInput.trim(), syncToNia);
+                      if (result.attachment) {
+                        updateSeedStore(seed.id, { attachments: [...(seed.attachments || []), result.attachment] });
+                      }
+                      setUrlInput(""); setUrlTitleInput(""); setSyncToNia(false); setShowUrlForm(false); setAddingUrl(false);
+                    }}
+                    className={`${stardew.woodButton} px-3 py-1 text-xs bg-[#7ba65e] border-[#364d26] disabled:opacity-40 flex-1`}
+                  >
+                    {addingUrl ? "Adding..." : "Add Link"}
+                  </button>
+                  <button type="button" onClick={() => { setShowUrlForm(false); setUrlInput(""); setUrlTitleInput(""); }} className={`${stardew.woodButton} px-3 py-1 text-xs`}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {!seed.attachments?.length && !showUrlForm && (
+              <p className="text-xs text-[#a6754b] italic">No links attached yet.</p>
+            )}
+          </div>
 
           {/* Comments */}
           <div>

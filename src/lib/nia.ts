@@ -69,7 +69,7 @@ export async function writeVaultSeedPage(
 
   try {
     const cmd = `nia vault open ${vaultId} --c "$(cat <<'OUTER'
-mkdir -p seeds && cat > seeds/${slug}.md << 'SEEDEOF'
+mkdir -p entities && cat > entities/${slug}.md << 'SEEDEOF'
 ${content}
 SEEDEOF
 OUTER
@@ -161,6 +161,60 @@ export async function saveNiaContext(
   }
 }
 
+export async function indexUrl(
+  url: string,
+  name?: string
+): Promise<{ sourceId?: string; error?: string }> {
+  const args = ["sources", "index", url];
+  if (name) {
+    args.push("--name", name);
+  }
+
+  try {
+    const { stdout } = await execFileAsync("nia", args, {
+      timeout: 30000,
+    });
+
+    const idMatch = stdout.match(/(?:id|source_id|Source ID):\s+([a-f0-9-]+)/i);
+    return { sourceId: idMatch?.[1] ?? undefined };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    console.error("[nia] Failed to index URL:", message);
+    return { error: message };
+  }
+}
+
+export async function addSourceToVault(
+  vaultId: string,
+  sourceId: string
+): Promise<{ error?: string }> {
+  try {
+    await execFileAsync("nia", ["vault", "add-source", vaultId, sourceId], {
+      timeout: 15000,
+    });
+    return {};
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    console.error("[nia] Failed to add source to vault:", message);
+    return { error: message };
+  }
+}
+
+export async function ingestVault(
+  vaultId: string
+): Promise<{ error?: string }> {
+  try {
+    await execFileAsync("nia", ["vault", "ingest", vaultId], {
+      timeout: 30000,
+    });
+    return {};
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    console.error("[nia] Failed to ingest vault:", message);
+    return { error: message };
+  }
+}
+
 export interface VaultSearchMatch {
   filePath: string;
   content: string;
@@ -205,7 +259,7 @@ export async function searchVault(
     });
 
     // Only return seeds/ matches
-    return { matches: deduped.filter((m) => m.filePath.startsWith("/seeds/")) };
+    return { matches: deduped.filter((m) => m.filePath.startsWith("/entities/")) };
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
     console.error("[nia] Failed to search vault:", message);

@@ -10,8 +10,9 @@ import { GardenView2D } from "@/components/garden/GardenView2D";
 import { BoardView } from "@/components/board";
 import { HarvestView } from "@/components/harvest/HarvestView";
 import { SeedDetailView } from "@/components/panels/IdeaDetailPanel";
+import { CompostView } from "@/components/compost/CompostView";
 import { CreateSeedDialog } from "@/components/panels/CreateSeedDialog";
-import { Plus, Flower2 } from "lucide-react";
+import { Plus, Flower2, Archive } from "lucide-react";
 
 export default function ProjectGardenPage() {
   const params = useParams();
@@ -24,6 +25,9 @@ export default function ProjectGardenPage() {
   const selectedSeedId = useGardenStore((s) => s.selectedSeedId);
   const harvestCount = useGardenStore(
     (s) => s.seeds.filter((sd) => sd.status === "flower").length
+  );
+  const compostCount = useGardenStore(
+    (s) => s.seeds.filter((sd) => sd.status === "compost").length
   );
   const [projectId, setProjectId] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -76,7 +80,7 @@ export default function ProjectGardenPage() {
         </div>
 
         <div className="flex gap-2 items-center">
-          {(["garden", "board", "harvest"] as const).map((view) => (
+          {(["garden", "board", "harvest", "compost"] as const).map((view) => (
             <button
               key={view}
               onClick={() => setActiveView(view)}
@@ -87,10 +91,16 @@ export default function ProjectGardenPage() {
               }`}
             >
               {view === "harvest" && <Flower2 size={14} />}
+              {view === "compost" && <Archive size={14} />}
               {view}
               {view === "harvest" && harvestCount > 0 && (
                 <span className="bg-[#4a2f1e] text-[#fce8cc] px-1.5 py-0.5 rounded text-[10px]">
                   {harvestCount}
+                </span>
+              )}
+              {view === "compost" && compostCount > 0 && (
+                <span className="bg-[#4a2f1e] text-[#fce8cc] px-1.5 py-0.5 rounded text-[10px]">
+                  {compostCount}
                 </span>
               )}
             </button>
@@ -111,6 +121,7 @@ export default function ProjectGardenPage() {
         {activeView === "garden" && <GardenView2D />}
         {activeView === "board" && <BoardView />}
         {activeView === "harvest" && <HarvestView />}
+        {activeView === "compost" && <CompostView />}
       </div>
 
       {/* Modals */}

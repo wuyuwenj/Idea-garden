@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useGardenStore } from "@/store";
 import { plantAssetMap } from "@/lib/plantAssets";
 import { stardew, getPriorityColor, getTagColor } from "@/lib/stardewTheme";
-import { X, Search, AlertTriangle, ArrowLeft } from "lucide-react";
-import { createSeed, searchSimilarSeeds } from "@/app/actions/seeds";
+import { X, Search, AlertTriangle, ArrowLeft, Link2, Brain } from "lucide-react";
+import { createSeed, searchSimilarSeeds, addUrlAttachment } from "@/app/actions/seeds";
 import type { Seed, SeedPriority, SeedTag, PlantType } from "@/types";
 
 const PRIORITIES: { value: SeedPriority; label: string }[] = [
@@ -191,6 +191,11 @@ export function CreateSeedDialog({ projectId, onClose }: { projectId: string; on
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // URL attachments state
+  const [urls, setUrls] = useState<Array<{ url: string; title: string; syncToNia: boolean }>>([]);
+  const [urlInput, setUrlInput] = useState("");
+  const [urlTitleInput, setUrlTitleInput] = useState("");
+
   // Similar seeds state
   const [similarSeeds, setSimilarSeeds] = useState<Seed[] | null>(null);
   const [viewingSeed, setViewingSeed] = useState<Seed | null>(null);
@@ -224,7 +229,18 @@ export function CreateSeedDialog({ projectId, onClose }: { projectId: string; on
     }
 
     if (result?.seed) {
-      addSeed(result.seed);
+      for (const u of urls) {
+        addUrlAttachment(result.seed.id, u.url, u.title, u.syncToNia);
+      }
+      addSeed({
+        ...result.seed,
+        attachments: urls.map((u) => ({
+          url: u.url,
+          title: u.title || u.url,
+          type: "url" as const,
+          added_at: new Date().toISOString(),
+        })),
+      });
     }
 
     onClose();
@@ -495,29 +511,81 @@ export function CreateSeedDialog({ projectId, onClose }: { projectId: string; on
             </div>
 
             {/* Footer */}
-            <footer className="p-4 border-t-4 border-dashed border-[#a6754b] flex justify-end gap-4 bg-[#d4a373]">
-              <button
-                onClick={onClose}
-                className={`${stardew.woodButton} px-6 py-2 bg-[#a6754b]`}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSubmit}
-                disabled={!title.trim() || submitting || searching}
-                className={`${stardew.woodButton} px-6 py-2 bg-[#7ba65e] border-[#364d26] disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2`}
-              >
-                {searching ? (
-                  <>
-                    <Search size={16} className="animate-pulse" />
-                    Checking garden...
-                  </>
-                ) : submitting ? (
-                  "Planting..."
-                ) : (
-                  "Plant It"
+            <footer className="p-4 border-t-4 border-dashed border-[#a6754b] bg-[#d4a373]">
+              <div className="flex flex-col gap-3">
+                {/* Attached URLs */}
+                {urls.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {urls.map((u, i) => (
+                      <div key={i} className="flex items-center gap-1 bg-[#e8d6b3] border border-[#a6754b] px-2 py-1 text-xs">
+                        <Link2 size={10} className="text-[#5aa6d1]" />
+                        <span className="text-[#4a2f1e] font-bold max-w-[120px] truncate">{u.title || u.url}</span>
+                        <button
+                          type="button"
+                          onClick={() => setUrls((prev) => prev.map((item, j) => j === i ? { ...item, syncToNia: !item.syncToNia } : item))}
+                          className={`shrink-0 ${u.syncToNia ? "text-[#7ba65e]" : "text-[#a6754b] opacity-50 hover:opacity-100"}`}
+                        >
+                          <Brain size={10} />
+                        </button>
+                        <button type="button" onClick={() => setUrls((prev) => prev.filter((_, j) => j !== i))} className="text-[#c75438] hover:text-red-700">
+                          <X size={10} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 )}
-              </button>
+
+                {/* URL input row */}
+                <div className="flex gap-2 items-center">
+                  <input type="text" value={urlTitleInput} onChange={(e) => setUrlTitleInput(e.target.value)} className="bg-[#e8d6b3] border border-[#a6754b] text-[#4a2f1e] px-2 py-1.5 text-xs w-24 focus:outline-none focus:border-[#8b5a2b]" placeholder="Title" />
+                  <input type="url" value={urlInput} onChange={(e) => setUrlInput(e.target.value)} className="bg-[#e8d6b3] border border-[#a6754b] text-[#4a2f1e] px-2 py-1.5 text-xs flex-1 focus:outline-none focus:border-[#8b5a2b]" placeholder="Paste a URL..." />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!urlInput.trim()) return;
+                      setUrls((prev) => [...prev, { url: urlInput.trim(), title: urlTitleInput.trim(), syncToNia: false }]);
+                      setUrlInput(""); setUrlTitleInput("");
+                    }}
+                    className={`${stardew.woodButton} px-2 py-1 text-xs`}
+                  >
+                    <Link2 size={12} />
+                  </button>
+                </div>
+
+                {urls.length > 0 && (
+                  <label className="flex items-center gap-1.5 text-[10px] text-[#8b5a2b] cursor-pointer">
+                    <input type="checkbox" checked={urls.every((u) => u.syncToNia)} onChange={(e) => setUrls((prev) => prev.map((u) => ({ ...u, syncToNia: e.target.checked })))} className="accent-[#7ba65e]" />
+                    <Brain size={10} />
+                    Sync to Nia
+                  </label>
+                )}
+
+                {/* Action buttons */}
+                <div className="flex justify-end gap-4">
+                  <button
+                    onClick={onClose}
+                    className={`${stardew.woodButton} px-6 py-2 bg-[#a6754b]`}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSubmit}
+                    disabled={!title.trim() || submitting || searching}
+                    className={`${stardew.woodButton} px-6 py-2 bg-[#7ba65e] border-[#364d26] disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2`}
+                  >
+                    {searching ? (
+                      <>
+                        <Search size={16} className="animate-pulse" />
+                        Checking garden...
+                      </>
+                    ) : submitting ? (
+                      "Planting..."
+                    ) : (
+                      "Plant It"
+                    )}
+                  </button>
+                </div>
+              </div>
             </footer>
           </>
         )}
