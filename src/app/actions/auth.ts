@@ -194,7 +194,7 @@ export async function signInWithGitHub(redirectTo?: string) {
     });
   }
 
-  redirect(data.url);
+  return { url: data.url };
 }
 
 export async function exchangeOAuthCodeAction(code: string): Promise<AuthState> {

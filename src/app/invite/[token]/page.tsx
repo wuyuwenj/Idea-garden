@@ -94,7 +94,12 @@ export default function InvitePage() {
 
               <button
                 type="button"
-                onClick={() => signInWithGitHub(`/invite/${token}`)}
+                onClick={async () => {
+                  const result = await signInWithGitHub(`/invite/${token}`);
+                  if (result?.url) {
+                    window.location.href = result.url;
+                  }
+                }}
                 className={`${stardew.woodButton} px-6 py-3 ${stardew.fontPixel} text-sm bg-[#7ba65e] border-[#364d26] shadow-[inset_2px_2px_0px_#9ec384] w-full flex items-center justify-center gap-2`}
               >
                 <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor">

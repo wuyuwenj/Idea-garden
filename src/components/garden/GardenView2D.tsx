@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { useGardenStore } from "@/store";
 import { plantAssetMap } from "@/lib/plantAssets";
 import { stardew, getPriorityColor } from "@/lib/stardewTheme";
+import { Flower2 } from "lucide-react";
 import type { Seed, SeedPriority } from "@/types";
 
 const PRIORITIES: SeedPriority[] = ["urgent", "high", "medium", "low"];
@@ -46,9 +48,47 @@ function PlantSprite({ seed }: { seed: Seed }) {
 
 export function GardenView2D() {
   const seeds = useGardenStore((s) => s.seeds);
+  const [showBloomed, setShowBloomed] = useState(false);
   const activeSeeds = seeds.filter((s) => s.status !== "flower" && s.status !== "compost");
+  const bloomedSeeds = seeds.filter((s) => s.status === "flower");
 
   return (
+    <div className="flex flex-col gap-4">
+      {/* Show Bloomed toggle */}
+      {bloomedSeeds.length > 0 && (
+        <div className="flex justify-end px-2">
+          <button
+            onClick={() => setShowBloomed((v) => !v)}
+            className={`${stardew.woodButton} px-4 py-2 ${stardew.fontPixel} text-xs flex items-center gap-2 ${
+              showBloomed ? "translate-y-1 bg-[#7ba65e] border-[#364d26] shadow-none" : ""
+            }`}
+          >
+            <Flower2 size={14} />
+            Bloomed ({bloomedSeeds.length})
+          </button>
+        </div>
+      )}
+
+      {/* Bloomed flowers bed */}
+      {showBloomed && bloomedSeeds.length > 0 && (
+        <div className={`${stardew.soilBed} relative min-h-[120px] p-6 mx-12 border-[6px] border-dashed border-[#486334] rounded-xl`}>
+          <div className="absolute top-0 left-0 w-full h-4 bg-[#8b5a2b] border-b-[2px] border-[#4a2f1e]" />
+          <div className="absolute bottom-0 left-0 w-full h-4 bg-[#8b5a2b] border-t-[2px] border-[#4a2f1e]" />
+          <div className="absolute top-0 left-0 w-4 h-full bg-[#8b5a2b] border-r-[2px] border-[#4a2f1e]" />
+          <div className="absolute top-0 right-0 w-4 h-full bg-[#8b5a2b] border-l-[2px] border-[#4a2f1e]" />
+          <div className={`absolute -top-4 left-6 ${stardew.woodPanel} px-3 py-1 ${stardew.fontPixel} text-xs flex items-center gap-2`}>
+            <Flower2 size={12} className="text-[#fbf236]" />
+            Bloomed
+            <span className="text-[#e8d6b3] ml-1">({bloomedSeeds.length})</span>
+          </div>
+          <div className="grid grid-cols-6 gap-4 mt-4">
+            {bloomedSeeds.map((seed) => (
+              <PlantSprite key={seed.id} seed={seed} />
+            ))}
+          </div>
+        </div>
+      )}
+
     <div className="relative grid grid-cols-2 gap-12 p-12 border-[6px] border-dashed border-[#486334] rounded-xl bg-[#618a48] overflow-hidden">
 
       {/* --- GARDEN PATHS (z-0, behind beds) --- */}
@@ -119,6 +159,7 @@ export function GardenView2D() {
           </div>
         );
       })}
+    </div>
     </div>
   );
 }

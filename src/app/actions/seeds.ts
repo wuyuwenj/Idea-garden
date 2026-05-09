@@ -353,19 +353,41 @@ export async function getTeamMembers(teamSlug: string): Promise<TeamMember[]> {
 
   const { data } = await insforge.database
     .from("team_members")
-    .select("user_id, users:user_id(id, name, email)")
+    .select("user_id")
     .eq("team_id", team.id);
 
-  if (!data) return [];
-  return data.map((m: Record<string, unknown>) => {
-    const user = m.users as Record<string, string> | null;
-    return {
-      id: m.user_id as string,
-      name: user?.name ?? "Unknown",
-      email: user?.email ?? "",
-      status: "active" as const,
-    };
-  });
+  if (!data || data.length === 0) return [];
+
+  // Look up user details via auth admin REST API using service role key
+  const baseUrl = process.env.NEXT_PUBLIC_INSFORGE_URL!;
+  const serviceKey = process.env.INSFORGE_SERVICE_ROLE_KEY!;
+
+  const members: TeamMember[] = [];
+  for (const m of data) {
+    const userId = (m as { user_id: string }).user_id;
+    try {
+      const res = await fetch(`${baseUrl}/auth/v1/admin/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${serviceKey}`,
+          apikey: serviceKey,
+        },
+      });
+      if (res.ok) {
+        const user = await res.json();
+        members.push({
+          id: userId,
+          name: user.user_metadata?.name ?? user.email ?? "Unknown",
+          email: user.email ?? "",
+          status: "active" as const,
+        });
+      } else {
+        members.push({ id: userId, name: "Unknown", email: "", status: "active" as const });
+      }
+    } catch {
+      members.push({ id: userId, name: "Unknown", email: "", status: "active" as const });
+    }
+  }
+  return members;
 }
 
 export async function getSeedAssignees(seedId: string): Promise<string[]> {

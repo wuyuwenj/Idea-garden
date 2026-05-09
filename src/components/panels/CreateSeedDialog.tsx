@@ -497,15 +497,8 @@ export function CreateSeedDialog({ projectId, onClose }: { projectId: string; on
                     <p className={`${stardew.fontPixel} text-sm text-[#4a2f1e]`}>
                       {plantAssetMap[plantType].label}
                     </p>
-                    <p className="text-xs text-[#6a4427]">Randomly assigned</p>
+                    <p className="text-xs text-[#6a4427]">Your next crop</p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setPlantType(getRandomPlantType())}
-                    className={`${stardew.woodButton} px-3 py-1 text-xs ml-auto`}
-                  >
-                    Reroll
-                  </button>
                 </div>
               </div>
             </div>

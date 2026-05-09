@@ -102,7 +102,12 @@ function LoginForm() {
 
         <button
           type="button"
-          onClick={() => signInWithGitHub(redirectTo || undefined)}
+          onClick={async () => {
+            const result = await signInWithGitHub(redirectTo || undefined);
+            if (result?.url) {
+              window.location.href = result.url;
+            }
+          }}
           className={`${stardew.woodButton} w-full py-3 ${stardew.fontPixel} text-sm flex items-center justify-center gap-2`}
         >
           <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor">
