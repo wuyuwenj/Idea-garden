@@ -48,7 +48,7 @@ export const useGardenStore = create<GardenState>((set) => ({
       selectedSeedId: s.selectedSeedId === id ? null : s.selectedSeedId,
       sidebarOpen: s.selectedSeedId === id ? false : s.sidebarOpen,
     })),
-  selectSeed: (id) => set({ selectedSeedId: id, sidebarOpen: id !== null }),
+  selectSeed: (id) => set({ selectedSeedId: id }),
   setActiveView: (view) => set({ activeView: view }),
   setSidebarOpen: (open) => set({ sidebarOpen: open }),
 }));
