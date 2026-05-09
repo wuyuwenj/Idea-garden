@@ -42,6 +42,7 @@ export function IssueDetailPanel({ teamSlug }: { teamSlug?: string }) {
     setSaving(true);
     await saveStatus(issue.id, "compost");
     setSaving(false);
+    selectIssue(null);
   };
 
   const handleRevive = async () => {
