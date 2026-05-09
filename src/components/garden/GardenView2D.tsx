@@ -70,16 +70,12 @@ export function GardenView2D() {
 
       {/* --- CENTER FOUNTAIN (z-20) --- */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 z-20 flex items-center justify-center pointer-events-none">
-        <div className="absolute bottom-2 w-28 h-12 bg-black/40 rounded-[50%] blur-[2px]" />
-        <div className="absolute w-24 h-16 bg-[#595652] rounded-[50%] border-b-[6px] border-[#333333]" />
-        <div className="absolute w-20 h-12 bg-[#9badb7] rounded-[50%] -translate-y-2 border-2 border-[#595652]" />
-        <div className="absolute w-16 h-10 bg-[#5aa6d1] rounded-[50%] -translate-y-2 border-[2px] border-[#3d7a9c] overflow-hidden flex items-center justify-center shadow-[inset_0_4px_6px_rgba(0,0,0,0.2)]">
-          <div className="absolute top-2 w-10 h-3 border-t-[2px] border-[#9bddff] rounded-[50%] opacity-80" />
-          <div className="absolute bottom-2 w-6 h-2 border-b-[2px] border-[#9bddff] rounded-[50%] opacity-60" />
-          <div className="absolute top-2 left-2 w-1 h-1 bg-white animate-pulse" />
-          <div className="absolute top-4 right-3 w-1.5 h-1.5 bg-white animate-pulse" style={{ animationDelay: "0.5s" }} />
-          <div className="absolute bottom-3 left-5 w-1 h-1 bg-[#9bddff] animate-pulse" style={{ animationDelay: "1s" }} />
-        </div>
+        <img
+          src="/plants/fountain.svg"
+          alt="Fountain"
+          className="w-32 h-32 object-contain"
+          style={{ imageRendering: "pixelated" }}
+        />
       </div>
 
       {/* --- PRIORITY BEDS (z-10) --- */}
