@@ -1,11 +1,22 @@
 "use client";
 
-import { useActionState } from "react";
+import { Suspense, useActionState } from "react";
 import { login } from "@/app/actions/auth";
 import { stardew } from "@/lib/stardewTheme";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") ?? "";
   const [state, action, pending] = useActionState(login, undefined);
 
   return (
@@ -33,6 +44,7 @@ export default function LoginPage() {
         )}
 
         <form action={action} className="space-y-4">
+          {redirectTo && <input type="hidden" name="redirect" value={redirectTo} />}
           <div>
             <label
               htmlFor="email"
@@ -85,7 +97,7 @@ export default function LoginPage() {
         <p className="text-[#e8d6b3] text-sm text-center mt-4">
           New farmer?{" "}
           <Link
-            href="/signup"
+            href={`/signup${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`}
             className="text-[#fbf236] hover:underline font-bold"
           >
             Plant your first seed

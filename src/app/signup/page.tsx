@@ -1,11 +1,22 @@
 "use client";
 
-import { useActionState } from "react";
+import { Suspense, useActionState } from "react";
 import { signup } from "@/app/actions/auth";
 import { stardew } from "@/lib/stardewTheme";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export default function SignupPage() {
+  return (
+    <Suspense>
+      <SignupForm />
+    </Suspense>
+  );
+}
+
+function SignupForm() {
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") ?? "";
   const [state, action, pending] = useActionState(signup, undefined);
 
   return (
@@ -33,6 +44,7 @@ export default function SignupPage() {
         )}
 
         <form action={action} className="space-y-4">
+          {redirectTo && <input type="hidden" name="redirect" value={redirectTo} />}
           <div>
             <label
               htmlFor="name"
@@ -104,7 +116,7 @@ export default function SignupPage() {
         <p className="text-[#e8d6b3] text-sm text-center mt-4">
           Already have a garden?{" "}
           <Link
-            href="/login"
+            href={`/login${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`}
             className="text-[#fbf236] hover:underline font-bold"
           >
             Sign in

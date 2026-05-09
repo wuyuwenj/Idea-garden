@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useGardenStore } from "@/store";
-import { seeds as seedData } from "@/lib/seed-data";
+import { getSeeds } from "@/app/actions/seed";
 import { stardew } from "@/lib/stardewTheme";
 import { GardenView2D } from "@/components/garden/GardenView2D";
 import { BoardView } from "@/components/board";
@@ -28,10 +28,13 @@ export default function TeamGardenPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isInviteOpen, setIsInviteOpen] = useState(false);
 
+  const refreshSeeds = useCallback(() => {
+    getSeeds(slug).then(setSeeds);
+  }, [slug, setSeeds]);
+
   useEffect(() => {
-    // TODO: fetch seeds scoped to this team from InsForge
-    setSeeds(seedData);
-  }, [setSeeds, slug]);
+    refreshSeeds();
+  }, [refreshSeeds]);
 
   return (
     <div
@@ -125,7 +128,7 @@ export default function TeamGardenPage() {
 
       {/* MODALS */}
       {isDialogOpen && (
-        <CreateSeedDialog onClose={() => setIsDialogOpen(false)} />
+        <CreateSeedDialog teamSlug={slug} onClose={() => { setIsDialogOpen(false); refreshSeeds(); }} />
       )}
       {isInviteOpen && (
         <InviteMemberDialog

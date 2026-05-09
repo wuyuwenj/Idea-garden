@@ -59,7 +59,9 @@ export async function signup(
     });
   }
 
-  redirect(`/verify?email=${encodeURIComponent(parsed.data.email)}`);
+  const redirectTo = formData.get("redirect") as string;
+  const verifyUrl = `/verify?email=${encodeURIComponent(parsed.data.email)}${redirectTo ? `&redirect=${encodeURIComponent(redirectTo)}` : ""}`;
+  redirect(verifyUrl);
 }
 
 export async function resendVerification(email: string) {
@@ -107,7 +109,8 @@ export async function verifyEmail(
     path: "/",
   });
 
-  redirect("/");
+  const redirectTo = formData.get("redirect") as string;
+  redirect(redirectTo || "/");
 }
 
 export async function login(
@@ -143,7 +146,8 @@ export async function login(
     });
   }
 
-  redirect("/");
+  const redirectTo = formData.get("redirect") as string;
+  redirect(redirectTo || "/");
 }
 
 export async function logout() {

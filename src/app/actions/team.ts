@@ -92,7 +92,7 @@ export async function getTeams() {
 }
 
 export async function inviteMember(
-  teamId: string,
+  teamSlug: string,
   _prevState: TeamActionState,
   formData: FormData
 ): Promise<TeamActionState> {
@@ -109,11 +109,22 @@ export async function inviteMember(
     redirect("/login");
   }
 
+  // Look up team and inviter info
+  const { data: team, error: teamError } = await insforge.database
+    .from("teams")
+    .select("id, name")
+    .eq("slug", teamSlug)
+    .single();
+
+  if (teamError || !team) {
+    return { message: "Team not found." };
+  }
+
   const inviteToken = crypto.randomUUID();
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
 
   const { error } = await insforge.database.from("invitations").insert({
-    team_id: teamId,
+    team_id: team.id,
     invited_email: parsed.data.email,
     invited_by: userId,
     token: inviteToken,
@@ -125,9 +136,66 @@ export async function inviteMember(
     return { message: error.message };
   }
 
+  // Get inviter's name
+  const { data: inviterProfile } = await insforge.auth.getProfile(userId);
+  const inviterName = inviterProfile?.profile?.name ?? "Someone";
+
+  // Send invite email
+  const inviteUrl = `${process.env.NEXT_PUBLIC_APP_URL}/invite/${inviteToken}`;
+  await insforge.emails.send({
+    to: parsed.data.email,
+    subject: `${inviterName} invited you to join ${team.name} on Idea Garden`,
+    html: `
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+        <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 40px;">
+          <div style="margin-bottom: 24px;">
+            <span style="font-size: 18px; font-weight: 600; color: #111827;">🌱 Idea Garden</span>
+          </div>
+          <h1 style="font-size: 24px; color: #111827; margin: 0 0 12px 0;">
+            <strong>${inviterName}</strong> invited you to join <strong>${team.name}</strong> on Idea Garden
+          </h1>
+          <p style="color: #6b7280; font-size: 16px; line-height: 1.5; margin: 0 0 24px 0;">
+            Use Idea Garden to plant ideas, grow progress, and harvest finished work across your team.
+          </p>
+          <a href="${inviteUrl}" style="display: inline-block; background: #7ba65e; color: #ffffff; font-size: 16px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 6px;">
+            Join your team
+          </a>
+        </div>
+        <p style="color: #9ca3af; font-size: 13px; text-align: center; margin-top: 24px;">
+          Idea Garden
+        </p>
+      </div>
+    `,
+  });
+
   return {
     success: true,
-    message: `Invitation sent! Share this link: ${process.env.NEXT_PUBLIC_APP_URL}/invite/${inviteToken}`,
+    message: `Invitation sent to ${parsed.data.email}!`,
+  };
+}
+
+export async function getInviteDetails(inviteToken: string) {
+  const { data: invite, error } = await insforge.database
+    .from("invitations")
+    .select("*")
+    .eq("token", inviteToken)
+    .eq("status", "pending")
+    .single();
+
+  if (error || !invite) {
+    return { error: "Invalid or expired invitation." };
+  }
+
+  const { data: team } = await insforge.database
+    .from("teams")
+    .select("name, slug")
+    .eq("id", invite.team_id)
+    .single();
+
+  return {
+    teamName: team?.name ?? "Unknown Garden",
+    teamSlug: team?.slug,
+    invitedEmail: invite.invited_email,
   };
 }
 
