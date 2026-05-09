@@ -2,19 +2,24 @@
 
 import { useActionState, useEffect, useState } from "react";
 import { createTeam, getTeams } from "@/app/actions/team";
-import { logout } from "@/app/actions/auth";
+import { logout, checkAuth } from "@/app/actions/auth";
 import { stardew } from "@/lib/stardewTheme";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Plus, LogOut } from "lucide-react";
 
 export default function TeamsPage() {
+  const router = useRouter();
   const [teams, setTeams] = useState<Array<{ id: string; name: string; slug: string }>>([]);
   const [showCreate, setShowCreate] = useState(false);
   const [state, action, pending] = useActionState(createTeam, undefined);
 
   useEffect(() => {
-    getTeams().then((t) => setTeams(t as Array<{ id: string; name: string; slug: string }>));
-  }, []);
+    checkAuth().then((valid) => {
+      if (!valid) { router.push("/login"); return; }
+      getTeams().then((t) => setTeams(t as Array<{ id: string; name: string; slug: string }>));
+    });
+  }, [router]);
 
   return (
     <div

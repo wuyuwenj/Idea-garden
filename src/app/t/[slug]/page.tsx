@@ -1,9 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useGardenStore } from "@/store";
 import { getSeeds } from "@/app/actions/seed";
+import { checkAuth } from "@/app/actions/auth";
 import { stardew } from "@/lib/stardewTheme";
 import { GardenView2D } from "@/components/garden/GardenView2D";
 import { BoardView } from "@/components/board";
@@ -17,6 +18,7 @@ import { logout } from "@/app/actions/auth";
 
 export default function TeamGardenPage() {
   const params = useParams();
+  const router = useRouter();
   const slug = params.slug as string;
 
   const activeView = useGardenStore((s) => s.activeView);
@@ -33,8 +35,11 @@ export default function TeamGardenPage() {
   }, [slug, setSeeds]);
 
   useEffect(() => {
-    refreshSeeds();
-  }, [refreshSeeds]);
+    checkAuth().then((valid) => {
+      if (!valid) { router.push("/login"); return; }
+      refreshSeeds();
+    });
+  }, [refreshSeeds, router]);
 
   return (
     <div

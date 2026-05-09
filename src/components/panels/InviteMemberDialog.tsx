@@ -88,7 +88,7 @@ export function InviteMemberDialog({ teamSlug, onClose }: InviteMemberDialogProp
 
           <button
             type="submit"
-            disabled={status === "sending"}
+            disabled={status === "sending" || status === "success"}
             className={`${stardew.woodButton} w-full py-3 ${stardew.fontPixel} bg-[#7ba65e] border-[#364d26] shadow-[inset_2px_2px_0px_#9ec384] disabled:opacity-50`}
           >
             {status === "sending" ? "Sending..." : "Send Invite"}
