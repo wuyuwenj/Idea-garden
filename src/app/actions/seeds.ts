@@ -178,20 +178,84 @@ export async function deleteSeed(id: string): Promise<{ error?: string }> {
 export async function searchSimilarSeeds(
   projectId: string,
   query: string
-): Promise<{ matches: VaultSearchMatch[]; error?: string }> {
+): Promise<{ matches: Seed[]; error?: string }> {
   const token = await getAuthToken();
   if (!token) return { matches: [] };
   insforge.setAccessToken(token);
 
+  const matchedSeedIds = new Set<string>();
+  const matchedSeeds: Seed[] = [];
+
+  // 1. Try Nia vault search
   const { data: project } = await insforge.database
     .from("projects")
     .select("nia_vault_id")
     .eq("id", projectId)
     .single();
 
-  if (!project?.nia_vault_id) return { matches: [] };
+  if (project?.nia_vault_id) {
+    const { matches: vaultMatches } = await searchVault(project.nia_vault_id, query, 20);
 
-  return searchVault(project.nia_vault_id, query, 5);
+    if (vaultMatches.length > 0) {
+      // Extract seed titles from file paths (e.g. /seeds/ai-onboarding-assistant.md → ai onboarding assistant)
+      const slugs = vaultMatches.map((m) =>
+        m.filePath.replace("/seeds/", "").replace(".md", "").replace(/-/g, " ")
+      );
+
+      // Look up actual seeds by matching titles
+      for (const slug of slugs) {
+        const words = slug.split(" ").filter(Boolean);
+        if (words.length === 0) continue;
+
+        // Build ILIKE pattern from slug words
+        const pattern = `%${words.join("%")}%`;
+        const { data } = await insforge.database
+          .from("seeds")
+          .select("*")
+          .eq("project_id", projectId)
+          .ilike("title", pattern)
+          .limit(1);
+
+        if (data?.[0] && !matchedSeedIds.has(data[0].id)) {
+          matchedSeedIds.add(data[0].id);
+          matchedSeeds.push(data[0] as Seed);
+        }
+      }
+    }
+  }
+
+  // 2. DB fallback — ILIKE search on title
+  if (matchedSeeds.length === 0) {
+    const words = query.split(/\s+/).filter((w) => w.length > 3).slice(0, 3);
+    for (const word of words) {
+      const { data } = await insforge.database
+        .from("seeds")
+        .select("*")
+        .eq("project_id", projectId)
+        .ilike("title", `%${word}%`)
+        .limit(5);
+
+      for (const row of data ?? []) {
+        if (!matchedSeedIds.has(row.id)) {
+          matchedSeedIds.add(row.id);
+          matchedSeeds.push(row as Seed);
+        }
+      }
+    }
+  }
+
+  // Sort by title similarity — more word overlap with query ranks higher
+  const queryWords = query.toLowerCase().split(/\s+/).filter((w) => w.length > 2);
+  const scored = matchedSeeds.map((seed) => {
+    const titleWords = seed.title.toLowerCase().split(/\s+/);
+    const overlap = queryWords.filter((qw) =>
+      titleWords.some((tw) => tw.includes(qw) || qw.includes(tw))
+    ).length;
+    return { seed, score: overlap };
+  });
+  scored.sort((a, b) => b.score - a.score);
+
+  return { matches: scored.map((s) => s.seed).slice(0, 5) };
 }
 
 // ── Assignee functions (used by AssigneePicker) ──

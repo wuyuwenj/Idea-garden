@@ -3,11 +3,10 @@
 import { useState } from "react";
 import { useGardenStore } from "@/store";
 import { plantAssetMap } from "@/lib/plantAssets";
-import { stardew, getPriorityColor } from "@/lib/stardewTheme";
-import { X, Search, AlertTriangle } from "lucide-react";
+import { stardew, getPriorityColor, getTagColor } from "@/lib/stardewTheme";
+import { X, Search, AlertTriangle, ArrowLeft } from "lucide-react";
 import { createSeed, searchSimilarSeeds } from "@/app/actions/seeds";
-import type { SeedPriority, SeedTag, PlantType } from "@/types";
-import type { VaultSearchMatch } from "@/lib/nia";
+import type { Seed, SeedPriority, SeedTag, PlantType } from "@/types";
 
 const PRIORITIES: { value: SeedPriority; label: string }[] = [
   { value: "urgent", label: "Urgent" },
@@ -29,10 +28,159 @@ function getRandomPlantType(): PlantType {
   return types[Math.floor(Math.random() * types.length)];
 }
 
-function SeedNameFromPath(filePath: string) {
-  return filePath.replace("/seeds/", "").replace(".md", "").replace(/-/g, " ");
+// ── Inline Seed Detail View ──
+function SeedDetailView({ seed, onBack }: { seed: Seed; onBack: () => void }) {
+  const plant = plantAssetMap[seed.plant_type];
+
+  return (
+    <>
+      <header
+        className={`${stardew.woodPanel} p-4 flex items-center gap-3 -m-1 z-10`}
+      >
+        <button
+          onClick={onBack}
+          className="hover:bg-[#a6754b] p-1 rounded transition-colors"
+        >
+          <ArrowLeft size={20} />
+        </button>
+        <h2 className={`${stardew.fontPixel} text-xl`}>Seed Details</h2>
+      </header>
+
+      <div className="overflow-y-auto flex-1 flex flex-col">
+        {/* Header with plant portrait */}
+        <div className="p-6 bg-[#d4a373] border-b-4 border-[#8b5a2b] flex flex-col items-center">
+          <div className="w-24 h-24 bg-[#5a8043] border-4 border-[#4a2f1e] shadow-[inset_4px_4px_12px_rgba(0,0,0,0.4),_4px_4px_0_rgba(0,0,0,0.1)] flex justify-center items-center mb-4">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={plant[seed.status]}
+              alt={plant.label}
+              className="w-20 h-20 object-contain"
+              style={{ imageRendering: "pixelated" }}
+            />
+          </div>
+          <h2 className={`${stardew.fontPixel} text-xl text-center mb-3`}>
+            {seed.title}
+          </h2>
+          <div className="flex flex-wrap gap-2 justify-center">
+            <span className={`px-2 py-1 border-2 text-xs font-bold uppercase flex items-center gap-1 ${
+              seed.status === "compost"
+                ? "bg-[#8b5a2b] border-[#4a2f1e] text-[#d4a373]"
+                : "bg-[#e8d6b3] border-[#8b5a2b] text-[#4a2f1e]"
+            }`}>
+              <div className={`w-2 h-2 rounded-full ${getPriorityColor(seed.priority)} border border-black`} />
+              {seed.status}
+            </span>
+            <span className="px-2 py-1 bg-[#e8d6b3] border-2 border-[#8b5a2b] text-xs font-bold uppercase">
+              {plant.label}
+            </span>
+            {seed.tags?.map((tag) => (
+              <span
+                key={tag}
+                className={`px-2 py-1 border-2 border-[#4a2f1e] text-xs font-bold uppercase ${getTagColor(tag)}`}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 flex flex-col gap-5">
+          <section>
+            <h3 className={`${stardew.fontPixel} text-[#8b5a2b] mb-2`}>Description</h3>
+            <p className="bg-[#fce8cc] p-3 border-2 border-[#d4a373] min-h-[60px] font-serif text-sm">
+              {seed.description || "No description yet."}
+            </p>
+          </section>
+
+          {/* Blockers */}
+          {seed.blockers?.length > 0 && (
+            <>
+              <hr className="border-t-4 border-dashed border-[#a6754b]" />
+              <section>
+                <h3 className={`${stardew.fontPixel} text-[#8b5a2b] mb-2`}>Blockers</h3>
+                <ul className="space-y-1">
+                  {seed.blockers.map((blocker, i) => (
+                    <li key={i} className="bg-[#fce8cc] p-2 border-2 border-[#d4a373] text-sm font-serif flex items-center gap-2">
+                      <span className="w-2 h-2 bg-[#c75438] rounded-full flex-shrink-0" />
+                      {blocker}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            </>
+          )}
+
+          {/* Context Roots */}
+          {seed.context_roots?.length > 0 && (
+            <>
+              <hr className="border-t-4 border-dashed border-[#a6754b]" />
+              <section>
+                <h3 className={`${stardew.fontPixel} text-[#8b5a2b] mb-2`}>Context</h3>
+                <div className="space-y-2">
+                  {seed.context_roots.map((ctx, i) => (
+                    <div key={i} className="bg-[#fce8cc] p-3 border-2 border-[#d4a373]">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="px-1.5 py-0.5 bg-[#5aa6d1] text-[#fce8cc] text-[10px] font-bold uppercase border border-[#4a2f1e]">
+                          {ctx.sourceType}
+                        </span>
+                        <span className="font-bold text-sm text-[#4a2f1e]">{ctx.title}</span>
+                      </div>
+                      <p className="text-xs font-serif text-[#4a3525]">{ctx.summary}</p>
+                      <p className="text-[10px] text-[#8b5a2b] mt-1 italic">{ctx.relevance}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </>
+          )}
+
+          {/* Suggested Tickets */}
+          {seed.suggested_tickets?.length > 0 && (
+            <>
+              <hr className="border-t-4 border-dashed border-[#a6754b]" />
+              <section>
+                <h3 className={`${stardew.fontPixel} text-[#8b5a2b] mb-2`}>Suggested Tickets</h3>
+                <ul className="space-y-1">
+                  {seed.suggested_tickets.map((ticket, i) => (
+                    <li key={i} className="bg-[#fce8cc] p-2 border-2 border-[#d4a373] text-sm font-serif flex items-center gap-2">
+                      <span className="w-2 h-2 bg-[#5a8043] rounded-full flex-shrink-0" />
+                      {ticket}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            </>
+          )}
+
+          <hr className="border-t-4 border-dashed border-[#a6754b]" />
+          <section className="text-sm text-[#8b5a2b] font-bold space-y-1">
+            <div className="flex justify-between">
+              <span>Planted:</span>
+              <span>{new Date(seed.created_at).toLocaleDateString()}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Updated:</span>
+              <span>{new Date(seed.updated_at).toLocaleDateString()}</span>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <footer className="p-4 border-t-4 border-dashed border-[#a6754b] flex justify-center bg-[#d4a373]">
+        <button
+          onClick={onBack}
+          className={`${stardew.woodButton} px-6 py-2 bg-[#a6754b] flex items-center gap-2`}
+        >
+          <ArrowLeft size={16} />
+          Back to Results
+        </button>
+      </footer>
+    </>
+  );
 }
 
+// ── Main Dialog ──
 export function CreateSeedDialog({ projectId, onClose }: { projectId: string; onClose: () => void }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -44,7 +192,8 @@ export function CreateSeedDialog({ projectId, onClose }: { projectId: string; on
   const [error, setError] = useState<string | null>(null);
 
   // Similar seeds state
-  const [similarSeeds, setSimilarSeeds] = useState<VaultSearchMatch[] | null>(null);
+  const [similarSeeds, setSimilarSeeds] = useState<Seed[] | null>(null);
+  const [viewingSeed, setViewingSeed] = useState<Seed | null>(null);
   const [confirmed, setConfirmed] = useState(false);
 
   const addSeed = useGardenStore((s) => s.addSeed);
@@ -84,13 +233,11 @@ export function CreateSeedDialog({ projectId, onClose }: { projectId: string; on
   const handleSubmit = async () => {
     if (!title.trim() || submitting || searching) return;
 
-    // If already confirmed, just create
     if (confirmed) {
       await doCreate();
       return;
     }
 
-    // Search for similar seeds first
     setSearching(true);
     setError(null);
 
@@ -100,10 +247,8 @@ export function CreateSeedDialog({ projectId, onClose }: { projectId: string; on
     setSearching(false);
 
     if (matches.length > 0) {
-      // Show similar seeds and ask for confirmation
       setSimilarSeeds(matches);
     } else {
-      // No similar seeds found, create directly
       await doCreate();
     }
   };
@@ -118,178 +263,97 @@ export function CreateSeedDialog({ projectId, onClose }: { projectId: string; on
       <div
         className={`${stardew.parchmentPanel} w-full max-w-2xl max-h-[90vh] flex flex-col shadow-[12px_12px_0px_rgba(0,0,0,0.4)]`}
       >
-        {/* Header */}
-        <header
-          className={`${stardew.woodPanel} p-4 flex justify-between items-center -m-1 z-10`}
-        >
-          <h2 className={`${stardew.fontPixel} text-xl`}>
-            {similarSeeds ? "Similar Seeds Found" : "Plant a New Seed"}
-          </h2>
-          <button
-            onClick={onClose}
-            className="hover:bg-[#a6754b] p-1 rounded transition-colors"
-          >
-            <X size={20} />
-          </button>
-        </header>
+        {/* Viewing a specific seed detail */}
+        {viewingSeed ? (
+          <SeedDetailView seed={viewingSeed} onBack={() => setViewingSeed(null)} />
+        ) : similarSeeds ? (
+          <>
+            {/* Header */}
+            <header
+              className={`${stardew.woodPanel} p-4 flex justify-between items-center -m-1 z-10`}
+            >
+              <h2 className={`${stardew.fontPixel} text-xl`}>Similar Seeds Found</h2>
+              <button
+                onClick={onClose}
+                className="hover:bg-[#a6754b] p-1 rounded transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </header>
 
-        {/* Similar seeds warning */}
-        {similarSeeds ? (
-          <div className="p-6 overflow-y-auto flex flex-col gap-4">
-            <div className="flex items-start gap-3 bg-[#e8c36a] border-2 border-[#a6754b] p-4">
-              <AlertTriangle size={24} className="text-[#8b5a2b] shrink-0 mt-0.5" />
-              <div>
-                <p className={`${stardew.fontPixel} text-[#4a2f1e] mb-1`}>
-                  Hold on, farmer!
-                </p>
-                <p className="text-sm text-[#6a4427]">
-                  We found similar seeds already in this garden. Check if your idea has been explored before.
-                </p>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              {similarSeeds.map((match, i) => (
-                <div
-                  key={i}
-                  className="bg-[#fce8cc] border-2 border-[#d4a373] p-4"
-                >
-                  <h4 className={`${stardew.fontPixel} text-[#4a2f1e] mb-1 capitalize`}>
-                    {SeedNameFromPath(match.filePath)}
-                  </h4>
-                  <p className="text-sm text-[#8b5a2b]">
-                    {match.content}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <div className="bg-[#fce8cc] border-2 border-[#d4a373] p-4">
-              <p className={`${stardew.fontPixel} text-sm text-[#8b5a2b] mb-1`}>
-                Your new seed:
-              </p>
-              <h4 className={`${stardew.fontPixel} text-[#4a2f1e]`}>{title}</h4>
-              {description && (
-                <p className="text-sm text-[#8b5a2b] mt-1">{description}</p>
-              )}
-            </div>
-          </div>
-        ) : (
-          /* Form */
-          <div className="p-6 overflow-y-auto flex flex-col gap-6">
-            {error && (
-              <div className="bg-red-900/30 border border-red-700 text-red-800 px-4 py-2 rounded text-sm">
-                {error}
-              </div>
-            )}
-            <div>
-              <label className={`${stardew.fontPixel} block mb-2 text-[#8b5a2b]`}>
-                Idea Title
-              </label>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className={stardew.parchmentInput}
-                placeholder="What's the idea?"
-              />
-            </div>
-
-            <div>
-              <label className={`${stardew.fontPixel} block mb-2 text-[#8b5a2b]`}>
-                Description
-              </label>
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className={`${stardew.parchmentInput} h-24`}
-                placeholder="Describe the seed..."
-              />
-            </div>
-
-            <div>
-              <label className={`${stardew.fontPixel} block mb-2 text-[#8b5a2b]`}>
-                Soil Priority
-              </label>
-              <div className="grid grid-cols-4 gap-2">
-                {PRIORITIES.map((p) => (
-                  <button
-                    key={p.value}
-                    type="button"
-                    onClick={() => setPriority(p.value)}
-                    className={`${stardew.woodButton} py-2 text-sm flex items-center justify-center gap-2 ${
-                      priority === p.value
-                        ? "translate-y-1 bg-[#8b5a2b] shadow-none"
-                        : ""
-                    }`}
-                  >
-                    <div
-                      className={`w-3 h-3 rounded-full ${getPriorityColor(p.value)} border border-[#4a2f1e]`}
-                    />
-                    {p.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Tags */}
-            <div>
-              <label className={`${stardew.fontPixel} block mb-2 text-[#8b5a2b]`}>
-                Tags
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {TAGS.map((t) => (
-                  <button
-                    key={t.value}
-                    type="button"
-                    onClick={() => toggleTag(t.value)}
-                    className={`${stardew.woodButton} px-3 py-1 text-sm ${
-                      tags.includes(t.value)
-                        ? "translate-y-1 bg-[#7ba65e] border-[#364d26] shadow-none"
-                        : ""
-                    }`}
-                  >
-                    {t.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Plant type preview */}
-            <div>
-              <label className={`${stardew.fontPixel} block mb-2 text-[#8b5a2b]`}>
-                Magical Crop Type
-              </label>
-              <div className="flex items-center gap-4 bg-[#c28f5b] border-2 border-[#8b5a2b] p-3">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={plantAssetMap[plantType].seed}
-                  alt={plantAssetMap[plantType].label}
-                  className="w-12 h-12 object-contain"
-                  style={{ imageRendering: "pixelated" }}
-                />
+            {/* Similar seeds list */}
+            <div className="p-6 overflow-y-auto flex flex-col gap-4">
+              <div className="flex items-start gap-3 bg-[#e8c36a] border-2 border-[#a6754b] p-4">
+                <AlertTriangle size={24} className="text-[#8b5a2b] shrink-0 mt-0.5" />
                 <div>
-                  <p className={`${stardew.fontPixel} text-sm text-[#4a2f1e]`}>
-                    {plantAssetMap[plantType].label}
+                  <p className={`${stardew.fontPixel} text-[#4a2f1e] mb-1`}>
+                    Hold on, farmer!
                   </p>
-                  <p className="text-xs text-[#6a4427]">Randomly assigned</p>
+                  <p className="text-sm text-[#6a4427]">
+                    We found similar seeds already in this garden. Click one to view it, or plant anyway.
+                  </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setPlantType(getRandomPlantType())}
-                  className={`${stardew.woodButton} px-3 py-1 text-xs ml-auto`}
-                >
-                  Reroll
-                </button>
+              </div>
+
+              <div className="space-y-3">
+                {similarSeeds.map((seed) => {
+                  const plant = plantAssetMap[seed.plant_type];
+                  return (
+                    <button
+                      key={seed.id}
+                      onClick={() => setViewingSeed(seed)}
+                      className="w-full text-left bg-[#fce8cc] border-2 border-[#d4a373] p-4 hover:bg-white transition-colors cursor-pointer flex gap-3 items-start"
+                    >
+                      <div className="w-12 h-12 bg-[#d4a373] border-2 border-[#a6754b] flex items-center justify-center shrink-0">
+                        <img
+                          src={plant[seed.status]}
+                          alt={seed.title}
+                          className="w-10 h-10 object-contain"
+                          style={{ imageRendering: "pixelated" }}
+                        />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h4 className={`${stardew.fontPixel} text-[#4a2f1e] mb-1`}>
+                          {seed.title}
+                        </h4>
+                        <p className="text-sm text-[#8b5a2b] line-clamp-2 mb-2">
+                          {seed.description || "No description."}
+                        </p>
+                        <div className="flex flex-wrap gap-1">
+                          <span className={`px-1.5 py-0.5 text-[10px] font-bold uppercase border border-[#4a2f1e] flex items-center gap-1 ${
+                            seed.status === "compost" ? "bg-[#8b5a2b] text-[#d4a373]" : "bg-[#e8d6b3] text-[#4a2f1e]"
+                          }`}>
+                            <div className={`w-1.5 h-1.5 rounded-full ${getPriorityColor(seed.priority)}`} />
+                            {seed.status}
+                          </span>
+                          {seed.tags?.map((tag) => (
+                            <span
+                              key={tag}
+                              className={`px-1.5 py-0.5 text-[10px] font-bold uppercase border border-[#4a2f1e] ${getTagColor(tag)}`}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="bg-[#fce8cc] border-2 border-[#d4a373] p-4">
+                <p className={`${stardew.fontPixel} text-sm text-[#8b5a2b] mb-1`}>
+                  Your new seed:
+                </p>
+                <h4 className={`${stardew.fontPixel} text-[#4a2f1e]`}>{title}</h4>
+                {description && (
+                  <p className="text-sm text-[#8b5a2b] mt-1">{description}</p>
+                )}
               </div>
             </div>
-          </div>
-        )}
 
-        {/* Footer */}
-        <footer className="p-4 border-t-4 border-dashed border-[#a6754b] flex justify-end gap-4 bg-[#d4a373]">
-          {similarSeeds ? (
-            <>
+            {/* Footer */}
+            <footer className="p-4 border-t-4 border-dashed border-[#a6754b] flex justify-end gap-4 bg-[#d4a373]">
               <button
                 onClick={() => setSimilarSeeds(null)}
                 className={`${stardew.woodButton} px-6 py-2 bg-[#a6754b]`}
@@ -303,9 +367,135 @@ export function CreateSeedDialog({ projectId, onClose }: { projectId: string; on
               >
                 {submitting ? "Planting..." : "Plant Anyway"}
               </button>
-            </>
-          ) : (
-            <>
+            </footer>
+          </>
+        ) : (
+          <>
+            {/* Header */}
+            <header
+              className={`${stardew.woodPanel} p-4 flex justify-between items-center -m-1 z-10`}
+            >
+              <h2 className={`${stardew.fontPixel} text-xl`}>Plant a New Seed</h2>
+              <button
+                onClick={onClose}
+                className="hover:bg-[#a6754b] p-1 rounded transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </header>
+
+            {/* Form */}
+            <div className="p-6 overflow-y-auto flex flex-col gap-6">
+              {error && (
+                <div className="bg-red-900/30 border border-red-700 text-red-800 px-4 py-2 rounded text-sm">
+                  {error}
+                </div>
+              )}
+              <div>
+                <label className={`${stardew.fontPixel} block mb-2 text-[#8b5a2b]`}>
+                  Idea Title
+                </label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className={stardew.parchmentInput}
+                  placeholder="What's the idea?"
+                />
+              </div>
+
+              <div>
+                <label className={`${stardew.fontPixel} block mb-2 text-[#8b5a2b]`}>
+                  Description
+                </label>
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className={`${stardew.parchmentInput} h-24`}
+                  placeholder="Describe the seed..."
+                />
+              </div>
+
+              <div>
+                <label className={`${stardew.fontPixel} block mb-2 text-[#8b5a2b]`}>
+                  Soil Priority
+                </label>
+                <div className="grid grid-cols-4 gap-2">
+                  {PRIORITIES.map((p) => (
+                    <button
+                      key={p.value}
+                      type="button"
+                      onClick={() => setPriority(p.value)}
+                      className={`${stardew.woodButton} py-2 text-sm flex items-center justify-center gap-2 ${
+                        priority === p.value
+                          ? "translate-y-1 bg-[#8b5a2b] shadow-none"
+                          : ""
+                      }`}
+                    >
+                      <div
+                        className={`w-3 h-3 rounded-full ${getPriorityColor(p.value)} border border-[#4a2f1e]`}
+                      />
+                      {p.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tags */}
+              <div>
+                <label className={`${stardew.fontPixel} block mb-2 text-[#8b5a2b]`}>
+                  Tags
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {TAGS.map((t) => (
+                    <button
+                      key={t.value}
+                      type="button"
+                      onClick={() => toggleTag(t.value)}
+                      className={`${stardew.woodButton} px-3 py-1 text-sm ${
+                        tags.includes(t.value)
+                          ? "translate-y-1 bg-[#7ba65e] border-[#364d26] shadow-none"
+                          : ""
+                      }`}
+                    >
+                      {t.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Plant type preview */}
+              <div>
+                <label className={`${stardew.fontPixel} block mb-2 text-[#8b5a2b]`}>
+                  Magical Crop Type
+                </label>
+                <div className="flex items-center gap-4 bg-[#c28f5b] border-2 border-[#8b5a2b] p-3">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={plantAssetMap[plantType].seed}
+                    alt={plantAssetMap[plantType].label}
+                    className="w-12 h-12 object-contain"
+                    style={{ imageRendering: "pixelated" }}
+                  />
+                  <div>
+                    <p className={`${stardew.fontPixel} text-sm text-[#4a2f1e]`}>
+                      {plantAssetMap[plantType].label}
+                    </p>
+                    <p className="text-xs text-[#6a4427]">Randomly assigned</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setPlantType(getRandomPlantType())}
+                    className={`${stardew.woodButton} px-3 py-1 text-xs ml-auto`}
+                  >
+                    Reroll
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <footer className="p-4 border-t-4 border-dashed border-[#a6754b] flex justify-end gap-4 bg-[#d4a373]">
               <button
                 onClick={onClose}
                 className={`${stardew.woodButton} px-6 py-2 bg-[#a6754b]`}
@@ -328,9 +518,9 @@ export function CreateSeedDialog({ projectId, onClose }: { projectId: string; on
                   "Plant It"
                 )}
               </button>
-            </>
-          )}
-        </footer>
+            </footer>
+          </>
+        )}
       </div>
     </div>
   );
