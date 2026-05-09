@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+<style>
+@keyframes idleBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-0.4px); } }
+@keyframes leafSway { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(1.5deg); } }
+@keyframes petalPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+@keyframes glowBreath { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.85; } }
+@keyframes twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+@keyframes emberFloat { 0% { transform: translateY(0); opacity: 0.9; } 50% { transform: translateY(-0.5px); opacity: 1; } 100% { transform: translateY(-1px); opacity: 0.1; } }
+@keyframes lightningFlash { 0%, 65%, 100% { opacity: 0.45; } 68%, 74% { opacity: 1; } }
+@keyframes shimmer { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+.anim-bob { animation: idleBob 3.5s ease-in-out infinite; transform-origin: 50% 100%; }
+.anim-sway { animation: leafSway 3s ease-in-out infinite alternate; transform-origin: 50% 100%; }
+.anim-pulse { animation: petalPulse 4s ease-in-out infinite; transform-origin: 50% 80%; }
+.anim-glow { animation: glowBreath 3.5s ease-in-out infinite; }
+.anim-twinkle { animation: twinkle 2.5s ease-in-out infinite; }
+.anim-ember { animation: emberFloat 2.5s linear infinite; }
+.anim-lightning { animation: lightningFlash 3s infinite; }
+.anim-shimmer { animation: shimmer 3s ease-in-out infinite; }
+svg { image-rendering: pixelated; shape-rendering: crispEdges; }
+</style>
+<defs>
+<filter height="160%" id="outline-soil" width="160%" x="-30%" y="-30%">
+<feDropShadow dx="1" dy="0" flood-color="#4a2f1e" result="right" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="-1" dy="0" flood-color="#4a2f1e" in="SourceGraphic" result="left" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="1" flood-color="#4a2f1e" in="SourceGraphic" result="down" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="-1" flood-color="#4a2f1e" in="SourceGraphic" result="up" stdDeviation="0"></feDropShadow>
+<feMerge result="border">
+<feMergeNode in="right"></feMergeNode><feMergeNode in="left"></feMergeNode><feMergeNode in="down"></feMergeNode><feMergeNode in="up"></feMergeNode>
+</feMerge>
+<feMerge><feMergeNode in="border"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+</filter>
+<filter height="160%" id="outline-leaf" width="160%" x="-30%" y="-30%">
+<feDropShadow dx="1" dy="0" flood-color="#2f4f2a" result="right" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="-1" dy="0" flood-color="#2f4f2a" in="SourceGraphic" result="left" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="1" flood-color="#2f4f2a" in="SourceGraphic" result="down" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="-1" flood-color="#2f4f2a" in="SourceGraphic" result="up" stdDeviation="0"></feDropShadow>
+<feMerge result="border">
+<feMergeNode in="right"></feMergeNode><feMergeNode in="left"></feMergeNode><feMergeNode in="down"></feMergeNode><feMergeNode in="up"></feMergeNode>
+</feMerge>
+<feMerge><feMergeNode in="border"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+</filter>
+<filter height="160%" id="outline-crystal" width="160%" x="-30%" y="-30%">
+<feDropShadow dx="1" dy="0" flood-color="#276b78" result="right" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="-1" dy="0" flood-color="#276b78" in="SourceGraphic" result="left" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="1" flood-color="#276b78" in="SourceGraphic" result="down" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="-1" flood-color="#276b78" in="SourceGraphic" result="up" stdDeviation="0"></feDropShadow>
+<feMerge result="border">
+<feMergeNode in="right"></feMergeNode><feMergeNode in="left"></feMergeNode><feMergeNode in="down"></feMergeNode><feMergeNode in="up"></feMergeNode>
+</feMerge>
+<feMerge><feMergeNode in="border"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+</filter>
+<filter height="160%" id="outline-fire" width="160%" x="-30%" y="-30%">
+<feDropShadow dx="1" dy="0" flood-color="#6b2a1d" result="right" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="-1" dy="0" flood-color="#6b2a1d" in="SourceGraphic" result="left" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="1" flood-color="#6b2a1d" in="SourceGraphic" result="down" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="-1" flood-color="#6b2a1d" in="SourceGraphic" result="up" stdDeviation="0"></feDropShadow>
+<feMerge result="border">
+<feMergeNode in="right"></feMergeNode><feMergeNode in="left"></feMergeNode><feMergeNode in="down"></feMergeNode><feMergeNode in="up"></feMergeNode>
+</feMerge>
+<feMerge><feMergeNode in="border"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+</filter>
+<filter height="160%" id="outline-nebula" width="160%" x="-30%" y="-30%">
+<feDropShadow dx="1" dy="0" flood-color="#14101c" result="right" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="-1" dy="0" flood-color="#14101c" in="SourceGraphic" result="left" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="1" flood-color="#14101c" in="SourceGraphic" result="down" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="-1" flood-color="#14101c" in="SourceGraphic" result="up" stdDeviation="0"></feDropShadow>
+<feMerge result="border">
+<feMergeNode in="right"></feMergeNode><feMergeNode in="left"></feMergeNode><feMergeNode in="down"></feMergeNode><feMergeNode in="up"></feMergeNode>
+</feMerge>
+<feMerge><feMergeNode in="border"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+</filter>
+<filter height="160%" id="outline-frost" width="160%" x="-30%" y="-30%">
+<feDropShadow dx="1" dy="0" flood-color="#3f6d7f" result="right" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="-1" dy="0" flood-color="#3f6d7f" in="SourceGraphic" result="left" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="1" flood-color="#3f6d7f" in="SourceGraphic" result="down" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="-1" flood-color="#3f6d7f" in="SourceGraphic" result="up" stdDeviation="0"></feDropShadow>
+<feMerge result="border">
+<feMergeNode in="right"></feMergeNode><feMergeNode in="left"></feMergeNode><feMergeNode in="down"></feMergeNode><feMergeNode in="up"></feMergeNode>
+</feMerge>
+<feMerge><feMergeNode in="border"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+</filter>
+<filter height="160%" id="outline-void" width="160%" x="-30%" y="-30%">
+<feDropShadow dx="1" dy="0" flood-color="#1a1025" result="right" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="-1" dy="0" flood-color="#1a1025" in="SourceGraphic" result="left" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="1" flood-color="#1a1025" in="SourceGraphic" result="down" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="-1" flood-color="#1a1025" in="SourceGraphic" result="up" stdDeviation="0"></feDropShadow>
+<feMerge result="border">
+<feMergeNode in="right"></feMergeNode><feMergeNode in="left"></feMergeNode><feMergeNode in="down"></feMergeNode><feMergeNode in="up"></feMergeNode>
+</feMerge>
+<feMerge><feMergeNode in="border"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+</filter>
+<filter height="160%" id="outline-aurora" width="160%" x="-30%" y="-30%">
+<feDropShadow dx="1" dy="0" flood-color="#4a2b4f" result="right" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="-1" dy="0" flood-color="#4a2b4f" in="SourceGraphic" result="left" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="1" flood-color="#4a2b4f" in="SourceGraphic" result="down" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="-1" flood-color="#4a2b4f" in="SourceGraphic" result="up" stdDeviation="0"></feDropShadow>
+<feMerge result="border">
+<feMergeNode in="right"></feMergeNode><feMergeNode in="left"></feMergeNode><feMergeNode in="down"></feMergeNode><feMergeNode in="up"></feMergeNode>
+</feMerge>
+<feMerge><feMergeNode in="border"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+</filter>
+<filter height="160%" id="outline-thunder" width="160%" x="-30%" y="-30%">
+<feDropShadow dx="1" dy="0" flood-color="#1f486b" result="right" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="-1" dy="0" flood-color="#1f486b" in="SourceGraphic" result="left" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="1" flood-color="#1f486b" in="SourceGraphic" result="down" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="-1" flood-color="#1f486b" in="SourceGraphic" result="up" stdDeviation="0"></feDropShadow>
+<feMerge result="border">
+<feMergeNode in="right"></feMergeNode><feMergeNode in="left"></feMergeNode><feMergeNode in="down"></feMergeNode><feMergeNode in="up"></feMergeNode>
+</feMerge>
+<feMerge><feMergeNode in="border"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+</filter>
+<filter height="160%" id="outline-moon" width="160%" x="-30%" y="-30%">
+<feDropShadow dx="1" dy="0" flood-color="#4b5563" result="right" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="-1" dy="0" flood-color="#4b5563" in="SourceGraphic" result="left" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="1" flood-color="#4b5563" in="SourceGraphic" result="down" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="-1" flood-color="#4b5563" in="SourceGraphic" result="up" stdDeviation="0"></feDropShadow>
+<feMerge result="border">
+<feMergeNode in="right"></feMergeNode><feMergeNode in="left"></feMergeNode><feMergeNode in="down"></feMergeNode><feMergeNode in="up"></feMergeNode>
+</feMerge>
+<feMerge><feMergeNode in="border"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+</filter>
+<filter height="160%" id="outline-ember" width="160%" x="-30%" y="-30%">
+<feDropShadow dx="1" dy="0" flood-color="#5c2c16" result="right" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="-1" dy="0" flood-color="#5c2c16" in="SourceGraphic" result="left" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="1" flood-color="#5c2c16" in="SourceGraphic" result="down" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="-1" flood-color="#5c2c16" in="SourceGraphic" result="up" stdDeviation="0"></feDropShadow>
+<feMerge result="border">
+<feMergeNode in="right"></feMergeNode><feMergeNode in="left"></feMergeNode><feMergeNode in="down"></feMergeNode><feMergeNode in="up"></feMergeNode>
+</feMerge>
+<feMerge><feMergeNode in="border"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+</filter>
+<filter height="160%" id="outline-prism" width="160%" x="-30%" y="-30%">
+<feDropShadow dx="1" dy="0" flood-color="#424a31" result="right" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="-1" dy="0" flood-color="#424a31" in="SourceGraphic" result="left" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="1" flood-color="#424a31" in="SourceGraphic" result="down" stdDeviation="0"></feDropShadow>
+<feDropShadow dx="0" dy="-1" flood-color="#424a31" in="SourceGraphic" result="up" stdDeviation="0"></feDropShadow>
+<feMerge result="border">
+<feMergeNode in="right"></feMergeNode><feMergeNode in="left"></feMergeNode><feMergeNode in="down"></feMergeNode><feMergeNode in="up"></feMergeNode>
+</feMerge>
+<feMerge><feMergeNode in="border"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+</filter>
+</defs>
+<g filter="url(#outline-soil)"><path d="M 11 12 h 1 v 1 h -1 z M 2 13 h 1 v 1 h -1 z M 11 13 h 1 v 1 h -1 z M 3 14 h 1 v 1 h -1 z M 4 14 h 1 v 1 h -1 z M 9 14 h 1 v 1 h -1 z M 10 14 h 1 v 1 h -1 z M 4 15 h 1 v 1 h -1 z M 5 15 h 1 v 1 h -1 z M 6 15 h 1 v 1 h -1 z M 7 15 h 1 v 1 h -1 z M 8 15 h 1 v 1 h -1 z M 9 15 h 1 v 1 h -1 z" fill="#6a4427"></path><path d="M 6 10 h 1 v 1 h -1 z M 7 10 h 1 v 1 h -1 z M 8 10 h 1 v 1 h -1 z M 4 11 h 1 v 1 h -1 z M 5 11 h 1 v 1 h -1 z M 6 11 h 1 v 1 h -1 z M 7 11 h 1 v 1 h -1 z M 8 11 h 1 v 1 h -1 z M 9 11 h 1 v 1 h -1 z M 3 12 h 1 v 1 h -1 z M 4 12 h 1 v 1 h -1 z M 5 12 h 1 v 1 h -1 z M 6 12 h 1 v 1 h -1 z M 7 12 h 1 v 1 h -1 z M 8 12 h 1 v 1 h -1 z M 9 12 h 1 v 1 h -1 z M 10 12 h 1 v 1 h -1 z M 3 13 h 1 v 1 h -1 z M 4 13 h 1 v 1 h -1 z M 5 13 h 1 v 1 h -1 z M 6 13 h 1 v 1 h -1 z M 7 13 h 1 v 1 h -1 z M 8 13 h 1 v 1 h -1 z M 9 13 h 1 v 1 h -1 z M 10 13 h 1 v 1 h -1 z M 5 14 h 1 v 1 h -1 z M 6 14 h 1 v 1 h -1 z M 7 14 h 1 v 1 h -1 z M 8 14 h 1 v 1 h -1 z" fill="#8a5e3b"></path><path d="M 6 9 h 1 v 1 h -1 z M 7 9 h 1 v 1 h -1 z M 8 9 h 1 v 1 h -1 z M 4 10 h 1 v 1 h -1 z M 5 10 h 1 v 1 h -1 z M 9 10 h 1 v 1 h -1 z M 3 11 h 1 v 1 h -1 z M 10 11 h 1 v 1 h -1 z M 2 12 h 1 v 1 h -1 z" fill="#a6754b"></path></g>
+<g class="anim-bob" style="animation-delay: -1.22s;">
+<g class="anim-sway" filter="url(#outline-leaf)" style="animation-delay: -1.22s;"><path d="M 5 8 h 1 v 1 h -1 z M 5 9 h 1 v 1 h -1 z M 9 9 h 1 v 1 h -1 z M 6 10 h 1 v 1 h -1 z M 8 10 h 1 v 1 h -1 z" fill="#5a8043"></path><path d="M 4 8 h 1 v 1 h -1 z M 9 8 h 1 v 1 h -1 z" fill="#7ba65e"></path><path d="M 7 8 h 1 v 1 h -1 z M 7 9 h 1 v 1 h -1 z M 7 10 h 1 v 1 h -1 z M 7 11 h 1 v 1 h -1 z" fill="#486334"></path></g>
+<g class="anim-pulse" filter="url(#outline-fire)" style="animation-delay: -1.22s;"><path d="M 5 1 h 1 v 1 h -1 z M 4 2 h 1 v 1 h -1 z M 4 3 h 1 v 1 h -1 z M 5 3 h 1 v 1 h -1 z M 3 4 h 1 v 1 h -1 z M 4 4 h 1 v 1 h -1 z M 5 4 h 1 v 1 h -1 z M 3 5 h 1 v 1 h -1 z M 4 5 h 1 v 1 h -1 z M 5 5 h 1 v 1 h -1 z M 8 5 h 1 v 1 h -1 z M 4 6 h 1 v 1 h -1 z M 5 6 h 1 v 1 h -1 z M 7 6 h 1 v 1 h -1 z M 5 7 h 1 v 1 h -1 z M 6 7 h 1 v 1 h -1 z M 7 7 h 1 v 1 h -1 z" fill="#c75438"></path><path d="M 6 1 h 1 v 1 h -1 z M 5 2 h 1 v 1 h -1 z M 6 2 h 1 v 1 h -1 z M 6 3 h 1 v 1 h -1 z M 9 3 h 1 v 1 h -1 z M 6 4 h 1 v 1 h -1 z M 9 4 h 1 v 1 h -1 z M 6 5 h 1 v 1 h -1 z M 9 5 h 1 v 1 h -1 z M 6 6 h 1 v 1 h -1 z M 8 6 h 1 v 1 h -1 z" fill="#e36944"></path></g>
+<g class="anim-ember" filter="url(#outline-fire)" style="animation-delay: -1.22s;"><path d="M 6 0 h 1 v 1 h -1 z M 7 1 h 1 v 1 h -1 z M 7 2 h 1 v 1 h -1 z M 9 2 h 1 v 1 h -1 z M 7 3 h 1 v 1 h -1 z M 7 4 h 1 v 1 h -1 z M 7 5 h 1 v 1 h -1 z" fill="#e9c85a"></path></g>
+</g>
+</svg>

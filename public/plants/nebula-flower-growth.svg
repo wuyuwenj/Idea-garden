@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Nebula Flower Growth">
+  <title>Nebula Flower Growth</title>
+  <style>
+  :root {
+    --line: #28311f;
+    --shadow: rgba(0, 0, 0, 0.18);
+    --soil-dark: #6a472f;
+    --soil-mid: #83583a;
+    --soil-light: #a3734f;
+    --soil-speck: #c99c70;
+    --leaf-dark: #3f6a2f;
+    --leaf-mid: #5d8d43;
+    --leaf-light: #86b75f;
+    --leaf-hi: #b9d97f;
+  }
+  svg {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+  .outline {
+    stroke: var(--line);
+    stroke-width: 3;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .thin {
+    stroke: var(--line);
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+</style>
+    <ellipse cx="110" cy="177" rx="54" ry="13" fill="var(--shadow)" />
+  <polygon points="110,36 152,50 182,82 190,112 178,146 150,170 110,182 70,170 42,146 30,112 38,82 68,50"
+           fill="var(--soil-dark)" class="outline"/>
+  <polygon points="110,52 144,64 166,88 172,112 164,136 142,154 110,164 78,154 56,136 48,112 54,88 76,64"
+           fill="var(--soil-mid)"/>
+  <polygon points="110,114 98,92 86,78 88,64 102,66 116,82 120,100" fill="#5c8d58" class="outline"/>
+  <polygon points="110,114 122,92 134,78 132,64 118,66 104,82 100,100" fill="#5c8d58" class="outline"/>
+  <polygon points="110,118 84,112 68,102 70,92 86,90 104,100" fill="#6f9f65" class="outline"/>
+  <polygon points="110,118 136,112 152,102 150,92 134,90 116,100" fill="#6f9f65" class="outline"/>
+  <polygon points="110,122 96,138 92,152 100,160 110,156 118,140 118,128" fill="#5f9258" class="outline"/>
+  <polygon points="110,122 124,138 128,152 120,160 110,156 102,140 102,128" fill="#5f9258" class="outline"/>
+  <circle cx="110" cy="100" r="16" fill="#332865" class="outline"/>
+  <circle cx="106" cy="96" r="6" fill="#5e2f8f"/>
+  <circle cx="114" cy="104" r="6" fill="#2f65aa"/>
+  <circle cx="110" cy="100" r="4" fill="#d8c0ff"/>
+  <circle cx="100" cy="94" r="1.6" fill="#ffffff"/>
+  <circle cx="118" cy="96" r="1.8" fill="#ffffff"/>
+  <circle cx="115" cy="109" r="1.4" fill="#ffe595"/>
+</svg>

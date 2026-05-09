@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Nebula Flower Seed">
+  <title>Nebula Flower Seed</title>
+  <style>
+  :root {
+    --line: #28311f;
+    --shadow: rgba(0, 0, 0, 0.18);
+    --soil-dark: #6a472f;
+    --soil-mid: #83583a;
+    --soil-light: #a3734f;
+    --soil-speck: #c99c70;
+    --leaf-dark: #3f6a2f;
+    --leaf-mid: #5d8d43;
+    --leaf-light: #86b75f;
+    --leaf-hi: #b9d97f;
+  }
+  svg {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+  .outline {
+    stroke: var(--line);
+    stroke-width: 3;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .thin {
+    stroke: var(--line);
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+</style>
+    <ellipse cx="110" cy="175" rx="48" ry="12" fill="var(--shadow)" />
+  <polygon points="110,36 152,50 182,82 190,112 178,146 150,170 110,182 70,170 42,146 30,112 38,82 68,50"
+           fill="var(--soil-dark)" class="outline"/>
+  <polygon points="110,52 144,64 166,88 172,112 164,136 142,154 110,164 78,154 56,136 48,112 54,88 76,64"
+           fill="var(--soil-mid)"/>
+  <polygon points="110,64 136,72 154,90 158,112 152,130 136,144 110,150 84,144 68,130 62,112 66,90 84,72"
+           fill="var(--soil-light)" opacity="0.55"/>
+  <rect x="106" y="106" width="8" height="22" fill="#5f9b6e" class="outline"/>
+  <polygon points="106,108 96,100 84,96 74,100 74,112 84,118 96,118 106,112" fill="#9870d6" class="outline"/>
+  <polygon points="114,108 124,100 136,96 146,100 146,112 136,118 124,118 114,112" fill="#9870d6" class="outline"/>
+  <circle cx="110" cy="100" r="11" fill="#2c285b" class="outline"/>
+  <circle cx="106" cy="97" r="2" fill="#ffffff"/>
+  <circle cx="115" cy="101" r="1.8" fill="#ffe78e"/>
+  <circle cx="111" cy="106" r="1.5" fill="#97d1ff"/>
+</svg>

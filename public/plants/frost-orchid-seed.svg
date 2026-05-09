@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Frost Orchid Seed">
+  <title>Frost Orchid Seed</title>
+  <style>
+  :root {
+    --line: #28311f;
+    --shadow: rgba(0, 0, 0, 0.18);
+    --soil-dark: #6a472f;
+    --soil-mid: #83583a;
+    --soil-light: #a3734f;
+    --soil-speck: #c99c70;
+    --leaf-dark: #3f6a2f;
+    --leaf-mid: #5d8d43;
+    --leaf-light: #86b75f;
+    --leaf-hi: #b9d97f;
+  }
+  svg {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+  .outline {
+    stroke: var(--line);
+    stroke-width: 3;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .thin {
+    stroke: var(--line);
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+</style>
+    <ellipse cx="110" cy="175" rx="48" ry="12" fill="var(--shadow)" />
+  <polygon points="110,36 152,50 182,82 190,112 178,146 150,170 110,182 70,170 42,146 30,112 38,82 68,50"
+           fill="var(--soil-dark)" class="outline"/>
+  <polygon points="110,52 144,64 166,88 172,112 164,136 142,154 110,164 78,154 56,136 48,112 54,88 76,64"
+           fill="var(--soil-mid)"/>
+  <polygon points="110,64 136,72 154,90 158,112 152,130 136,144 110,150 84,144 68,130 62,112 66,90 84,72"
+           fill="var(--soil-light)" opacity="0.55"/>
+  <rect x="106" y="108" width="8" height="20" fill="#7bb6a4" class="outline"/>
+  <polygon points="106,110 96,100 86,96 76,100 76,112 86,118 96,118 106,114" fill="#c7f1ff" class="outline"/>
+  <polygon points="114,110 124,100 134,96 144,100 144,112 134,118 124,118 114,114" fill="#c7f1ff" class="outline"/>
+  <polygon points="110,92 120,98 120,110 110,116 100,110 100,98" fill="#b8ecff" class="outline"/>
+  <polygon points="110,96 116,100 116,108 110,112 104,108 104,100" fill="#ffffff"/>
+</svg>

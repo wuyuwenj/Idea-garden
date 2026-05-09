@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Fire Lily Seed">
+  <title>Fire Lily Seed</title>
+  <style>
+  :root {
+    --line: #28311f;
+    --shadow: rgba(0, 0, 0, 0.18);
+    --soil-dark: #6a472f;
+    --soil-mid: #83583a;
+    --soil-light: #a3734f;
+    --soil-speck: #c99c70;
+    --leaf-dark: #3f6a2f;
+    --leaf-mid: #5d8d43;
+    --leaf-light: #86b75f;
+    --leaf-hi: #b9d97f;
+  }
+  svg {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+  .outline {
+    stroke: var(--line);
+    stroke-width: 3;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .thin {
+    stroke: var(--line);
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+</style>
+    <ellipse cx="110" cy="175" rx="48" ry="12" fill="var(--shadow)" />
+  <polygon points="110,36 152,50 182,82 190,112 178,146 150,170 110,182 70,170 42,146 30,112 38,82 68,50"
+           fill="var(--soil-dark)" class="outline"/>
+  <polygon points="110,52 144,64 166,88 172,112 164,136 142,154 110,164 78,154 56,136 48,112 54,88 76,64"
+           fill="var(--soil-mid)"/>
+  <polygon points="110,64 136,72 154,90 158,112 152,130 136,144 110,150 84,144 68,130 62,112 66,90 84,72"
+           fill="var(--soil-light)" opacity="0.55"/>
+  <rect x="106" y="108" width="8" height="20" fill="#659345" class="outline"/>
+  <polygon points="106,110 96,100 86,98 76,102 78,112 88,118 98,118 106,114" fill="#90bf54" class="outline"/>
+  <polygon points="114,110 124,100 134,98 144,102 142,112 132,118 122,118 114,114" fill="#90bf54" class="outline"/>
+  <polygon points="110,92 120,102 114,114 106,114 100,102" fill="#ff8b2d" class="outline"/>
+  <polygon points="110,96 116,102 112,108 108,108 104,102" fill="#ffd05d"/>
+</svg>

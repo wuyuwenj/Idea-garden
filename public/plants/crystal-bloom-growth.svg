@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Crystal Bloom Growth">
+  <title>Crystal Bloom Growth</title>
+  <style>
+  :root {
+    --line: #28311f;
+    --shadow: rgba(0, 0, 0, 0.18);
+    --soil-dark: #6a472f;
+    --soil-mid: #83583a;
+    --soil-light: #a3734f;
+    --soil-speck: #c99c70;
+    --leaf-dark: #3f6a2f;
+    --leaf-mid: #5d8d43;
+    --leaf-light: #86b75f;
+    --leaf-hi: #b9d97f;
+  }
+  svg {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+  .outline {
+    stroke: var(--line);
+    stroke-width: 3;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .thin {
+    stroke: var(--line);
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+</style>
+    <ellipse cx="110" cy="177" rx="54" ry="13" fill="var(--shadow)" />
+  <polygon points="110,36 152,50 182,82 190,112 178,146 150,170 110,182 70,170 42,146 30,112 38,82 68,50"
+           fill="var(--soil-dark)" class="outline"/>
+  <polygon points="110,52 144,64 166,88 172,112 164,136 142,154 110,164 78,154 56,136 48,112 54,88 76,64"
+           fill="var(--soil-mid)"/>
+  <polygon points="110,114 98,92 88,76 92,62 108,64 120,80 122,100" fill="#6fd6a8" class="outline"/>
+  <polygon points="110,114 122,92 132,76 128,62 112,64 100,80 98,100" fill="#6fd6a8" class="outline"/>
+  <polygon points="110,118 86,112 70,106 64,96 72,88 92,92 104,102" fill="#53c790" class="outline"/>
+  <polygon points="110,118 134,112 150,106 156,96 148,88 128,92 116,102" fill="#53c790" class="outline"/>
+  <polygon points="110,122 96,138 90,152 96,162 108,160 118,146 118,130" fill="#4bbd87" class="outline"/>
+  <polygon points="110,122 124,138 130,152 124,162 112,160 102,146 102,130" fill="#4bbd87" class="outline"/>
+  <polygon points="110,88 124,102 110,120 96,102" fill="#6cefff" class="outline"/>
+  <polygon points="110,92 120,102 110,112 100,102" fill="#d8ffff"/>
+  <rect x="108" y="78" width="4" height="10" fill="#7ef5ff"/>
+</svg>

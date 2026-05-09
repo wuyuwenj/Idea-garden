@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="96" height="96" style="image-rendering: pixelated; shape-rendering: crispEdges;">
+    <defs>
+        <filter id="outline-soil" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="1" dy="0" stdDeviation="0" flood-color="#4a2f1e" result="right"/>
+            <feDropShadow in="SourceGraphic" dx="-1" dy="0" stdDeviation="0" flood-color="#4a2f1e" result="left"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="1" stdDeviation="0" flood-color="#4a2f1e" result="down"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="-1" stdDeviation="0" flood-color="#4a2f1e" result="up"/>
+            <feMerge result="border">
+                <feMergeNode in="right"/><feMergeNode in="left"/><feMergeNode in="down"/><feMergeNode in="up"/>
+            </feMerge>
+            <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="outline-leaf" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="1" dy="0" stdDeviation="0" flood-color="#2f4f2a" result="right"/>
+            <feDropShadow in="SourceGraphic" dx="-1" dy="0" stdDeviation="0" flood-color="#2f4f2a" result="left"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="1" stdDeviation="0" flood-color="#2f4f2a" result="down"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="-1" stdDeviation="0" flood-color="#2f4f2a" result="up"/>
+            <feMerge result="border">
+                <feMergeNode in="right"/><feMergeNode in="left"/><feMergeNode in="down"/><feMergeNode in="up"/>
+            </feMerge>
+            <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="outline-crystal" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="1" dy="0" stdDeviation="0" flood-color="#276b78" result="right"/>
+            <feDropShadow in="SourceGraphic" dx="-1" dy="0" stdDeviation="0" flood-color="#276b78" result="left"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="1" stdDeviation="0" flood-color="#276b78" result="down"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="-1" stdDeviation="0" flood-color="#276b78" result="up"/>
+            <feMerge result="border">
+                <feMergeNode in="right"/><feMergeNode in="left"/><feMergeNode in="down"/><feMergeNode in="up"/>
+            </feMerge>
+            <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="outline-fire" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="1" dy="0" stdDeviation="0" flood-color="#6b2a1d" result="right"/>
+            <feDropShadow in="SourceGraphic" dx="-1" dy="0" stdDeviation="0" flood-color="#6b2a1d" result="left"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="1" stdDeviation="0" flood-color="#6b2a1d" result="down"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="-1" stdDeviation="0" flood-color="#6b2a1d" result="up"/>
+            <feMerge result="border">
+                <feMergeNode in="right"/><feMergeNode in="left"/><feMergeNode in="down"/><feMergeNode in="up"/>
+            </feMerge>
+            <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="outline-nebula" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="1" dy="0" stdDeviation="0" flood-color="#14101c" result="right"/>
+            <feDropShadow in="SourceGraphic" dx="-1" dy="0" stdDeviation="0" flood-color="#14101c" result="left"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="1" stdDeviation="0" flood-color="#14101c" result="down"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="-1" stdDeviation="0" flood-color="#14101c" result="up"/>
+            <feMerge result="border">
+                <feMergeNode in="right"/><feMergeNode in="left"/><feMergeNode in="down"/><feMergeNode in="up"/>
+            </feMerge>
+            <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="outline-frost" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="1" dy="0" stdDeviation="0" flood-color="#3f6d7f" result="right"/>
+            <feDropShadow in="SourceGraphic" dx="-1" dy="0" stdDeviation="0" flood-color="#3f6d7f" result="left"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="1" stdDeviation="0" flood-color="#3f6d7f" result="down"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="-1" stdDeviation="0" flood-color="#3f6d7f" result="up"/>
+            <feMerge result="border">
+                <feMergeNode in="right"/><feMergeNode in="left"/><feMergeNode in="down"/><feMergeNode in="up"/>
+            </feMerge>
+            <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="outline-void" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="1" dy="0" stdDeviation="0" flood-color="#1a1025" result="right"/>
+            <feDropShadow in="SourceGraphic" dx="-1" dy="0" stdDeviation="0" flood-color="#1a1025" result="left"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="1" stdDeviation="0" flood-color="#1a1025" result="down"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="-1" stdDeviation="0" flood-color="#1a1025" result="up"/>
+            <feMerge result="border">
+                <feMergeNode in="right"/><feMergeNode in="left"/><feMergeNode in="down"/><feMergeNode in="up"/>
+            </feMerge>
+            <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="outline-aurora" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="1" dy="0" stdDeviation="0" flood-color="#4a2b4f" result="right"/>
+            <feDropShadow in="SourceGraphic" dx="-1" dy="0" stdDeviation="0" flood-color="#4a2b4f" result="left"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="1" stdDeviation="0" flood-color="#4a2b4f" result="down"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="-1" stdDeviation="0" flood-color="#4a2b4f" result="up"/>
+            <feMerge result="border">
+                <feMergeNode in="right"/><feMergeNode in="left"/><feMergeNode in="down"/><feMergeNode in="up"/>
+            </feMerge>
+            <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="outline-thunder" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="1" dy="0" stdDeviation="0" flood-color="#1f486b" result="right"/>
+            <feDropShadow in="SourceGraphic" dx="-1" dy="0" stdDeviation="0" flood-color="#1f486b" result="left"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="1" stdDeviation="0" flood-color="#1f486b" result="down"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="-1" stdDeviation="0" flood-color="#1f486b" result="up"/>
+            <feMerge result="border">
+                <feMergeNode in="right"/><feMergeNode in="left"/><feMergeNode in="down"/><feMergeNode in="up"/>
+            </feMerge>
+            <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="outline-moon" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="1" dy="0" stdDeviation="0" flood-color="#4b5563" result="right"/>
+            <feDropShadow in="SourceGraphic" dx="-1" dy="0" stdDeviation="0" flood-color="#4b5563" result="left"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="1" stdDeviation="0" flood-color="#4b5563" result="down"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="-1" stdDeviation="0" flood-color="#4b5563" result="up"/>
+            <feMerge result="border">
+                <feMergeNode in="right"/><feMergeNode in="left"/><feMergeNode in="down"/><feMergeNode in="up"/>
+            </feMerge>
+            <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="outline-ember" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="1" dy="0" stdDeviation="0" flood-color="#5c2c16" result="right"/>
+            <feDropShadow in="SourceGraphic" dx="-1" dy="0" stdDeviation="0" flood-color="#5c2c16" result="left"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="1" stdDeviation="0" flood-color="#5c2c16" result="down"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="-1" stdDeviation="0" flood-color="#5c2c16" result="up"/>
+            <feMerge result="border">
+                <feMergeNode in="right"/><feMergeNode in="left"/><feMergeNode in="down"/><feMergeNode in="up"/>
+            </feMerge>
+            <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="outline-prism" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="1" dy="0" stdDeviation="0" flood-color="#424a31" result="right"/>
+            <feDropShadow in="SourceGraphic" dx="-1" dy="0" stdDeviation="0" flood-color="#424a31" result="left"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="1" stdDeviation="0" flood-color="#424a31" result="down"/>
+            <feDropShadow in="SourceGraphic" dx="0" dy="-1" stdDeviation="0" flood-color="#424a31" result="up"/>
+            <feMerge result="border">
+                <feMergeNode in="right"/><feMergeNode in="left"/><feMergeNode in="down"/><feMergeNode in="up"/>
+            </feMerge>
+            <feMerge><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+    </defs>
+    
+    <g filter="url(#outline-soil)">
+        <path fill="#6a4427" d="M 11 12 h 1 v 1 h -1 z M 2 13 h 1 v 1 h -1 z M 11 13 h 1 v 1 h -1 z M 3 14 h 1 v 1 h -1 z M 4 14 h 1 v 1 h -1 z M 9 14 h 1 v 1 h -1 z M 10 14 h 1 v 1 h -1 z M 4 15 h 1 v 1 h -1 z M 5 15 h 1 v 1 h -1 z M 6 15 h 1 v 1 h -1 z M 7 15 h 1 v 1 h -1 z M 8 15 h 1 v 1 h -1 z M 9 15 h 1 v 1 h -1 z"/>
+        <path fill="#8a5e3b" d="M 6 10 h 1 v 1 h -1 z M 7 10 h 1 v 1 h -1 z M 8 10 h 1 v 1 h -1 z M 4 11 h 1 v 1 h -1 z M 5 11 h 1 v 1 h -1 z M 6 11 h 1 v 1 h -1 z M 7 11 h 1 v 1 h -1 z M 8 11 h 1 v 1 h -1 z M 9 11 h 1 v 1 h -1 z M 3 12 h 1 v 1 h -1 z M 4 12 h 1 v 1 h -1 z M 5 12 h 1 v 1 h -1 z M 6 12 h 1 v 1 h -1 z M 7 12 h 1 v 1 h -1 z M 8 12 h 1 v 1 h -1 z M 9 12 h 1 v 1 h -1 z M 10 12 h 1 v 1 h -1 z M 3 13 h 1 v 1 h -1 z M 4 13 h 1 v 1 h -1 z M 5 13 h 1 v 1 h -1 z M 6 13 h 1 v 1 h -1 z M 7 13 h 1 v 1 h -1 z M 8 13 h 1 v 1 h -1 z M 9 13 h 1 v 1 h -1 z M 10 13 h 1 v 1 h -1 z M 5 14 h 1 v 1 h -1 z M 6 14 h 1 v 1 h -1 z M 7 14 h 1 v 1 h -1 z M 8 14 h 1 v 1 h -1 z"/>
+        <path fill="#a6754b" d="M 6 9 h 1 v 1 h -1 z M 7 9 h 1 v 1 h -1 z M 8 9 h 1 v 1 h -1 z M 4 10 h 1 v 1 h -1 z M 5 10 h 1 v 1 h -1 z M 9 10 h 1 v 1 h -1 z M 3 11 h 1 v 1 h -1 z M 10 11 h 1 v 1 h -1 z M 2 12 h 1 v 1 h -1 z"/>
+    </g>
+    <g filter="url(#outline-leaf)">
+        <path fill="#5a8043" d="M 6 8 h 1 v 1 h -1 z M 8 8 h 1 v 1 h -1 z M 6 9 h 1 v 1 h -1 z M 8 9 h 1 v 1 h -1 z"/>
+        <path fill="#486334" d="M 7 8 h 1 v 1 h -1 z M 7 9 h 1 v 1 h -1 z M 7 10 h 1 v 1 h -1 z"/>
+    </g>
+    <g filter="url(#outline-frost)">
+        <path fill="#7caeb8" d="M 7 2 h 1 v 1 h -1 z M 7 3 h 1 v 1 h -1 z M 4 4 h 1 v 1 h -1 z M 9 4 h 1 v 1 h -1 z M 4 5 h 1 v 1 h -1 z M 9 5 h 1 v 1 h -1 z M 6 7 h 1 v 1 h -1 z M 7 7 h 1 v 1 h -1 z"/>
+        <path fill="#b4d6db" d="M 7 0 h 1 v 1 h -1 z M 6 1 h 1 v 1 h -1 z M 6 2 h 1 v 1 h -1 z M 10 2 h 1 v 1 h -1 z M 3 3 h 1 v 1 h -1 z M 6 3 h 1 v 1 h -1 z M 9 3 h 1 v 1 h -1 z M 3 4 h 1 v 1 h -1 z M 6 4 h 1 v 1 h -1 z M 7 4 h 1 v 1 h -1 z M 10 4 h 1 v 1 h -1 z M 5 5 h 1 v 1 h -1 z M 6 5 h 1 v 1 h -1 z M 7 5 h 1 v 1 h -1 z M 8 5 h 1 v 1 h -1 z M 6 6 h 1 v 1 h -1 z M 7 6 h 1 v 1 h -1 z M 4 8 h 1 v 1 h -1 z M 5 8 h 1 v 1 h -1 z M 10 8 h 1 v 1 h -1 z M 5 9 h 1 v 1 h -1 z M 10 9 h 1 v 1 h -1 z"/>
+        <path fill="#f2f8f9" d="M 7 1 h 1 v 1 h -1 z M 3 2 h 1 v 1 h -1 z M 4 3 h 1 v 1 h -1 z M 10 3 h 1 v 1 h -1 z M 5 4 h 1 v 1 h -1 z M 8 4 h 1 v 1 h -1 z M 5 6 h 1 v 1 h -1 z M 8 6 h 1 v 1 h -1 z"/>
+    </g>
+</svg>

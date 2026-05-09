@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Moon Petal Full Animated">
+  <title>Moon Petal Full Animated</title>
+  <style>
+  :root {
+    --line: #28311f;
+    --shadow: rgba(0, 0, 0, 0.18);
+    --soil-dark: #6a472f;
+    --soil-mid: #83583a;
+    --soil-light: #a3734f;
+    --soil-speck: #c99c70;
+  }
+  svg {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+    overflow: visible;
+  }
+  .outline {
+    stroke: var(--line);
+    stroke-width: 3;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .thin {
+    stroke: var(--line);
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .soil { animation: soilBreath 6s ease-in-out infinite; }
+  .plant { transform-origin: 110px 110px; animation: bob 3.8s ease-in-out infinite; }
+  .bloom { transform-origin: 110px 110px; animation: bloomPulse 2.8s ease-in-out infinite; }
+  .glow { transform-origin: 110px 110px; animation: glowPulse 2.2s ease-in-out infinite; }
+  .sparkle { animation: twinkle 1.9s steps(2) infinite; }
+  .sparkle2 { animation: twinkle 2.5s steps(2) infinite 0.5s; }
+  .sparkle3 { animation: twinkle 2.1s steps(2) infinite 0.9s; }
+  .floaty { animation: drift 4.5s ease-in-out infinite; }
+  .floaty2 { animation: drift2 5.4s ease-in-out infinite; }
+  .flicker { animation: flicker 1.25s steps(3) infinite; }
+  .shimmer { animation: shimmer 3s linear infinite; }
+  .rim { animation: rimPulse 2.6s ease-in-out infinite; }
+  .lightning { animation: lightning 1.35s steps(2) infinite; }
+  .moonGlow { animation: moonGlow 3s ease-in-out infinite; }
+  .refract { animation: refract 2.8s linear infinite; }
+  .seedCore { transform-origin: 110px 100px; animation: corePulse 2.4s ease-in-out infinite; }
+  .stem { transform-origin: 110px 130px; animation: sway 3.6s ease-in-out infinite; }
+  @keyframes bob {
+    0%,100% { transform: translateY(0px); }
+    50% { transform: translateY(-2px); }
+  }
+  @keyframes bloomPulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+  }
+  @keyframes glowPulse {
+    0%,100% { opacity: .35; }
+    50% { opacity: .7; }
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: .35; }
+    50% { opacity: 1; }
+  }
+  @keyframes drift {
+    0%,100% { transform: translate(0px,0px); }
+    50% { transform: translate(1px,-3px); }
+  }
+  @keyframes drift2 {
+    0%,100% { transform: translate(0px,0px); }
+    50% { transform: translate(-1px,-4px); }
+  }
+  @keyframes flicker {
+    0%,100% { opacity: .75; }
+    50% { opacity: 1; }
+    75% { opacity: .55; }
+  }
+  @keyframes shimmer {
+    0% { opacity: .55; }
+    50% { opacity: .95; }
+    100% { opacity: .55; }
+  }
+  @keyframes rimPulse {
+    0%,100% { opacity: .3; }
+    50% { opacity: .7; }
+  }
+  @keyframes lightning {
+    0%,70%,100% { opacity: .5; }
+    72%,76%,82% { opacity: 1; }
+  }
+  @keyframes moonGlow {
+    0%,100% { opacity: .4; }
+    50% { opacity: .85; }
+  }
+  @keyframes refract {
+    0% { opacity: .7; }
+    25% { opacity: 1; }
+    50% { opacity: .6; }
+    75% { opacity: .95; }
+    100% { opacity: .7; }
+  }
+  @keyframes corePulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.07); }
+  }
+  @keyframes sway {
+    0%,100% { transform: rotate(0deg); }
+    25% { transform: rotate(-1deg); }
+    75% { transform: rotate(1deg); }
+  }
+  @keyframes soilBreath {
+    0%,100% { opacity: 1; }
+    50% { opacity: .96; }
+  }
+</style>
+  
+  <g class="soil">
+  <ellipse cx="110" cy="180" rx="58" ry="14" fill="var(--shadow)" />
+  <polygon points="110,40 150,52 178,82 186,112 176,144 148,168 110,178 72,168 44,144 34,112 42,82 70,52"
+           fill="var(--soil-dark)" class="outline"/>
+  <polygon points="110,54 142,66 164,88 170,112 162,134 142,152 110,160 80,152 58,134 50,112 56,88 78,66"
+           fill="var(--soil-mid)"/>
+  </g>
+
+  <g class="plant bloom">
+    <path d="M110 66 C123 78,124 96,112 108 C100 98,98 80,110 66 Z" fill="#ecf1f6" class="outline moonGlow"/>
+    <path d="M146 84 C140 100,126 110,112 108 C120 92,132 82,146 84 Z" fill="#dce5ed" class="outline moonGlow"/>
+    <path d="M148 140 C132 136,120 126,116 112 C132 114,144 124,148 140 Z" fill="#e8edf3" class="outline moonGlow"/>
+    <path d="M110 156 C102 140,102 124,110 112 C118 124,118 140,110 156 Z" fill="#f5f8fb" class="outline moonGlow"/>
+    <path d="M72 140 C76 124,88 114,104 112 C100 126,88 136,72 140 Z" fill="#e8edf3" class="outline moonGlow"/>
+    <path d="M74 84 C88 82,100 92,108 108 C94 110,80 100,74 84 Z" fill="#dce5ed" class="outline moonGlow"/>
+    <circle cx="110" cy="110" r="13" fill="#fdfefe" class="outline glow"/>
+    <circle cx="115" cy="108" r="7" fill="#b8c1cb"/>
+    <circle cx="110" cy="110" r="34" fill="none" stroke="#eef4ff" stroke-width="2" opacity="0.45" class="rim"/>
+  </g>
+  <circle cx="84" cy="76" r="2" fill="#ffffff" class="floaty sparkle"/>
+  <circle cx="134" cy="74" r="2" fill="#ffffff" class="floaty2 sparkle2"/>
+  <circle cx="154" cy="108" r="2" fill="#ffffff" class="floaty sparkle3"/>
+  <circle cx="138" cy="146" r="2" fill="#ffffff" class="floaty2 sparkle"/>
+  <circle cx="92" cy="150" r="2" fill="#ffffff" class="floaty sparkle2"/>
+  <circle cx="70" cy="110" r="2" fill="#ffffff" class="floaty2 sparkle3"/>
+</svg>

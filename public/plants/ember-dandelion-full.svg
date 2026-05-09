@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Ember Dandelion Full">
+  <title>Ember Dandelion Full</title>
+  <style>
+  :root {
+    --line: #28311f;
+    --shadow: rgba(0, 0, 0, 0.18);
+    --soil-dark: #6a472f;
+    --soil-mid: #83583a;
+    --soil-light: #a3734f;
+    --soil-speck: #c99c70;
+  }
+  svg {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+  .outline {
+    stroke: var(--line);
+    stroke-width: 3;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .thin {
+    stroke: var(--line);
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+</style>
+  
+  <ellipse cx="110" cy="180" rx="58" ry="14" fill="var(--shadow)" />
+  <polygon points="110,40 150,52 178,82 186,112 176,144 148,168 110,178 72,168 44,144 34,112 42,82 70,52"
+           fill="var(--soil-dark)" class="outline"/>
+  <polygon points="110,54 142,66 164,88 170,112 162,134 142,152 110,160 80,152 58,134 50,112 56,88 78,66"
+           fill="var(--soil-mid)"/>
+
+  <line x1="110" y1="122" x2="110" y2="88" stroke="#86a75a" stroke-width="4"/>
+  <circle cx="110" cy="86" r="14" fill="#ffd56b" class="outline"/>
+  <line x1="110" y1="86" x2="110" y2="60" stroke="#fdf5cf" stroke-width="2"/>
+  <line x1="110" y1="86" x2="130" y2="66" stroke="#fdf5cf" stroke-width="2"/>
+  <line x1="110" y1="86" x2="84" y2="72" stroke="#fdf5cf" stroke-width="2"/>
+  <line x1="110" y1="86" x2="138" y2="84" stroke="#fdf5cf" stroke-width="2"/>
+  <line x1="110" y1="86" x2="82" y2="92" stroke="#fdf5cf" stroke-width="2"/>
+  <line x1="110" y1="86" x2="128" y2="104" stroke="#fdf5cf" stroke-width="2"/>
+  <line x1="110" y1="86" x2="92" y2="106" stroke="#fdf5cf" stroke-width="2"/>
+  <polygon points="110,56 116,62 114,70 108,70 104,62" fill="#ff8a31" class="outline"/>
+  <polygon points="132,62 138,68 136,76 130,76 126,68" fill="#ffb34f" class="outline"/>
+  <polygon points="80,68 86,74 84,82 78,82 74,74" fill="#ff6d2a" class="outline"/>
+  <polygon points="142,82 148,88 146,96 140,96 136,88" fill="#ff8a31" class="outline"/>
+  <polygon points="74,90 80,96 78,104 72,104 68,96" fill="#ffb34f" class="outline"/>
+  <polygon points="128,102 134,108 132,116 126,116 122,108" fill="#ff6d2a" class="outline"/>
+  <polygon points="88,104 94,110 92,118 86,118 82,110" fill="#ff8a31" class="outline"/>
+  <circle cx="110" cy="86" r="5" fill="#fff2bd"/>
+</svg>

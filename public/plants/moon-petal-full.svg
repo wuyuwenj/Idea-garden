@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Moon Petal Full">
+  <title>Moon Petal Full</title>
+  <style>
+  :root {
+    --line: #28311f;
+    --shadow: rgba(0, 0, 0, 0.18);
+    --soil-dark: #6a472f;
+    --soil-mid: #83583a;
+    --soil-light: #a3734f;
+    --soil-speck: #c99c70;
+  }
+  svg {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+  .outline {
+    stroke: var(--line);
+    stroke-width: 3;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .thin {
+    stroke: var(--line);
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+</style>
+  
+  <ellipse cx="110" cy="180" rx="58" ry="14" fill="var(--shadow)" />
+  <polygon points="110,40 150,52 178,82 186,112 176,144 148,168 110,178 72,168 44,144 34,112 42,82 70,52"
+           fill="var(--soil-dark)" class="outline"/>
+  <polygon points="110,54 142,66 164,88 170,112 162,134 142,152 110,160 80,152 58,134 50,112 56,88 78,66"
+           fill="var(--soil-mid)"/>
+
+  <path d="M110 66 C123 78,124 96,112 108 C100 98,98 80,110 66 Z" fill="#ecf1f6" class="outline"/>
+  <path d="M146 84 C140 100,126 110,112 108 C120 92,132 82,146 84 Z" fill="#dce5ed" class="outline"/>
+  <path d="M148 140 C132 136,120 126,116 112 C132 114,144 124,148 140 Z" fill="#e8edf3" class="outline"/>
+  <path d="M110 156 C102 140,102 124,110 112 C118 124,118 140,110 156 Z" fill="#f5f8fb" class="outline"/>
+  <path d="M72 140 C76 124,88 114,104 112 C100 126,88 136,72 140 Z" fill="#e8edf3" class="outline"/>
+  <path d="M74 84 C88 82,100 92,108 108 C94 110,80 100,74 84 Z" fill="#dce5ed" class="outline"/>
+  <circle cx="110" cy="110" r="13" fill="#fdfefe" class="outline"/>
+  <circle cx="115" cy="108" r="7" fill="#b8c1cb"/>
+  <circle cx="84" cy="76" r="2" fill="#ffffff"/>
+  <circle cx="134" cy="74" r="2" fill="#ffffff"/>
+  <circle cx="154" cy="108" r="2" fill="#ffffff"/>
+  <circle cx="138" cy="146" r="2" fill="#ffffff"/>
+  <circle cx="92" cy="150" r="2" fill="#ffffff"/>
+  <circle cx="70" cy="110" r="2" fill="#ffffff"/>
+  <circle cx="110" cy="110" r="34" fill="none" stroke="#eef4ff" stroke-width="2" opacity="0.45"/>
+</svg>

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Void Rose Growth">
+  <title>Void Rose Growth</title>
+  <style>
+  :root {
+    --line: #28311f;
+    --shadow: rgba(0, 0, 0, 0.18);
+    --soil-dark: #6a472f;
+    --soil-mid: #83583a;
+    --soil-light: #a3734f;
+    --soil-speck: #c99c70;
+  }
+  svg {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+  .outline {
+    stroke: var(--line);
+    stroke-width: 3;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .thin {
+    stroke: var(--line);
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+</style>
+  
+  <ellipse cx="110" cy="177" rx="54" ry="13" fill="var(--shadow)" />
+  <polygon points="110,36 152,50 182,82 190,112 178,146 150,170 110,182 70,170 42,146 30,112 38,82 68,50"
+           fill="var(--soil-dark)" class="outline"/>
+  <polygon points="110,52 144,64 166,88 172,112 164,136 142,154 110,164 78,154 56,136 48,112 54,88 76,64"
+           fill="var(--soil-mid)"/>
+  <polygon points="110,64 136,72 154,90 158,112 152,130 136,144 110,150 84,144 68,130 62,112 66,90 84,72"
+           fill="var(--soil-light)" opacity="0.38"/>
+
+  <polygon points="110,116 96,92 90,72 98,60 108,66 116,88" fill="#4a6b47" class="outline"/>
+  <polygon points="110,116 124,92 130,72 122,60 112,66 104,88" fill="#4a6b47" class="outline"/>
+  <polygon points="110,118 84,112 68,102 70,92 88,92 104,100" fill="#5b8154" class="outline"/>
+  <polygon points="110,118 136,112 152,102 150,92 132,92 116,100" fill="#5b8154" class="outline"/>
+  <polygon points="110,124 98,140 94,154 100,162 110,156 116,140" fill="#4c7448" class="outline"/>
+  <polygon points="110,124 122,140 126,154 120,162 110,156 104,140" fill="#4c7448" class="outline"/>
+  <circle cx="110" cy="98" r="17" fill="#120f16" class="outline"/>
+  <circle cx="110" cy="98" r="12" fill="#2a1538"/>
+  <circle cx="110" cy="98" r="6" fill="#44235f"/>
+  <circle cx="100" cy="92" r="1.3" fill="#fff"/>
+  <circle cx="118" cy="95" r="1.4" fill="#fff"/>
+  <circle cx="113" cy="106" r="1.2" fill="#9fd6ff"/>
+  <circle cx="121" cy="104" r="1.1" fill="#d6a8ff"/>
+</svg>

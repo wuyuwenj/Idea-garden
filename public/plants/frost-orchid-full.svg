@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Frost Orchid Full">
+  <title>Frost Orchid Full</title>
+  <style>
+  :root {
+    --line: #28311f;
+    --shadow: rgba(0, 0, 0, 0.18);
+    --soil-dark: #6a472f;
+    --soil-mid: #83583a;
+    --soil-light: #a3734f;
+    --soil-speck: #c99c70;
+    --leaf-dark: #3f6a2f;
+    --leaf-mid: #5d8d43;
+    --leaf-light: #86b75f;
+    --leaf-hi: #b9d97f;
+  }
+  svg {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+  .outline {
+    stroke: var(--line);
+    stroke-width: 3;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .thin {
+    stroke: var(--line);
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+</style>
+    <ellipse cx="110" cy="180" rx="58" ry="14" fill="var(--shadow)" />
+  <polygon points="110,40 150,52 178,82 186,112 176,144 148,168 110,178 72,168 44,144 34,112 42,82 70,52"
+           fill="var(--soil-dark)" class="outline"/>
+  <polygon points="110,54 142,66 164,88 170,112 162,134 142,152 110,160 80,152 58,134 50,112 56,88 78,66"
+           fill="var(--soil-mid)"/>
+  <polygon points="110,58 122,84 118,106 102,106 98,84" fill="#d9f7ff" class="outline"/>
+  <polygon points="146,80 132,96 118,108 126,118 144,114 158,98" fill="#c1ecff" class="outline"/>
+  <polygon points="146,142 126,130 118,114 132,122 150,132" fill="#d4f4ff" class="outline"/>
+  <polygon points="110,160 102,134 106,116 114,116 118,134" fill="#e8fbff" class="outline"/>
+  <polygon points="74,142 94,130 102,114 88,122 70,132" fill="#d4f4ff" class="outline"/>
+  <polygon points="74,80 88,96 102,108 94,118 76,114 62,98" fill="#c1ecff" class="outline"/>
+  <polygon points="110,66 116,84 110,96 104,84" fill="#ffffff"/>
+  <polygon points="146,86 136,96 128,104 136,106 146,100" fill="#ffffff"/>
+  <polygon points="142,136 132,128 126,120 136,124" fill="#ffffff"/>
+  <polygon points="110,152 106,136 110,124 114,136" fill="#ffffff"/>
+  <polygon points="78,136 88,128 94,120 84,124" fill="#ffffff"/>
+  <polygon points="74,86 84,96 92,104 84,106 74,100" fill="#ffffff"/>
+  <circle cx="110" cy="110" r="14" fill="#effcff" class="outline"/>
+  <line x1="110" y1="100" x2="110" y2="120" stroke="#8dd3f0" stroke-width="3"/>
+  <line x1="100" y1="110" x2="120" y2="110" stroke="#8dd3f0" stroke-width="3"/>
+  <line x1="103" y1="103" x2="117" y2="117" stroke="#8dd3f0" stroke-width="3"/>
+  <line x1="117" y1="103" x2="103" y2="117" stroke="#8dd3f0" stroke-width="3"/>
+  <rect x="130" y="74" width="4" height="4" fill="#ffffff"/>
+  <rect x="80" y="86" width="4" height="4" fill="#ffffff"/>
+  <rect x="150" y="120" width="4" height="4" fill="#dff9ff"/>
+  <rect x="94" y="148" width="4" height="4" fill="#ffffff"/>
+</svg>

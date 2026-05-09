@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Thunder Lotus Growth">
+  <title>Thunder Lotus Growth</title>
+  <style>
+  :root {
+    --line: #28311f;
+    --shadow: rgba(0, 0, 0, 0.18);
+    --soil-dark: #6a472f;
+    --soil-mid: #83583a;
+    --soil-light: #a3734f;
+    --soil-speck: #c99c70;
+  }
+  svg {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+  .outline {
+    stroke: var(--line);
+    stroke-width: 3;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .thin {
+    stroke: var(--line);
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+</style>
+  
+  <ellipse cx="110" cy="177" rx="54" ry="13" fill="var(--shadow)" />
+  <polygon points="110,36 152,50 182,82 190,112 178,146 150,170 110,182 70,170 42,146 30,112 38,82 68,50"
+           fill="var(--soil-dark)" class="outline"/>
+  <polygon points="110,52 144,64 166,88 172,112 164,136 142,154 110,164 78,154 56,136 48,112 54,88 76,64"
+           fill="var(--soil-mid)"/>
+  <polygon points="110,64 136,72 154,90 158,112 152,130 136,144 110,150 84,144 68,130 62,112 66,90 84,72"
+           fill="var(--soil-light)" opacity="0.38"/>
+
+  <polygon points="110,116 94,92 88,74 98,62 110,70 118,92" fill="#5db6ff" class="outline"/>
+  <polygon points="110,116 126,92 132,74 122,62 110,70 102,92" fill="#5db6ff" class="outline"/>
+  <polygon points="110,120 84,112 68,102 70,92 90,92 106,102" fill="#7fd1ff" class="outline"/>
+  <polygon points="110,120 136,112 152,102 150,92 130,92 114,102" fill="#7fd1ff" class="outline"/>
+  <polygon points="110,124 98,142 96,154 102,160 110,154 116,140" fill="#4ca3f0" class="outline"/>
+  <polygon points="110,124 122,142 124,154 118,160 110,154 104,140" fill="#4ca3f0" class="outline"/>
+  <polygon points="110,90 122,98 124,112 112,120 98,112 96,98" fill="#3193ff" class="outline"/>
+  <rect x="110" y="96" width="4" height="8" fill="#fff56d"/>
+  <polyline points="102,92 108,100 104,104 110,112" fill="none" stroke="#dff8ff" stroke-width="2"/>
+  <polyline points="118,92 112,100 116,104 110,112" fill="none" stroke="#dff8ff" stroke-width="2"/>
+</svg>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Thunder Lotus Seed">
+  <title>Thunder Lotus Seed</title>
+  <style>
+  :root {
+    --line: #28311f;
+    --shadow: rgba(0, 0, 0, 0.18);
+    --soil-dark: #6a472f;
+    --soil-mid: #83583a;
+    --soil-light: #a3734f;
+    --soil-speck: #c99c70;
+  }
+  svg {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+  .outline {
+    stroke: var(--line);
+    stroke-width: 3;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .thin {
+    stroke: var(--line);
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+</style>
+  
+  <ellipse cx="110" cy="175" rx="48" ry="12" fill="var(--shadow)" />
+  <polygon points="110,36 152,50 182,82 190,112 178,146 150,170 110,182 70,170 42,146 30,112 38,82 68,50"
+           fill="var(--soil-dark)" class="outline"/>
+  <polygon points="110,52 144,64 166,88 172,112 164,136 142,154 110,164 78,154 56,136 48,112 54,88 76,64"
+           fill="var(--soil-mid)"/>
+  <polygon points="110,64 136,72 154,90 158,112 152,130 136,144 110,150 84,144 68,130 62,112 66,90 84,72"
+           fill="var(--soil-light)" opacity="0.55"/>
+  <rect x="74" y="92" width="8" height="8" fill="var(--soil-speck)" class="thin"/>
+  <rect x="146" y="100" width="8" height="8" fill="var(--soil-speck)" class="thin"/>
+  <rect x="118" y="138" width="8" height="8" fill="#8d6545" class="thin"/>
+
+  <rect x="106" y="108" width="8" height="20" fill="#65a167" class="outline"/>
+  <polygon points="106,110 96,100 84,96 74,100 74,112 84,118 96,118 106,114" fill="#7fd5ff" class="outline"/>
+  <polygon points="114,110 124,100 136,96 146,100 146,112 136,118 124,118 114,114" fill="#7fd5ff" class="outline"/>
+  <polygon points="110,92 120,100 118,112 110,116 102,112 100,100" fill="#44a7ff" class="outline"/>
+  <rect x="106" y="98" width="4" height="6" fill="#fff46b"/>
+  <rect x="110" y="104" width="4" height="6" fill="#fff46b"/>
+</svg>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Ember Dandelion Growth">
+  <title>Ember Dandelion Growth</title>
+  <style>
+  :root {
+    --line: #28311f;
+    --shadow: rgba(0, 0, 0, 0.18);
+    --soil-dark: #6a472f;
+    --soil-mid: #83583a;
+    --soil-light: #a3734f;
+    --soil-speck: #c99c70;
+  }
+  svg {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+  .outline {
+    stroke: var(--line);
+    stroke-width: 3;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .thin {
+    stroke: var(--line);
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+</style>
+  
+  <ellipse cx="110" cy="177" rx="54" ry="13" fill="var(--shadow)" />
+  <polygon points="110,36 152,50 182,82 190,112 178,146 150,170 110,182 70,170 42,146 30,112 38,82 68,50"
+           fill="var(--soil-dark)" class="outline"/>
+  <polygon points="110,52 144,64 166,88 172,112 164,136 142,154 110,164 78,154 56,136 48,112 54,88 76,64"
+           fill="var(--soil-mid)"/>
+  <polygon points="110,64 136,72 154,90 158,112 152,130 136,144 110,150 84,144 68,130 62,112 66,90 84,72"
+           fill="var(--soil-light)" opacity="0.38"/>
+
+  <polygon points="110,118 96,92 90,72 98,60 108,66 116,88" fill="#7aa452" class="outline"/>
+  <polygon points="110,118 124,92 130,72 122,60 112,66 104,88" fill="#7aa452" class="outline"/>
+  <polygon points="110,120 84,112 68,102 70,92 88,92 104,102" fill="#96c15c" class="outline"/>
+  <polygon points="110,120 136,112 152,102 150,92 132,92 116,102" fill="#96c15c" class="outline"/>
+  <circle cx="110" cy="100" r="14" fill="#fff1b8" class="outline"/>
+  <circle cx="110" cy="100" r="6" fill="#ffbb55"/>
+  <line x1="110" y1="86" x2="110" y2="74" stroke="#f7f7d5" stroke-width="2"/>
+  <line x1="120" y1="90" x2="130" y2="82" stroke="#f7f7d5" stroke-width="2"/>
+  <line x1="100" y1="90" x2="90" y2="82" stroke="#f7f7d5" stroke-width="2"/>
+  <rect x="128" y="80" width="4" height="4" fill="#ff7f33"/>
+  <rect x="86" y="84" width="4" height="4" fill="#ffb24d"/>
+</svg>

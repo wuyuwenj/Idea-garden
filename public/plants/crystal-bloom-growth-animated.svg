@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Crystal Bloom Growth Animated">
+  <title>Crystal Bloom Growth Animated</title>
+  <style>
+  :root {
+    --line: #28311f;
+    --shadow: rgba(0, 0, 0, 0.18);
+    --soil-dark: #6a472f;
+    --soil-mid: #83583a;
+    --soil-light: #a3734f;
+    --soil-speck: #c99c70;
+  }
+  svg {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+    overflow: visible;
+  }
+  .outline {
+    stroke: var(--line);
+    stroke-width: 3;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .thin {
+    stroke: var(--line);
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .soil { animation: soilBreath 6s ease-in-out infinite; }
+  .plant { transform-origin: 110px 110px; animation: bob 3.8s ease-in-out infinite; }
+  .bloom { transform-origin: 110px 110px; animation: bloomPulse 2.8s ease-in-out infinite; }
+  .glow { transform-origin: 110px 110px; animation: glowPulse 2.2s ease-in-out infinite; }
+  .sparkle { animation: twinkle 1.9s steps(2) infinite; }
+  .sparkle2 { animation: twinkle 2.5s steps(2) infinite 0.5s; }
+  .sparkle3 { animation: twinkle 2.1s steps(2) infinite 0.9s; }
+  .floaty { animation: drift 4.5s ease-in-out infinite; }
+  .floaty2 { animation: drift2 5.4s ease-in-out infinite; }
+  .flicker { animation: flicker 1.25s steps(3) infinite; }
+  .shimmer { animation: shimmer 3s linear infinite; }
+  .rim { animation: rimPulse 2.6s ease-in-out infinite; }
+  .core { transform-origin: 110px 100px; animation: corePulse 2.4s ease-in-out infinite; }
+  .stem { transform-origin: 110px 132px; animation: sway 3.6s ease-in-out infinite; }
+  .crystal { animation: prismPulse 2.8s ease-in-out infinite; }
+  .frost { animation: frostPulse 3.2s ease-in-out infinite; }
+  .starry { animation: starPulse 2.7s ease-in-out infinite; }
+  @keyframes bob { 0%,100% { transform: translateY(0px);} 50% { transform: translateY(-2px);} }
+  @keyframes bloomPulse { 0%,100% { transform: scale(1);} 50% { transform: scale(1.03);} }
+  @keyframes glowPulse { 0%,100% { opacity: .35;} 50% { opacity: .72;} }
+  @keyframes twinkle { 0%,100% { opacity: .35;} 50% { opacity: 1;} }
+  @keyframes drift { 0%,100% { transform: translate(0px,0px);} 50% { transform: translate(1px,-3px);} }
+  @keyframes drift2 { 0%,100% { transform: translate(0px,0px);} 50% { transform: translate(-1px,-4px);} }
+  @keyframes flicker { 0%,100% { opacity: .75;} 50% { opacity: 1;} 75% { opacity: .55;} }
+  @keyframes shimmer { 0% { opacity: .55;} 50% { opacity: .95;} 100% { opacity: .55;} }
+  @keyframes rimPulse { 0%,100% { opacity: .28;} 50% { opacity: .7;} }
+  @keyframes corePulse { 0%,100% { transform: scale(1);} 50% { transform: scale(1.07);} }
+  @keyframes sway { 0%,100% { transform: rotate(0deg);} 25% { transform: rotate(-1deg);} 75% { transform: rotate(1deg);} }
+  @keyframes soilBreath { 0%,100% { opacity: 1;} 50% { opacity: .96;} }
+  @keyframes prismPulse { 0%,100% { opacity: .85;} 50% { opacity: 1;} }
+  @keyframes frostPulse { 0%,100% { opacity: .78;} 50% { opacity: 1;} }
+  @keyframes starPulse { 0%,100% { opacity: .8;} 50% { opacity: 1;} }
+</style>
+  <g class="soil">
+    <ellipse cx="110" cy="177" rx="54" ry="13" fill="var(--shadow)" />
+    <polygon points="110,36 152,50 182,82 190,112 178,146 150,170 110,182 70,170 42,146 30,112 38,82 68,50"
+             fill="var(--soil-dark)" class="outline"/>
+    <polygon points="110,52 144,64 166,88 172,112 164,136 142,154 110,164 78,154 56,136 48,112 54,88 76,64"
+             fill="var(--soil-mid)"/>
+    <polygon points="110,64 136,72 154,90 158,112 152,130 136,144 110,150 84,144 68,130 62,112 66,90 84,72"
+             fill="var(--soil-light)" opacity="0.38"/>
+  </g>
+
+  <g class="plant">
+    <g class="stem">
+      <polygon points="110,114 98,92 88,76 92,62 108,64 120,80 122,100" fill="#6fd6a8" class="outline"/>
+      <polygon points="110,114 122,92 132,76 128,62 112,64 100,80 98,100" fill="#6fd6a8" class="outline"/>
+      <polygon points="110,118 86,112 70,106 64,96 72,88 92,92 104,102" fill="#53c790" class="outline"/>
+      <polygon points="110,118 134,112 150,106 156,96 148,88 128,92 116,102" fill="#53c790" class="outline"/>
+      <polygon points="110,122 96,138 90,152 96,162 108,160 118,146 118,130" fill="#4bbd87" class="outline"/>
+      <polygon points="110,122 124,138 130,152 124,162 112,160 102,146 102,130" fill="#4bbd87" class="outline"/>
+    </g>
+    <g class="bloom">
+      <polygon points="110,88 124,102 110,120 96,102" fill="#6cefff" class="outline crystal"/>
+      <polygon points="110,92 120,102 110,112 100,102" fill="#d8ffff" class="glow"/>
+      <rect x="108" y="78" width="4" height="10" fill="#7ef5ff" class="sparkle"/>
+    </g>
+  </g>
+</svg>

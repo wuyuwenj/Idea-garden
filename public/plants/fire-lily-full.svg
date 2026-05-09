@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Fire Lily Full">
+  <title>Fire Lily Full</title>
+  <style>
+  :root {
+    --line: #28311f;
+    --shadow: rgba(0, 0, 0, 0.18);
+    --soil-dark: #6a472f;
+    --soil-mid: #83583a;
+    --soil-light: #a3734f;
+    --soil-speck: #c99c70;
+    --leaf-dark: #3f6a2f;
+    --leaf-mid: #5d8d43;
+    --leaf-light: #86b75f;
+    --leaf-hi: #b9d97f;
+  }
+  svg {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+  .outline {
+    stroke: var(--line);
+    stroke-width: 3;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+  .thin {
+    stroke: var(--line);
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    paint-order: stroke fill;
+  }
+</style>
+    <ellipse cx="110" cy="180" rx="58" ry="14" fill="var(--shadow)" />
+  <polygon points="110,40 150,52 178,82 186,112 176,144 148,168 110,178 72,168 44,144 34,112 42,82 70,52"
+           fill="var(--soil-dark)" class="outline"/>
+  <polygon points="110,54 142,66 164,88 170,112 162,134 142,152 110,160 80,152 58,134 50,112 56,88 78,66"
+           fill="var(--soil-mid)"/>
+  <polygon points="110,60 122,82 126,102 116,110 110,98 104,110 94,102 98,82" fill="#ff7d26" class="outline"/>
+  <polygon points="146,80 136,92 126,106 130,118 144,114 156,98 152,88" fill="#ff5d2e" class="outline"/>
+  <polygon points="146,140 130,128 124,116 134,116 150,124 156,136" fill="#ff8f2f" class="outline"/>
+  <polygon points="110,160 104,136 110,118 116,136 112,156" fill="#ff5a28" class="outline"/>
+  <polygon points="74,140 90,128 96,116 86,116 70,124 64,136" fill="#ff8f2f" class="outline"/>
+  <polygon points="74,80 84,92 94,106 90,118 76,114 64,98 68,88" fill="#ff5d2e" class="outline"/>
+  <polygon points="110,88 120,100 118,114 110,122 102,114 100,100" fill="#ffd053" class="outline"/>
+  <polygon points="110,94 116,102 114,110 110,114 106,110 104,102" fill="#fff0a0"/>
+  <rect x="132" y="68" width="4" height="4" fill="#ffd25f"/>
+  <rect x="146" y="90" width="4" height="4" fill="#ff8a32"/>
+  <rect x="150" y="118" width="4" height="4" fill="#ffcb4f"/>
+  <rect x="84" y="74" width="4" height="4" fill="#ff8a32"/>
+  <rect x="68" y="112" width="4" height="4" fill="#ffcb4f"/>
+  <rect x="92" y="150" width="4" height="4" fill="#ff8a32"/>
+</svg>
