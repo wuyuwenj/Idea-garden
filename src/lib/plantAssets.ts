@@ -1,13 +1,14 @@
-import type { PlantType, IssueStatus } from "@/types";
+import type { PlantType, SeedStatus } from "@/types";
 
 export const plantAssetMap: Record<
   PlantType,
-  Record<IssueStatus, string> & { label: string; color: string }
+  Record<SeedStatus, string> & { label: string; color: string }
 > = {
   crystal_bloom: {
     seed: "/plants/crystal_seed.svg",
     sprout: "/plants/crystal_sprout.svg",
     flower: "/plants/crystal_full.svg",
+    fruit: "/plants/crystal_full.svg",
     compost: "/plants/crystal_seed.svg",
     label: "Crystal Bloom",
     color: "#6cefff",
@@ -16,6 +17,7 @@ export const plantAssetMap: Record<
     seed: "/plants/nebula_seed.svg",
     sprout: "/plants/nebula_sprout.svg",
     flower: "/plants/nebula_full.svg",
+    fruit: "/plants/nebula_full.svg",
     compost: "/plants/nebula_seed.svg",
     label: "Nebula Flower",
     color: "#9a6cff",
@@ -24,6 +26,7 @@ export const plantAssetMap: Record<
     seed: "/plants/fire_seed.svg",
     sprout: "/plants/fire_sprout.svg",
     flower: "/plants/fire_full.svg",
+    fruit: "/plants/fire_full.svg",
     compost: "/plants/fire_seed.svg",
     label: "Fire Lily",
     color: "#ff7d26",
@@ -32,6 +35,7 @@ export const plantAssetMap: Record<
     seed: "/plants/frost_seed.svg",
     sprout: "/plants/frost_sprout.svg",
     flower: "/plants/frost_full.svg",
+    fruit: "/plants/frost_full.svg",
     compost: "/plants/frost_seed.svg",
     label: "Frost Orchid",
     color: "#c7f1ff",
@@ -40,6 +44,7 @@ export const plantAssetMap: Record<
     seed: "/plants/aurora_seed.svg",
     sprout: "/plants/aurora_sprout.svg",
     flower: "/plants/aurora_full.svg",
+    fruit: "/plants/aurora_full.svg",
     compost: "/plants/aurora_seed.svg",
     label: "Aurora Blossom",
     color: "#34d399",
@@ -48,6 +53,7 @@ export const plantAssetMap: Record<
     seed: "/plants/ember_seed.svg",
     sprout: "/plants/ember_sprout.svg",
     flower: "/plants/ember_full.svg",
+    fruit: "/plants/ember_full.svg",
     compost: "/plants/ember_seed.svg",
     label: "Ember Dandelion",
     color: "#fb923c",
@@ -56,6 +62,7 @@ export const plantAssetMap: Record<
     seed: "/plants/moon_seed.svg",
     sprout: "/plants/moon_sprout.svg",
     flower: "/plants/moon_full.svg",
+    fruit: "/plants/moon_full.svg",
     compost: "/plants/moon_seed.svg",
     label: "Moon Petal",
     color: "#c4b5fd",
@@ -64,6 +71,7 @@ export const plantAssetMap: Record<
     seed: "/plants/prism_seed.svg",
     sprout: "/plants/prism_sprout.svg",
     flower: "/plants/prism_full.svg",
+    fruit: "/plants/prism_full.svg",
     compost: "/plants/prism_seed.svg",
     label: "Prism Flower",
     color: "#f472b6",
@@ -72,6 +80,7 @@ export const plantAssetMap: Record<
     seed: "/plants/thunder_seed.svg",
     sprout: "/plants/thunder_sprout.svg",
     flower: "/plants/thunder_full.svg",
+    fruit: "/plants/thunder_full.svg",
     compost: "/plants/thunder_seed.svg",
     label: "Thunder Lotus",
     color: "#60a5fa",
@@ -80,15 +89,17 @@ export const plantAssetMap: Record<
     seed: "/plants/void_seed.svg",
     sprout: "/plants/void_sprout.svg",
     flower: "/plants/void_full.svg",
+    fruit: "/plants/void_full.svg",
     compost: "/plants/void_seed.svg",
     label: "Void Rose",
     color: "#a855f7",
   },
 } as const;
 
-export const statusScale: Record<IssueStatus, number> = {
+export const statusScale: Record<SeedStatus, number> = {
   seed: 0.42,
-  sprout: 0.52,
+  sprout: 0.58,
   flower: 0.76,
-  compost: 0.35,
+  fruit: 0.9,
+  compost: 0.3,
 };

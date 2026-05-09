@@ -7,7 +7,7 @@ import {
   assignSeed,
   unassignSeed,
   type TeamMember,
-} from "@/app/actions/seed";
+} from "@/app/actions/seeds";
 import { stardew } from "@/lib/stardewTheme";
 import { Users, Check } from "lucide-react";
 

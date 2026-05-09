@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import * as z from "zod";
 import crypto from "crypto";
 
+
 const CreateTeamSchema = z.object({
   name: z.string().min(2, { message: "Team name must be at least 2 characters." }),
 });
