@@ -2,34 +2,36 @@
 
 import { useState } from "react";
 import { useGardenStore } from "@/store";
-import { createSeed } from "@/app/actions/seed";
+import { createIssue } from "@/app/actions/seed";
 import { plantAssetMap } from "@/lib/plantAssets";
-import { stardew, getPriorityColor } from "@/lib/stardewTheme";
+import { stardew, getPriorityColor, getTagColor } from "@/lib/stardewTheme";
 import { X } from "lucide-react";
-import type { SeedPriority, PlantType } from "@/types";
+import type { Priority, PlantType, IssueTag } from "@/types";
 
-const PRIORITIES: { value: SeedPriority; label: string }[] = [
+const PRIORITIES: { value: Priority; label: string }[] = [
   { value: "urgent", label: "Urgent" },
   { value: "high", label: "High" },
   { value: "medium", label: "Medium" },
   { value: "low", label: "Low" },
 ];
 
+const TAGS: IssueTag[] = ["bug", "feature", "idea", "research", "decision"];
+
 function getRandomPlantType(): PlantType {
   const types = Object.keys(plantAssetMap) as PlantType[];
   return types[Math.floor(Math.random() * types.length)];
 }
 
-export function CreateSeedDialog({ teamSlug, onClose }: { teamSlug?: string; onClose: () => void }) {
+export function CreateIssueDialog({ teamSlug, onClose }: { teamSlug?: string; onClose: () => void }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState<SeedPriority>("medium");
+  const [priority, setPriority] = useState<Priority>("medium");
   const [plantType, setPlantType] = useState<PlantType>(getRandomPlantType);
+  const [tags, setTags] = useState<IssueTag[]>([]);
   const [saving, setSaving] = useState(false);
-
-  const addSeed = useGardenStore((s) => s.addSeed);
-
   const [error, setError] = useState<string | null>(null);
+
+  const addIssue = useGardenStore((s) => s.addIssue);
 
   const handleSubmit = async () => {
     if (!title.trim()) return;
@@ -37,30 +39,38 @@ export function CreateSeedDialog({ teamSlug, onClose }: { teamSlug?: string; onC
     setError(null);
 
     if (teamSlug) {
-      const result = await createSeed(teamSlug, {
+      const result = await createIssue(teamSlug, {
         title: title.trim(),
         description: description.trim(),
         priority,
         plantType,
+        tags,
       });
       if (result.error) {
         setError(result.error);
         setSaving(false);
         return;
       }
-      if (result.seed) {
-        addSeed(result.seed);
+      if (result.issue) {
+        addIssue(result.issue);
       }
     } else {
-      addSeed({
-        id: `s-${Date.now()}`,
+      const now = Date.now();
+      addIssue({
+        id: `issue-${now}`,
         title: title.trim(),
         description: description.trim(),
         status: "seed",
         priority,
+        tags,
         plantType,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+        blockers: [],
+        relatedIssueIds: [],
+        isRevived: false,
+        contextRoots: [],
+        suggestedTickets: [],
+        createdAt: now,
+        updatedAt: now,
       });
     }
 
@@ -148,6 +158,36 @@ export function CreateSeedDialog({ teamSlug, onClose }: { teamSlug?: string; onC
             </div>
           </div>
 
+          <div>
+            <label
+              className={`${stardew.fontPixel} block mb-2 text-[#8b5a2b]`}
+            >
+              Tags
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {TAGS.map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() =>
+                    setTags((prev) =>
+                      prev.includes(tag)
+                        ? prev.filter((t) => t !== tag)
+                        : [...prev, tag]
+                    )
+                  }
+                  className={`px-3 py-1 border-2 border-[#4a2f1e] text-xs font-bold uppercase transition-all ${
+                    tags.includes(tag)
+                      ? `${getTagColor(tag)} translate-y-0.5 shadow-none`
+                      : "bg-[#d4a373] text-[#4a2f1e] opacity-60 hover:opacity-80"
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Plant type preview (randomly assigned) */}
           <div>
             <label
@@ -190,10 +230,10 @@ export function CreateSeedDialog({ teamSlug, onClose }: { teamSlug?: string; onC
           </button>
           <button
             onClick={handleSubmit}
-            disabled={!title.trim()}
+            disabled={!title.trim() || saving}
             className={`${stardew.woodButton} px-6 py-2 bg-[#7ba65e] border-[#364d26] disabled:opacity-40 disabled:cursor-not-allowed`}
           >
-            Plant It
+            {saving ? "Planting..." : "Plant It"}
           </button>
         </footer>
       </div>

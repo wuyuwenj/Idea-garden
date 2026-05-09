@@ -1,8 +1,15 @@
 // ── Enums ──
 
-export type SeedStatus = "seed" | "growing" | "blooming";
+export type IssueStatus =
+  | "seed"      // raw idea / backlog
+  | "sprout"    // context found / validated
+  | "flower"    // in progress
+  | "fruit"     // shipped / done
+  | "compost";  // paused / rejected / failed, but preserved
 
-export type SeedPriority = "urgent" | "high" | "medium" | "low";
+export type Priority = "urgent" | "high" | "medium" | "low";
+
+export type IssueTag = "bug" | "feature" | "idea" | "research" | "decision";
 
 export type PlantType =
   | "crystal_bloom"
@@ -16,15 +23,50 @@ export type PlantType =
   | "thunder_lotus"
   | "void_rose";
 
+// ── Supporting Types ──
+
+export type ContextSourceType =
+  | "doc"
+  | "slack"
+  | "github"
+  | "file"
+  | "customer"
+  | "research";
+
+export type ContextRoot = {
+  title: string;
+  sourceType: ContextSourceType;
+  summary: string;
+  relevance: string;
+};
+
 // ── Core Entity ──
 
-export interface Seed {
+export type GardenIssue = {
   id: string;
+
+  // Basic issue tracker fields
   title: string;
   description: string;
-  status: SeedStatus;
-  priority: SeedPriority;
+  priority: Priority;
+  status: IssueStatus;
+  tags: IssueTag[];
+
+  // Garden-specific fields
   plantType: PlantType;
-  created_at: string;
-  updated_at: string;
-}
+  blockers: string[];
+  relatedIssueIds: string[];
+  isRevived: boolean;
+
+  // Nia/context fields
+  niaContextId?: string;
+  contextRoots: ContextRoot[];
+
+  // AI-generated execution fields
+  suggestedTickets: string[];
+  agentBrief?: string;
+
+  // Metadata
+  createdAt: number;
+  updatedAt: number;
+};

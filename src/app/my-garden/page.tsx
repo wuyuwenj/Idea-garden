@@ -8,12 +8,12 @@ import { plantAssetMap } from "@/lib/plantAssets";
 import { stardew, getPriorityColor } from "@/lib/stardewTheme";
 import { ArrowLeft, Sprout, Flower2 } from "lucide-react";
 import Link from "next/link";
-import type { Seed } from "@/types";
+import type { GardenIssue } from "@/types";
 
 export default function MyGardenPage() {
   const router = useRouter();
-  const [active, setActive] = useState<Seed[]>([]);
-  const [bloomed, setBloomed] = useState<Seed[]>([]);
+  const [active, setActive] = useState<GardenIssue[]>([]);
+  const [bloomed, setBloomed] = useState<GardenIssue[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -79,8 +79,8 @@ export default function MyGardenPage() {
                 </div>
               ) : (
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {active.map((seed) => (
-                    <SeedCard key={seed.id} seed={seed} />
+                  {active.map((issue) => (
+                    <SeedCard key={issue.id} issue={issue} />
                   ))}
                 </div>
               )}
@@ -106,8 +106,8 @@ export default function MyGardenPage() {
                 </div>
               ) : (
                 <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                  {bloomed.map((seed) => (
-                    <FlowerCard key={seed.id} seed={seed} />
+                  {bloomed.map((issue) => (
+                    <FlowerCard key={issue.id} issue={issue} />
                   ))}
                 </div>
               )}
@@ -119,47 +119,47 @@ export default function MyGardenPage() {
   );
 }
 
-function SeedCard({ seed }: { seed: Seed }) {
-  const plant = plantAssetMap[seed.plantType];
+function SeedCard({ issue }: { issue: GardenIssue }) {
+  const plant = plantAssetMap[issue.plantType];
 
   return (
     <div className={`${stardew.woodPanel} p-4 flex flex-col items-center gap-2`}>
       <div className="w-16 h-16 bg-[#5a8043] border-2 border-[#4a2f1e] shadow-[inset_2px_2px_6px_rgba(0,0,0,0.3)] flex items-center justify-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={plant[seed.status]}
+          src={plant[issue.status]}
           alt={plant.label}
           className="w-12 h-12 object-contain"
           style={{ imageRendering: "pixelated" }}
         />
       </div>
       <h3 className={`${stardew.fontPixel} text-xs text-center text-[#fbf236] truncate w-full`}>
-        {seed.title}
+        {issue.title}
       </h3>
       <div className="flex items-center gap-1">
-        <div className={`w-2 h-2 rounded-full ${getPriorityColor(seed.priority)} border border-black`} />
-        <span className="text-[#e8d6b3] text-xs capitalize">{seed.status}</span>
+        <div className={`w-2 h-2 rounded-full ${getPriorityColor(issue.priority)} border border-black`} />
+        <span className="text-[#e8d6b3] text-xs capitalize">{issue.status}</span>
       </div>
     </div>
   );
 }
 
-function FlowerCard({ seed }: { seed: Seed }) {
-  const plant = plantAssetMap[seed.plantType];
+function FlowerCard({ issue }: { issue: GardenIssue }) {
+  const plant = plantAssetMap[issue.plantType];
 
   return (
     <div className={`${stardew.woodPanel} p-3 flex flex-col items-center gap-2 hover:brightness-110 transition-all`}>
       <div className="w-14 h-14 bg-[#5a8043] border-2 border-[#364d26] shadow-[inset_2px_2px_4px_rgba(0,0,0,0.3),0_0_8px_rgba(251,242,54,0.3)] flex items-center justify-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={plant.blooming}
+          src={plant.flower}
           alt={plant.label}
           className="w-10 h-10 object-contain"
           style={{ imageRendering: "pixelated" }}
         />
       </div>
       <h3 className={`${stardew.fontPixel} text-[10px] text-center text-[#fbf236] truncate w-full`}>
-        {seed.title}
+        {issue.title}
       </h3>
       <span className="text-[#e8d6b3] text-[10px]">{plant.label}</span>
     </div>

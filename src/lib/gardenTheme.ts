@@ -49,8 +49,10 @@ export const gardenTheme = {
   },
 
   status: {
-    seed: { bg: "#efe0b8", label: "Seed", iconName: "sprout" as const, subtitle: "newly planted" },
-    growing: { bg: "#dce8b4", label: "Growing", iconName: "leaf" as const, subtitle: "taking root" },
-    blooming: { bg: "#ead7f5", label: "Blooming", iconName: "flower" as const, subtitle: "ready to harvest" },
+    seed: { bg: "#efe0b8", label: "Seed", iconName: "sprout" as const, subtitle: "raw idea" },
+    sprout: { bg: "#dce8b4", label: "Sprout", iconName: "leaf" as const, subtitle: "context found" },
+    flower: { bg: "#f9e0a0", label: "Flower", iconName: "flower" as const, subtitle: "in progress" },
+    fruit: { bg: "#ead7f5", label: "Fruit", iconName: "apple" as const, subtitle: "shipped" },
+    compost: { bg: "#d4c4a8", label: "Compost", iconName: "archive" as const, subtitle: "paused / rejected" },
   },
 } as const;

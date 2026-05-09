@@ -2,7 +2,7 @@
 
 import { insforge } from "@/lib/insforge";
 import { cookies } from "next/headers";
-import type { Seed } from "@/types";
+import type { GardenIssue } from "@/types";
 
 async function initAuth() {
   const cookieStore = await cookies();
@@ -22,20 +22,28 @@ async function getTeamIdFromSlug(slug: string): Promise<string | null> {
   return data?.id ?? null;
 }
 
-function mapSeedRow(row: Record<string, unknown>): Seed {
+function rowToIssue(row: Record<string, unknown>): GardenIssue {
   return {
     id: row.id as string,
     title: row.title as string,
     description: (row.description as string) ?? "",
-    status: row.status as Seed["status"],
-    priority: row.priority as Seed["priority"],
-    plantType: row.plant_type as Seed["plantType"],
-    created_at: row.created_at as string,
-    updated_at: row.updated_at as string,
+    status: row.status as GardenIssue["status"],
+    priority: row.priority as GardenIssue["priority"],
+    tags: (row.tags as GardenIssue["tags"]) ?? [],
+    plantType: row.plant_type as GardenIssue["plantType"],
+    blockers: (row.blockers as string[]) ?? [],
+    relatedIssueIds: (row.related_issue_ids as string[]) ?? [],
+    isRevived: (row.is_revived as boolean) ?? false,
+    niaContextId: row.nia_context_id as string | undefined,
+    contextRoots: (row.context_roots as GardenIssue["contextRoots"]) ?? [],
+    suggestedTickets: (row.suggested_tickets as string[]) ?? [],
+    agentBrief: row.agent_brief as string | undefined,
+    createdAt: new Date(row.created_at as string).getTime(),
+    updatedAt: new Date(row.updated_at as string).getTime(),
   };
 }
 
-export async function getSeeds(teamSlug: string): Promise<Seed[]> {
+export async function getIssues(teamSlug: string): Promise<GardenIssue[]> {
   const userId = await initAuth();
   if (!userId) return [];
 
@@ -50,12 +58,12 @@ export async function getSeeds(teamSlug: string): Promise<Seed[]> {
 
   if (error || !data) return [];
 
-  return data.map((row: Record<string, unknown>) => mapSeedRow(row));
+  return data.map((row: Record<string, unknown>) => rowToIssue(row));
 }
 
-export async function createSeed(
+export async function createIssue(
   teamSlug: string,
-  seed: { title: string; description: string; priority: string; plantType: string }
+  issue: { title: string; description: string; priority: string; plantType: string; tags: string[] }
 ) {
   const userId = await initAuth();
   if (!userId) return { error: "Not authenticated" };
@@ -67,11 +75,12 @@ export async function createSeed(
     .from("seeds")
     .insert({
       team_id: teamId,
-      title: seed.title,
-      description: seed.description,
+      title: issue.title,
+      description: issue.description,
       status: "seed",
-      priority: seed.priority,
-      plant_type: seed.plantType,
+      priority: issue.priority,
+      plant_type: issue.plantType,
+      tags: issue.tags,
       created_by: userId,
     })
     .select()
@@ -79,41 +88,17 @@ export async function createSeed(
 
   if (error) return { error: error.message };
 
-  return {
-    seed: {
-      id: data.id,
-      title: data.title,
-      description: data.description ?? "",
-      status: data.status,
-      priority: data.priority,
-      plantType: data.plant_type,
-      created_at: data.created_at,
-      updated_at: data.updated_at,
-    } as Seed,
-  };
+  return { issue: rowToIssue(data) };
 }
 
-export async function updateSeedStatus(seedId: string, status: string) {
+export async function updateIssueStatus(issueId: string, status: string) {
   const userId = await initAuth();
   if (!userId) return { error: "Not authenticated" };
 
   const { error } = await insforge.database
     .from("seeds")
     .update({ status, updated_at: new Date().toISOString() })
-    .eq("id", seedId);
-
-  if (error) return { error: error.message };
-  return { success: true };
-}
-
-export async function deleteSeed(seedId: string) {
-  const userId = await initAuth();
-  if (!userId) return { error: "Not authenticated" };
-
-  const { error } = await insforge.database
-    .from("seeds")
-    .delete()
-    .eq("id", seedId);
+    .eq("id", issueId);
 
   if (error) return { error: error.message };
   return { success: true };
@@ -176,7 +161,6 @@ export async function getTeamMembers(teamSlug: string): Promise<TeamMember[]> {
   const teamId = await getTeamIdFromSlug(teamSlug);
   if (!teamId) return [];
 
-  // Get active members
   const { data: members } = await insforge.database
     .from("team_members")
     .select("user_id")
@@ -195,7 +179,6 @@ export async function getTeamMembers(teamSlug: string): Promise<TeamMember[]> {
     }
   }
 
-  // Get pending invites
   const { data: invites } = await insforge.database
     .from("invitations")
     .select("invited_email")
@@ -221,11 +204,10 @@ export async function getTeamMembers(teamSlug: string): Promise<TeamMember[]> {
 
 // ── Personal Garden ──
 
-export async function getMySeeds(): Promise<{ active: Seed[]; bloomed: Seed[] }> {
+export async function getMySeeds(): Promise<{ active: GardenIssue[]; bloomed: GardenIssue[] }> {
   const userId = await initAuth();
   if (!userId) return { active: [], bloomed: [] };
 
-  // Get all seed IDs assigned to this user
   const { data: assignments, error: assignError } = await insforge.database
     .from("seed_assignees")
     .select("seed_id")
@@ -245,9 +227,22 @@ export async function getMySeeds(): Promise<{ active: Seed[]; bloomed: Seed[] }>
 
   if (error || !seeds) return { active: [], bloomed: [] };
 
-  const mapped = seeds.map((row: Record<string, unknown>) => mapSeedRow(row));
+  const mapped = seeds.map((row: Record<string, unknown>) => rowToIssue(row));
   return {
-    active: mapped.filter((s: Seed) => s.status === "seed" || s.status === "growing"),
-    bloomed: mapped.filter((s: Seed) => s.status === "blooming"),
+    active: mapped.filter((s: GardenIssue) => s.status === "seed" || s.status === "sprout"),
+    bloomed: mapped.filter((s: GardenIssue) => s.status === "flower"),
   };
+}
+
+export async function deleteIssue(issueId: string) {
+  const userId = await initAuth();
+  if (!userId) return { error: "Not authenticated" };
+
+  const { error } = await insforge.database
+    .from("seeds")
+    .delete()
+    .eq("id", issueId);
+
+  if (error) return { error: error.message };
+  return { success: true };
 }

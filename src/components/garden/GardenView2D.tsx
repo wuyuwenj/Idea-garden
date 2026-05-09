@@ -3,27 +3,27 @@
 import { useGardenStore } from "@/store";
 import { plantAssetMap } from "@/lib/plantAssets";
 import { stardew, getPriorityColor } from "@/lib/stardewTheme";
-import type { Seed, SeedPriority } from "@/types";
+import type { GardenIssue, Priority } from "@/types";
 
-const PRIORITIES: SeedPriority[] = ["urgent", "high", "medium", "low"];
+const PRIORITIES: Priority[] = ["urgent", "high", "medium", "low"];
 
 const dirtPathPattern = `url("data:image/svg+xml,%3Csvg width='32' height='32' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='32' height='32' fill='%23a6754b'/%3E%3Crect x='4' y='4' width='4' height='4' fill='%238b5a2b'/%3E%3Crect x='20' y='12' width='4' height='4' fill='%23d4a373'/%3E%3Crect x='10' y='24' width='4' height='4' fill='%238b5a2b'/%3E%3Crect x='28' y='28' width='4' height='4' fill='%23d4a373'/%3E%3C/svg%3E")`;
 
-function PlantSprite({ seed }: { seed: Seed }) {
-  const plant = plantAssetMap[seed.plantType];
-  const selectSeed = useGardenStore((s) => s.selectSeed);
+function PlantSprite({ issue }: { issue: GardenIssue }) {
+  const plant = plantAssetMap[issue.plantType];
+  const selectIssue = useGardenStore((s) => s.selectIssue);
 
   return (
     <button
-      onClick={() => selectSeed(seed.id)}
+      onClick={() => selectIssue(issue.id)}
       className="group relative flex flex-col items-center justify-end h-24 hover:-translate-y-1 transition-transform"
     >
       {/* Shadow */}
       <div className="absolute bottom-2 w-10 h-4 bg-black/30 rounded-full blur-[2px]" />
       {/* Plant image */}
       <img
-        src={plant[seed.status]}
-        alt={seed.title}
+        src={plant[issue.status]}
+        alt={issue.title}
         className="relative z-10 w-16 h-16 object-contain drop-shadow-[2px_2px_0px_#1a1025]"
         style={{ imageRendering: "pixelated" }}
       />
@@ -34,10 +34,10 @@ function PlantSprite({ seed }: { seed: Seed }) {
         <p
           className={`${stardew.fontPixel} font-bold border-b border-[#a6754b] pb-1 mb-1`}
         >
-          {seed.title}
+          {issue.title}
         </p>
         <p>
-          {seed.status} · {plantAssetMap[seed.plantType].label}
+          {issue.status} · {plantAssetMap[issue.plantType].label}
         </p>
       </div>
     </button>
@@ -45,8 +45,8 @@ function PlantSprite({ seed }: { seed: Seed }) {
 }
 
 export function GardenView2D() {
-  const seeds = useGardenStore((s) => s.seeds);
-  const activeSeeds = seeds.filter((s) => s.status !== "blooming");
+  const issues = useGardenStore((s) => s.issues);
+  const activeIssues = issues.filter((i) => i.status !== "fruit" && i.status !== "compost");
 
   return (
     <div className="relative grid grid-cols-2 gap-12 p-12 border-[6px] border-dashed border-[#486334] rounded-xl bg-[#618a48] overflow-hidden">
@@ -84,7 +84,7 @@ export function GardenView2D() {
 
       {/* --- PRIORITY BEDS (z-10) --- */}
       {PRIORITIES.map((priority) => {
-        const bedSeeds = activeSeeds.filter((s) => s.priority === priority);
+        const bedIssues = activeIssues.filter((i) => i.priority === priority);
         return (
           <div
             key={priority}
@@ -104,15 +104,15 @@ export function GardenView2D() {
                 className={`w-3 h-3 rounded-full ${getPriorityColor(priority)} border-2 border-[#4a2f1e]`}
               />
               {priority}
-              <span className="text-[#e8d6b3] ml-1">({bedSeeds.length})</span>
+              <span className="text-[#e8d6b3] ml-1">({bedIssues.length})</span>
             </div>
 
             {/* Plants grid */}
             <div className="grid grid-cols-4 gap-4 mt-4">
-              {bedSeeds.map((seed) => (
-                <PlantSprite key={seed.id} seed={seed} />
+              {bedIssues.map((issue) => (
+                <PlantSprite key={issue.id} issue={issue} />
               ))}
-              {bedSeeds.length === 0 && (
+              {bedIssues.length === 0 && (
                 <div className="col-span-4 text-center py-8 text-[#a6754b] border-2 border-dashed border-[#8b5a2b] rounded">
                   <p className={`${stardew.fontPixel} text-xs`}>
                     Empty soil bed
