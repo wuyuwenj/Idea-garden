@@ -141,7 +141,7 @@ export default function TeamGardenPage() {
           onClose={() => setIsInviteOpen(false)}
         />
       )}
-      <SeedDetailPanel />
+      <SeedDetailPanel teamSlug={slug} />
     </div>
   );
 }

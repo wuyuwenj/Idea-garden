@@ -3,6 +3,7 @@
 import { useGardenStore } from "@/store";
 import { plantAssetMap } from "@/lib/plantAssets";
 import { stardew, getPriorityColor } from "@/lib/stardewTheme";
+import { AssigneePicker } from "@/components/panels/AssigneePicker";
 import { X } from "lucide-react";
 import type { SeedStatus } from "@/types";
 
@@ -12,7 +13,7 @@ const STAGES: { id: SeedStatus; label: string }[] = [
   { id: "blooming", label: "Blooming" },
 ];
 
-export function SeedDetailPanel() {
+export function SeedDetailPanel({ teamSlug }: { teamSlug?: string }) {
   const selectedSeedId = useGardenStore((s) => s.selectedSeedId);
   const seeds = useGardenStore((s) => s.seeds);
   const sidebarOpen = useGardenStore((s) => s.sidebarOpen);
@@ -78,6 +79,18 @@ export function SeedDetailPanel() {
               {seed.description || "No description yet."}
             </p>
           </section>
+
+          {teamSlug && (
+            <>
+              <hr className="border-t-4 border-dashed border-[#a6754b]" />
+              <section>
+                <h3 className={`${stardew.fontPixel} text-[#8b5a2b] mb-2`}>
+                  Assignees
+                </h3>
+                <AssigneePicker seedId={seed.id} teamSlug={teamSlug} />
+              </section>
+            </>
+          )}
 
           <hr className="border-t-4 border-dashed border-[#a6754b]" />
 
