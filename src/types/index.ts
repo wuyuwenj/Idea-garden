@@ -1,14 +1,10 @@
 // ── Enums ──
 
-export type IssueStatus =
-  | "seed"      // raw idea / backlog
-  | "sprout"    // context found / validated
-  | "flower"    // shipped / done
-  | "compost";  // paused / rejected / failed, but preserved
+export type SeedStatus = "seed" | "sprout" | "flower" | "compost";
 
-export type Priority = "urgent" | "high" | "medium" | "low";
+export type SeedPriority = "urgent" | "high" | "medium" | "low";
 
-export type IssueTag = "bug" | "feature" | "idea" | "research" | "decision";
+export type SeedTag = "bug" | "feature" | "idea" | "research" | "decision";
 
 export type PlantType =
   | "crystal_bloom"
@@ -22,8 +18,6 @@ export type PlantType =
   | "thunder_lotus"
   | "void_rose";
 
-// ── Supporting Types ──
-
 export type ContextSourceType =
   | "doc"
   | "slack"
@@ -32,40 +26,52 @@ export type ContextSourceType =
   | "customer"
   | "research";
 
-export type ContextRoot = {
+// ── Supporting Types ──
+
+export interface ContextRoot {
   title: string;
   sourceType: ContextSourceType;
   summary: string;
   relevance: string;
-};
+}
+
+// ── Project ──
+
+export interface Project {
+  id: string;
+  team_id: string;
+  name: string;
+  slug: string;
+  nia_vault_id?: string;
+  created_by: string;
+  created_at: string;
+  updated_at: string;
+}
 
 // ── Core Entity ──
 
-export type GardenIssue = {
+export interface Seed {
   id: string;
-
-  // Basic issue tracker fields
+  team_id: string;
+  project_id?: string;
   title: string;
   description: string;
-  priority: Priority;
-  status: IssueStatus;
-  tags: IssueTag[];
+  status: SeedStatus;
+  priority: SeedPriority;
+  tags: SeedTag[];
+  plant_type: PlantType;
+  created_by: string;
 
-  // Garden-specific fields
-  plantType: PlantType;
+  nia_context_id?: string;
+  context_roots: ContextRoot[];
+
   blockers: string[];
-  relatedIssueIds: string[];
-  isRevived: boolean;
+  related_issue_ids: string[];
+  is_revived: boolean;
 
-  // Nia/context fields
-  niaContextId?: string;
-  contextRoots: ContextRoot[];
+  suggested_tickets: string[];
+  agent_brief?: string;
 
-  // AI-generated execution fields
-  suggestedTickets: string[];
-  agentBrief?: string;
-
-  // Metadata
-  createdAt: number;
-  updatedAt: number;
-};
+  created_at: string;
+  updated_at: string;
+}

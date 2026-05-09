@@ -2,54 +2,54 @@
 
 import { useState } from "react";
 import { useGardenStore } from "@/store";
-import { updateIssueStatus as saveStatus } from "@/app/actions/seed";
+import { updateSeed } from "@/app/actions/seeds";
 import { plantAssetMap } from "@/lib/plantAssets";
 import { stardew, getPriorityColor, getTagColor } from "@/lib/stardewTheme";
 import { AssigneePicker } from "@/components/panels/AssigneePicker";
 import { X, Archive, Save } from "lucide-react";
-import type { IssueStatus } from "@/types";
+import type { SeedStatus } from "@/types";
 
-const STAGES: { id: IssueStatus; label: string }[] = [
+const STAGES: { id: SeedStatus; label: string }[] = [
   { id: "seed", label: "Seed" },
   { id: "sprout", label: "Sprout" },
   { id: "flower", label: "Flower" },
 ];
 
-export function IssueDetailPanel({ teamSlug }: { teamSlug?: string }) {
-  const selectedIssueId = useGardenStore((s) => s.selectedIssueId);
-  const issues = useGardenStore((s) => s.issues);
+export function SeedDetailPanel({ teamSlug }: { teamSlug?: string }) {
+  const selectedSeedId = useGardenStore((s) => s.selectedSeedId);
+  const seeds = useGardenStore((s) => s.seeds);
   const sidebarOpen = useGardenStore((s) => s.sidebarOpen);
-  const selectIssue = useGardenStore((s) => s.selectIssue);
-  const updateIssueStatus = useGardenStore((s) => s.updateIssueStatus);
+  const selectSeed = useGardenStore((s) => s.selectSeed);
+  const updateSeedStatus = useGardenStore((s) => s.updateSeedStatus);
 
   const [saving, setSaving] = useState(false);
 
-  const issue = issues.find((i) => i.id === selectedIssueId);
+  const seed = seeds.find((s) => s.id === selectedSeedId);
 
-  if (!sidebarOpen || !issue) return null;
+  if (!sidebarOpen || !seed) return null;
 
-  const plant = plantAssetMap[issue.plantType];
-  const isComposted = issue.status === "compost";
+  const plant = plantAssetMap[seed.plant_type];
+  const isComposted = seed.status === "compost";
 
   const handleSave = async () => {
     setSaving(true);
-    await saveStatus(issue.id, issue.status);
+    await updateSeed({ id: seed.id, status: seed.status });
     setSaving(false);
-    selectIssue(null);
+    selectSeed(null);
   };
 
   const handleCompost = async () => {
-    updateIssueStatus(issue.id, "compost");
+    updateSeedStatus(seed.id, "compost");
     setSaving(true);
-    await saveStatus(issue.id, "compost");
+    await updateSeed({ id: seed.id, status: "compost" });
     setSaving(false);
-    selectIssue(null);
+    selectSeed(null);
   };
 
   const handleRevive = async () => {
-    updateIssueStatus(issue.id, "seed");
+    updateSeedStatus(seed.id, "seed");
     setSaving(true);
-    await saveStatus(issue.id, "seed");
+    await updateSeed({ id: seed.id, status: "seed" });
     setSaving(false);
   };
 
@@ -58,7 +58,7 @@ export function IssueDetailPanel({ teamSlug }: { teamSlug?: string }) {
       <div className={`${stardew.parchmentPanel} h-full flex flex-col`}>
         {/* Close button */}
         <button
-          onClick={() => selectIssue(null)}
+          onClick={() => selectSeed(null)}
           className={`absolute -left-12 top-4 ${stardew.woodButton} p-2 bg-[#c75438] border-[#6b2a1d]`}
         >
           <X size={24} />
@@ -69,30 +69,28 @@ export function IssueDetailPanel({ teamSlug }: { teamSlug?: string }) {
           <div className="w-32 h-32 bg-[#5a8043] border-4 border-[#4a2f1e] shadow-[inset_4px_4px_12px_rgba(0,0,0,0.4),_4px_4px_0_rgba(0,0,0,0.1)] flex justify-center items-center mb-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={plant[issue.status]}
+              src={plant[seed.status]}
               alt={plant.label}
               className="w-24 h-24 object-contain"
               style={{ imageRendering: "pixelated" }}
             />
           </div>
 
-          <h2
-            className={`${stardew.fontPixel} text-2xl text-center mb-4`}
-          >
-            {issue.title}
+          <h2 className={`${stardew.fontPixel} text-2xl text-center mb-4`}>
+            {seed.title}
           </h2>
 
           <div className="flex flex-wrap gap-2 justify-center">
             <span className="px-2 py-1 bg-[#e8d6b3] border-2 border-[#8b5a2b] text-xs font-bold uppercase flex items-center gap-1">
               <div
-                className={`w-2 h-2 rounded-full ${getPriorityColor(issue.priority)} border border-black`}
+                className={`w-2 h-2 rounded-full ${getPriorityColor(seed.priority)} border border-black`}
               />
-              {issue.priority}
+              {seed.priority}
             </span>
             <span className="px-2 py-1 bg-[#e8d6b3] border-2 border-[#8b5a2b] text-xs font-bold uppercase">
               {plant.label}
             </span>
-            {issue.tags.map((tag) => (
+            {seed.tags?.map((tag) => (
               <span
                 key={tag}
                 className={`px-2 py-1 border-2 border-[#4a2f1e] text-xs font-bold uppercase ${getTagColor(tag)}`}
@@ -115,7 +113,7 @@ export function IssueDetailPanel({ teamSlug }: { teamSlug?: string }) {
               Description
             </h3>
             <p className="bg-[#fce8cc] p-3 border-2 border-[#d4a373] min-h-[80px] font-serif">
-              {issue.description || "No description yet."}
+              {seed.description || "No description yet."}
             </p>
           </section>
 
@@ -126,7 +124,7 @@ export function IssueDetailPanel({ teamSlug }: { teamSlug?: string }) {
                 <h3 className={`${stardew.fontPixel} text-[#8b5a2b] mb-2`}>
                   Assignees
                 </h3>
-                <AssigneePicker seedId={issue.id} teamSlug={teamSlug} />
+                <AssigneePicker seedId={seed.id} teamSlug={teamSlug} />
               </section>
             </>
           )}
@@ -141,9 +139,9 @@ export function IssueDetailPanel({ teamSlug }: { teamSlug?: string }) {
               {STAGES.map((stage) => (
                 <button
                   key={stage.id}
-                  onClick={() => updateIssueStatus(issue.id, stage.id)}
+                  onClick={() => updateSeedStatus(seed.id, stage.id)}
                   className={`flex-1 flex flex-col items-center py-2 border-2 font-bold text-xs uppercase transition-all ${
-                    issue.status === stage.id
+                    seed.status === stage.id
                       ? "bg-[#7ba65e] border-[#364d26] text-white shadow-[inset_2px_2px_0_rgba(255,255,255,0.2)]"
                       : "bg-[#d4a373] border-[#a6754b] text-[#8b5a2b] opacity-60 hover:opacity-80"
                   }`}
@@ -162,7 +160,7 @@ export function IssueDetailPanel({ teamSlug }: { teamSlug?: string }) {
           </section>
 
           {/* Blockers */}
-          {issue.blockers.length > 0 && (
+          {seed.blockers?.length > 0 && (
             <>
               <hr className="border-t-4 border-dashed border-[#a6754b]" />
               <section>
@@ -170,7 +168,7 @@ export function IssueDetailPanel({ teamSlug }: { teamSlug?: string }) {
                   Blockers
                 </h3>
                 <ul className="space-y-1">
-                  {issue.blockers.map((blocker, i) => (
+                  {seed.blockers.map((blocker, i) => (
                     <li key={i} className="bg-[#fce8cc] p-2 border-2 border-[#d4a373] text-sm font-serif flex items-center gap-2">
                       <span className="w-2 h-2 bg-[#c75438] rounded-full flex-shrink-0" />
                       {blocker}
@@ -182,7 +180,7 @@ export function IssueDetailPanel({ teamSlug }: { teamSlug?: string }) {
           )}
 
           {/* Context Roots */}
-          {issue.contextRoots.length > 0 && (
+          {seed.context_roots?.length > 0 && (
             <>
               <hr className="border-t-4 border-dashed border-[#a6754b]" />
               <section>
@@ -190,7 +188,7 @@ export function IssueDetailPanel({ teamSlug }: { teamSlug?: string }) {
                   Context
                 </h3>
                 <div className="space-y-2">
-                  {issue.contextRoots.map((ctx, i) => (
+                  {seed.context_roots.map((ctx, i) => (
                     <div key={i} className="bg-[#fce8cc] p-3 border-2 border-[#d4a373]">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="px-1.5 py-0.5 bg-[#5aa6d1] text-[#fce8cc] text-[10px] font-bold uppercase border border-[#4a2f1e]">
@@ -208,7 +206,7 @@ export function IssueDetailPanel({ teamSlug }: { teamSlug?: string }) {
           )}
 
           {/* Suggested Tickets */}
-          {issue.suggestedTickets.length > 0 && (
+          {seed.suggested_tickets?.length > 0 && (
             <>
               <hr className="border-t-4 border-dashed border-[#a6754b]" />
               <section>
@@ -216,7 +214,7 @@ export function IssueDetailPanel({ teamSlug }: { teamSlug?: string }) {
                   Suggested Tickets
                 </h3>
                 <ul className="space-y-1">
-                  {issue.suggestedTickets.map((ticket, i) => (
+                  {seed.suggested_tickets.map((ticket, i) => (
                     <li key={i} className="bg-[#fce8cc] p-2 border-2 border-[#d4a373] text-sm font-serif flex items-center gap-2">
                       <span className="w-2 h-2 bg-[#5a8043] rounded-full flex-shrink-0" />
                       {ticket}
@@ -232,13 +230,13 @@ export function IssueDetailPanel({ teamSlug }: { teamSlug?: string }) {
           <section className="text-sm text-[#8b5a2b] font-bold space-y-1">
             <div className="flex justify-between">
               <span>Planted:</span>
-              <span>{new Date(issue.createdAt).toLocaleDateString()}</span>
+              <span>{new Date(seed.created_at).toLocaleDateString()}</span>
             </div>
             <div className="flex justify-between">
               <span>Updated:</span>
-              <span>{new Date(issue.updatedAt).toLocaleDateString()}</span>
+              <span>{new Date(seed.updated_at).toLocaleDateString()}</span>
             </div>
-            {issue.isRevived && (
+            {seed.is_revived && (
               <div className="flex justify-between">
                 <span>Revived:</span>
                 <span className="text-[#5a8043]">Yes</span>

@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getMySeeds } from "@/app/actions/seed";
+import { getMySeeds } from "@/app/actions/seeds";
 import { checkAuth } from "@/app/actions/auth";
 import { plantAssetMap } from "@/lib/plantAssets";
 import { stardew, getPriorityColor } from "@/lib/stardewTheme";
 import { ArrowLeft, Sprout, Flower2 } from "lucide-react";
 import Link from "next/link";
-import type { GardenIssue } from "@/types";
+import type { Seed as GardenIssue } from "@/types";
 
 export default function MyGardenPage() {
   const router = useRouter();
@@ -120,7 +120,7 @@ export default function MyGardenPage() {
 }
 
 function SeedCard({ issue }: { issue: GardenIssue }) {
-  const plant = plantAssetMap[issue.plantType];
+  const plant = plantAssetMap[issue.plant_type];
 
   return (
     <div className={`${stardew.woodPanel} p-4 flex flex-col items-center gap-2`}>
@@ -145,7 +145,7 @@ function SeedCard({ issue }: { issue: GardenIssue }) {
 }
 
 function FlowerCard({ issue }: { issue: GardenIssue }) {
-  const plant = plantAssetMap[issue.plantType];
+  const plant = plantAssetMap[issue.plant_type];
 
   return (
     <div className={`${stardew.woodPanel} p-3 flex flex-col items-center gap-2 hover:brightness-110 transition-all`}>

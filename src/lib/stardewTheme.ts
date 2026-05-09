@@ -1,4 +1,4 @@
-import type { Priority, IssueTag } from "@/types";
+import type { SeedPriority as Priority, SeedTag as IssueTag } from "@/types";
 
 export const stardew = {
   woodPanel:

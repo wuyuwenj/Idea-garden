@@ -1,13 +1,14 @@
-import type { PlantType, IssueStatus } from "@/types";
+import type { PlantType, SeedStatus } from "@/types";
 
 export const plantAssetMap: Record<
   PlantType,
-  Record<IssueStatus, string> & { label: string; color: string }
+  Record<SeedStatus, string> & { label: string; color: string }
 > = {
   crystal_bloom: {
     seed: "/plants/crystal_seed.svg",
     sprout: "/plants/crystal_sprout.svg",
     flower: "/plants/crystal_full.svg",
+
     compost: "/plants/crystal_seed.svg",
     label: "Crystal Bloom",
     color: "#6cefff",
@@ -86,9 +87,9 @@ export const plantAssetMap: Record<
   },
 } as const;
 
-export const statusScale: Record<IssueStatus, number> = {
+export const statusScale: Record<SeedStatus, number> = {
   seed: 0.42,
-  sprout: 0.52,
+  sprout: 0.58,
   flower: 0.76,
-  compost: 0.35,
+  compost: 0.3,
 };
