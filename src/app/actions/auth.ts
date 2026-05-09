@@ -166,6 +166,59 @@ export async function checkAuth(): Promise<boolean> {
   return true;
 }
 
+export async function signInWithGitHub(redirectTo?: string) {
+  const callbackUrl = new URL("/auth/callback", process.env.NEXT_PUBLIC_APP_URL);
+  if (redirectTo) {
+    callbackUrl.searchParams.set("redirect", redirectTo);
+  }
+
+  const { data, error } = await insforge.auth.signInWithOAuth({
+    provider: "github",
+    redirectTo: callbackUrl.toString(),
+    skipBrowserRedirect: true,
+  });
+
+  if (error || !data?.url) {
+    return { message: error?.message ?? "Failed to start GitHub login." };
+  }
+
+  // Store PKCE verifier in cookie for the callback
+  const cookieStore = await cookies();
+  if (data.codeVerifier) {
+    cookieStore.set("insforge-pkce-verifier", data.codeVerifier, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 60 * 10,
+      path: "/",
+    });
+  }
+
+  redirect(data.url);
+}
+
+export async function exchangeOAuthCodeAction(code: string): Promise<AuthState> {
+  const cookieStore = await cookies();
+  const codeVerifier = cookieStore.get("insforge-pkce-verifier")?.value;
+  cookieStore.delete("insforge-pkce-verifier");
+
+  const { data, error } = await insforge.auth.exchangeOAuthCode(code, codeVerifier);
+
+  if (error || !data?.accessToken) {
+    return { message: error?.message ?? "Failed to complete GitHub login." };
+  }
+
+  cookieStore.set("insforge-token", data.accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 7,
+    path: "/",
+  });
+
+  return undefined;
+}
+
 export async function logout() {
   const cookieStore = await cookies();
   cookieStore.delete("insforge-token");

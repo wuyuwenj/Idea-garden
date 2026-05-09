@@ -6,7 +6,7 @@ import { logout, checkAuth } from "@/app/actions/auth";
 import { stardew } from "@/lib/stardewTheme";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Plus, LogOut } from "lucide-react";
+import { Plus, LogOut, Sprout } from "lucide-react";
 
 export default function TeamsPage() {
   const router = useRouter();
@@ -41,14 +41,22 @@ export default function TeamsPage() {
               Choose a garden or start a new one.
             </p>
           </div>
-          <form action={logout}>
-            <button
-              type="submit"
-              className={`${stardew.woodButton} px-3 py-2 flex items-center gap-2 text-sm`}
+          <div className="flex gap-2">
+            <Link
+              href="/my-garden"
+              className={`${stardew.woodButton} px-3 py-2 flex items-center gap-2 text-sm bg-[#7ba65e] border-[#364d26]`}
             >
-              <LogOut size={16} /> Leave
-            </button>
-          </form>
+              <Sprout size={16} /> My Garden
+            </Link>
+            <form action={logout}>
+              <button
+                type="submit"
+                className={`${stardew.woodButton} px-3 py-2 flex items-center gap-2 text-sm`}
+              >
+                <LogOut size={16} /> Leave
+              </button>
+            </form>
+          </div>
         </header>
 
         <div className="grid gap-4">
