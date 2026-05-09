@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { checkAuth, logout } from "@/app/actions/auth";
-import { getTeams } from "@/app/actions/team";
+import { getTeams, createTeam } from "@/app/actions/team";
 import { getProjects, createProject } from "@/app/actions/projects";
 import { stardew } from "@/lib/stardewTheme";
 import { Sprout, Plus, ChevronDown, UserPlus, LogOut, PanelLeftClose, PanelLeftOpen } from "lucide-react";
@@ -25,6 +25,9 @@ export default function TeamLayout({ children }: { children: React.ReactNode }) 
   const [isInviteOpen, setIsInviteOpen] = useState(false);
   const [showNewInput, setShowNewInput] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [showNewTeam, setShowNewTeam] = useState(false);
+  const [newTeamName, setNewTeamName] = useState("");
+  const [creatingTeam, setCreatingTeam] = useState(false);
 
   const currentTeam = teams.find((t) => t.slug === teamSlug);
   const currentProjectSlug = pathname.split("/").at(-1);
@@ -47,6 +50,18 @@ export default function TeamLayout({ children }: { children: React.ReactNode }) 
       refreshProjects();
     });
   }, [teamSlug, router, refreshProjects]);
+
+  const handleCreateTeam = async () => {
+    if (!newTeamName.trim() || creatingTeam) return;
+    setCreatingTeam(true);
+    const formData = new FormData();
+    formData.set("name", newTeamName.trim());
+    const result = await createTeam(undefined, formData);
+    // createTeam redirects on success, so we only get here on error
+    if (result?.message) {
+      setCreatingTeam(false);
+    }
+  };
 
   const handleCreateGarden = async () => {
     if (!newGardenName.trim() || creating) return;
@@ -90,6 +105,35 @@ export default function TeamLayout({ children }: { children: React.ReactNode }) 
                   {t.name}
                 </Link>
               ))}
+              <div className="border-t border-[#4a2f1e]">
+                {showNewTeam ? (
+                  <div className="p-2 flex gap-1">
+                    <input
+                      type="text"
+                      value={newTeamName}
+                      onChange={(e) => setNewTeamName(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleCreateTeam()}
+                      className="bg-[#4a2f1e] border border-[#6a4d3b] text-[#fce8cc] text-xs p-1.5 w-full focus:outline-none placeholder-[#7a5a3b]"
+                      placeholder="Team name..."
+                      autoFocus
+                    />
+                    <button
+                      onClick={handleCreateTeam}
+                      disabled={!newTeamName.trim() || creatingTeam}
+                      className="bg-[#7ba65e] border border-[#364d26] text-[#fce8cc] px-2 text-xs disabled:opacity-40"
+                    >
+                      {creatingTeam ? "..." : "+"}
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setShowNewTeam(true)}
+                    className="w-full px-4 py-3 text-[#a6754b] text-sm hover:bg-[#6a4d3b] hover:text-[#fce8cc] transition-colors flex items-center gap-2"
+                  >
+                    <Plus size={14} /> New Team
+                  </button>
+                )}
+              </div>
             </div>
           )}
         </div>

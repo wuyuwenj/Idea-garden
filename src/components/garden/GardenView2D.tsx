@@ -46,7 +46,7 @@ function PlantSprite({ seed }: { seed: Seed }) {
 
 export function GardenView2D() {
   const seeds = useGardenStore((s) => s.seeds);
-  const activeSeeds = seeds.filter((s) => s.status !== "fruit" && s.status !== "compost");
+  const activeSeeds = seeds.filter((s) => s.status !== "flower" && s.status !== "compost");
 
   return (
     <div className="relative grid grid-cols-2 gap-12 p-12 border-[6px] border-dashed border-[#486334] rounded-xl bg-[#618a48] overflow-hidden">

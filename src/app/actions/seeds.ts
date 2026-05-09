@@ -283,7 +283,7 @@ export async function getMySeeds(): Promise<{ active: Seed[]; bloomed: Seed[] }>
 
   const seeds = data.map((r: { seed: unknown }) => r.seed as Seed);
   return {
-    active: seeds.filter((s) => s.status !== "fruit" && s.status !== "compost"),
-    bloomed: seeds.filter((s) => s.status === "fruit"),
+    active: seeds.filter((s) => s.status !== "flower" && s.status !== "compost"),
+    bloomed: seeds.filter((s) => s.status === "flower"),
   };
 }

@@ -1,6 +1,6 @@
 // ── Enums ──
 
-export type SeedStatus = "seed" | "sprout" | "flower" | "fruit" | "compost";
+export type SeedStatus = "seed" | "sprout" | "flower" | "compost";
 
 export type SeedPriority = "urgent" | "high" | "medium" | "low";
 

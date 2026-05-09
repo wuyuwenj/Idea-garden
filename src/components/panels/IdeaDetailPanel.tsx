@@ -1,32 +1,57 @@
 "use client";
 
+import { useState } from "react";
 import { useGardenStore } from "@/store";
+import { updateSeed } from "@/app/actions/seeds";
 import { plantAssetMap } from "@/lib/plantAssets";
-import { stardew, getPriorityColor } from "@/lib/stardewTheme";
-import { X } from "lucide-react";
+import { stardew, getPriorityColor, getTagColor } from "@/lib/stardewTheme";
+import { AssigneePicker } from "@/components/panels/AssigneePicker";
+import { X, Archive, Save } from "lucide-react";
 import type { SeedStatus } from "@/types";
 
 const STAGES: { id: SeedStatus; label: string }[] = [
   { id: "seed", label: "Seed" },
   { id: "sprout", label: "Sprout" },
   { id: "flower", label: "Flower" },
-  { id: "fruit", label: "Fruit" },
-  { id: "compost", label: "Compost" },
 ];
 
-export function SeedDetailPanel() {
+export function SeedDetailPanel({ teamSlug }: { teamSlug?: string }) {
   const selectedSeedId = useGardenStore((s) => s.selectedSeedId);
   const seeds = useGardenStore((s) => s.seeds);
   const sidebarOpen = useGardenStore((s) => s.sidebarOpen);
   const selectSeed = useGardenStore((s) => s.selectSeed);
   const updateSeedStatus = useGardenStore((s) => s.updateSeedStatus);
-  const deleteSeed = useGardenStore((s) => s.deleteSeed);
+
+  const [saving, setSaving] = useState(false);
 
   const seed = seeds.find((s) => s.id === selectedSeedId);
 
   if (!sidebarOpen || !seed) return null;
 
   const plant = plantAssetMap[seed.plant_type];
+  const isComposted = seed.status === "compost";
+
+  const handleSave = async () => {
+    setSaving(true);
+    await updateSeed({ id: seed.id, status: seed.status });
+    setSaving(false);
+    selectSeed(null);
+  };
+
+  const handleCompost = async () => {
+    updateSeedStatus(seed.id, "compost");
+    setSaving(true);
+    await updateSeed({ id: seed.id, status: "compost" });
+    setSaving(false);
+    selectSeed(null);
+  };
+
+  const handleRevive = async () => {
+    updateSeedStatus(seed.id, "seed");
+    setSaving(true);
+    await updateSeed({ id: seed.id, status: "seed" });
+    setSaving(false);
+  };
 
   return (
     <div className="fixed inset-y-0 right-0 w-[400px] z-50 shadow-[-12px_0px_0px_rgba(0,0,0,0.3)] flex flex-col">
@@ -51,9 +76,7 @@ export function SeedDetailPanel() {
             />
           </div>
 
-          <h2
-            className={`${stardew.fontPixel} text-2xl text-center mb-4`}
-          >
+          <h2 className={`${stardew.fontPixel} text-2xl text-center mb-4`}>
             {seed.title}
           </h2>
 
@@ -67,6 +90,19 @@ export function SeedDetailPanel() {
             <span className="px-2 py-1 bg-[#e8d6b3] border-2 border-[#8b5a2b] text-xs font-bold uppercase">
               {plant.label}
             </span>
+            {seed.tags?.map((tag) => (
+              <span
+                key={tag}
+                className={`px-2 py-1 border-2 border-[#4a2f1e] text-xs font-bold uppercase ${getTagColor(tag)}`}
+              >
+                {tag}
+              </span>
+            ))}
+            {isComposted && (
+              <span className="px-2 py-1 bg-[#8b5a2b] border-2 border-[#4a2f1e] text-xs font-bold uppercase text-[#d4a373]">
+                Composted
+              </span>
+            )}
           </div>
         </header>
 
@@ -80,6 +116,18 @@ export function SeedDetailPanel() {
               {seed.description || "No description yet."}
             </p>
           </section>
+
+          {teamSlug && (
+            <>
+              <hr className="border-t-4 border-dashed border-[#a6754b]" />
+              <section>
+                <h3 className={`${stardew.fontPixel} text-[#8b5a2b] mb-2`}>
+                  Assignees
+                </h3>
+                <AssigneePicker seedId={seed.id} teamSlug={teamSlug} />
+              </section>
+            </>
+          )}
 
           <hr className="border-t-4 border-dashed border-[#a6754b]" />
 
@@ -111,6 +159,72 @@ export function SeedDetailPanel() {
             </div>
           </section>
 
+          {/* Blockers */}
+          {seed.blockers?.length > 0 && (
+            <>
+              <hr className="border-t-4 border-dashed border-[#a6754b]" />
+              <section>
+                <h3 className={`${stardew.fontPixel} text-[#8b5a2b] mb-2`}>
+                  Blockers
+                </h3>
+                <ul className="space-y-1">
+                  {seed.blockers.map((blocker, i) => (
+                    <li key={i} className="bg-[#fce8cc] p-2 border-2 border-[#d4a373] text-sm font-serif flex items-center gap-2">
+                      <span className="w-2 h-2 bg-[#c75438] rounded-full flex-shrink-0" />
+                      {blocker}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            </>
+          )}
+
+          {/* Context Roots */}
+          {seed.context_roots?.length > 0 && (
+            <>
+              <hr className="border-t-4 border-dashed border-[#a6754b]" />
+              <section>
+                <h3 className={`${stardew.fontPixel} text-[#8b5a2b] mb-2`}>
+                  Context
+                </h3>
+                <div className="space-y-2">
+                  {seed.context_roots.map((ctx, i) => (
+                    <div key={i} className="bg-[#fce8cc] p-3 border-2 border-[#d4a373]">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="px-1.5 py-0.5 bg-[#5aa6d1] text-[#fce8cc] text-[10px] font-bold uppercase border border-[#4a2f1e]">
+                          {ctx.sourceType}
+                        </span>
+                        <span className="font-bold text-sm text-[#4a2f1e]">{ctx.title}</span>
+                      </div>
+                      <p className="text-xs font-serif text-[#4a3525]">{ctx.summary}</p>
+                      <p className="text-[10px] text-[#8b5a2b] mt-1 italic">{ctx.relevance}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </>
+          )}
+
+          {/* Suggested Tickets */}
+          {seed.suggested_tickets?.length > 0 && (
+            <>
+              <hr className="border-t-4 border-dashed border-[#a6754b]" />
+              <section>
+                <h3 className={`${stardew.fontPixel} text-[#8b5a2b] mb-2`}>
+                  Suggested Tickets
+                </h3>
+                <ul className="space-y-1">
+                  {seed.suggested_tickets.map((ticket, i) => (
+                    <li key={i} className="bg-[#fce8cc] p-2 border-2 border-[#d4a373] text-sm font-serif flex items-center gap-2">
+                      <span className="w-2 h-2 bg-[#5a8043] rounded-full flex-shrink-0" />
+                      {ticket}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            </>
+          )}
+
           <hr className="border-t-4 border-dashed border-[#a6754b]" />
 
           <section className="text-sm text-[#8b5a2b] font-bold space-y-1">
@@ -122,14 +236,42 @@ export function SeedDetailPanel() {
               <span>Updated:</span>
               <span>{new Date(seed.updated_at).toLocaleDateString()}</span>
             </div>
+            {seed.is_revived && (
+              <div className="flex justify-between">
+                <span>Revived:</span>
+                <span className="text-[#5a8043]">Yes</span>
+              </div>
+            )}
           </section>
 
-          <button
-            onClick={() => deleteSeed(seed.id)}
-            className={`${stardew.woodButton} bg-[#c75438] border-[#6b2a1d] mt-auto py-3`}
-          >
-            Uproot Seed (Delete)
-          </button>
+          {isComposted ? (
+            <button
+              onClick={handleRevive}
+              disabled={saving}
+              className={`${stardew.woodButton} bg-[#7ba65e] border-[#364d26] mt-auto py-3 disabled:opacity-40`}
+            >
+              {saving ? "Saving..." : "Revive from Compost"}
+            </button>
+          ) : (
+            <div className="flex gap-3 mt-auto">
+              <button
+                onClick={handleSave}
+                disabled={saving}
+                className={`${stardew.woodButton} bg-[#7ba65e] border-[#364d26] py-3 flex-1 flex items-center justify-center gap-2 disabled:opacity-40`}
+              >
+                <Save size={16} />
+                {saving ? "Saving..." : "Save"}
+              </button>
+              <button
+                onClick={handleCompost}
+                disabled={saving}
+                className={`${stardew.woodButton} bg-[#8b5a2b] border-[#4a2f1e] py-3 flex items-center justify-center gap-2 px-4 disabled:opacity-40`}
+              >
+                <Archive size={16} />
+                Compost
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

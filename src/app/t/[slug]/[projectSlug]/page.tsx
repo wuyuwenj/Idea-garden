@@ -22,7 +22,7 @@ export default function ProjectGardenPage() {
   const setActiveView = useGardenStore((s) => s.setActiveView);
   const setSeeds = useGardenStore((s) => s.setSeeds);
   const harvestCount = useGardenStore(
-    (s) => s.seeds.filter((sd) => sd.status === "fruit").length
+    (s) => s.seeds.filter((sd) => sd.status === "flower").length
   );
   const [projectId, setProjectId] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -102,7 +102,7 @@ export default function ProjectGardenPage() {
       {isDialogOpen && projectId && (
         <CreateSeedDialog projectId={projectId} onClose={() => { setIsDialogOpen(false); refreshSeeds(); }} />
       )}
-      <SeedDetailPanel />
+      <SeedDetailPanel teamSlug={teamSlug} />
     </div>
   );
 }

@@ -8,7 +8,7 @@ import { Flower2 } from "lucide-react";
 export function HarvestView() {
   const seeds = useGardenStore((s) => s.seeds);
   const selectSeed = useGardenStore((s) => s.selectSeed);
-  const harvested = seeds.filter((s) => s.status === "fruit");
+  const harvested = seeds.filter((s) => s.status === "flower");
 
   return (
     <div className={`${stardew.parchmentPanel} p-12 min-h-[600px]`}>
@@ -45,7 +45,7 @@ export function HarvestView() {
               >
                 <div className="w-full h-32 bg-[#e8d6b3] border-4 border-[#4a2f1e] shadow-[inset_2px_2px_8px_rgba(0,0,0,0.2)] flex items-center justify-center mb-4 relative">
                   <img
-                    src={plant.fruit}
+                    src={plant.flower}
                     alt={seed.title}
                     className="w-24 h-24 object-contain"
                     style={{ imageRendering: "pixelated" }}
