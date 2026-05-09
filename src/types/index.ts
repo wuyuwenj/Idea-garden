@@ -75,3 +75,17 @@ export interface Seed {
   created_at: string;
   updated_at: string;
 }
+
+// ── Comments ──
+
+export type CommentType = "discussion" | "status_update" | "decision";
+
+export interface SeedComment {
+  id: string;
+  seed_id: string;
+  user_id: string;
+  content: string;
+  comment_type: CommentType;
+  created_at: string;
+  user_name?: string;
+}

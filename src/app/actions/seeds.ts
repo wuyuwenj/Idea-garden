@@ -3,8 +3,8 @@
 import { insforge } from "@/lib/insforge";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import type { Seed, SeedPriority, SeedTag, PlantType, ContextRoot } from "@/types";
-import { saveNiaContext, writeVaultSeedPage, searchVault } from "@/lib/nia";
+import type { Seed, SeedPriority, SeedTag, PlantType, ContextRoot, SeedComment, CommentType } from "@/types";
+import { saveNiaContext, writeVaultSeedPage, searchVault, appendVaultSeedComment } from "@/lib/nia";
 import type { VaultSearchMatch } from "@/lib/nia";
 
 async function getAuthToken() {
@@ -350,4 +350,90 @@ export async function getMySeeds(): Promise<{ active: Seed[]; bloomed: Seed[] }>
     active: seeds.filter((s) => s.status !== "flower" && s.status !== "compost"),
     bloomed: seeds.filter((s) => s.status === "flower"),
   };
+}
+
+// ── Comments ──
+
+export async function getComments(seedId: string): Promise<SeedComment[]> {
+  const token = await getAuthToken();
+  if (!token) return [];
+  insforge.setAccessToken(token);
+
+  const { data, error } = await insforge.database
+    .from("seed_comments")
+    .select("*")
+    .eq("seed_id", seedId)
+    .order("created_at", { ascending: true });
+
+  if (error || !data) return [];
+  return data as SeedComment[];
+}
+
+export async function addComment(
+  seedId: string,
+  content: string,
+  commentType: CommentType
+): Promise<{ comment?: SeedComment; error?: string }> {
+  const userId = await getCurrentUserId();
+  if (!userId) redirect("/login");
+
+  const { data, error } = await insforge.database
+    .from("seed_comments")
+    .insert({
+      seed_id: seedId,
+      user_id: userId,
+      content,
+      comment_type: commentType,
+    })
+    .select()
+    .single();
+
+  if (error) return { error: error.message };
+
+  const comment = data as SeedComment;
+
+  // Get seed + project for vault write
+  const { data: seed } = await insforge.database
+    .from("seeds")
+    .select("title, project_id")
+    .eq("id", seedId)
+    .single();
+
+  if (seed?.project_id) {
+    const { data: project } = await insforge.database
+      .from("projects")
+      .select("nia_vault_id")
+      .eq("id", seed.project_id)
+      .single();
+
+    if (project?.nia_vault_id) {
+      appendVaultSeedComment(project.nia_vault_id, seed.title, {
+        userName: userId.slice(0, 8),
+        content,
+        commentType,
+        date: new Date().toISOString().split("T")[0],
+      });
+    }
+  }
+
+  return { comment };
+}
+
+export async function compostSeed(
+  seedId: string,
+  reason: string
+): Promise<{ error?: string }> {
+  const userId = await getCurrentUserId();
+  if (!userId) redirect("/login");
+
+  // Add decision comment first
+  await addComment(seedId, reason, "decision");
+
+  // Then compost
+  await insforge.database
+    .from("seeds")
+    .update({ status: "compost", updated_at: new Date().toISOString() })
+    .eq("id", seedId);
+
+  return {};
 }

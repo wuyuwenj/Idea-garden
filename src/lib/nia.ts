@@ -83,6 +83,44 @@ OUTER
   }
 }
 
+export async function appendVaultSeedComment(
+  vaultId: string,
+  seedTitle: string,
+  comment: {
+    userName: string;
+    content: string;
+    commentType: string;
+    date: string;
+  }
+): Promise<{ error?: string }> {
+  const slug = seedTitle
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+  const typeLabel = comment.commentType === "discussion" ? "" : ` [${comment.commentType}]`;
+  const line = `- **${comment.date} | @${comment.userName}**${typeLabel}: ${comment.content}`;
+
+  try {
+    const cmd = `nia vault open ${vaultId} --c "$(cat <<'OUTER'
+if ! grep -q '## Discussion' seeds/${slug}.md 2>/dev/null; then
+  echo '' >> seeds/${slug}.md
+  echo '## Discussion' >> seeds/${slug}.md
+fi
+cat >> seeds/${slug}.md << 'COMMENTEOF'
+${line}
+COMMENTEOF
+OUTER
+)"`;
+    await execAsync(cmd, { timeout: 15000 });
+    return {};
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    console.error("[nia] Failed to append vault comment:", message);
+    return { error: message };
+  }
+}
+
 export async function saveNiaContext(
   input: NiaContextInput
 ): Promise<{ contextId?: string; error?: string }> {

@@ -9,7 +9,7 @@ import { stardew } from "@/lib/stardewTheme";
 import { GardenView2D } from "@/components/garden/GardenView2D";
 import { BoardView } from "@/components/board";
 import { HarvestView } from "@/components/harvest/HarvestView";
-import { SeedDetailPanel } from "@/components/panels/IdeaDetailPanel";
+import { SeedDetailView } from "@/components/panels/IdeaDetailPanel";
 import { CreateSeedDialog } from "@/components/panels/CreateSeedDialog";
 import { Plus, Flower2 } from "lucide-react";
 
@@ -21,6 +21,7 @@ export default function ProjectGardenPage() {
   const activeView = useGardenStore((s) => s.activeView);
   const setActiveView = useGardenStore((s) => s.setActiveView);
   const setSeeds = useGardenStore((s) => s.setSeeds);
+  const selectedSeedId = useGardenStore((s) => s.selectedSeedId);
   const harvestCount = useGardenStore(
     (s) => s.seeds.filter((sd) => sd.status === "flower").length
   );
@@ -43,6 +44,21 @@ export default function ProjectGardenPage() {
     if (projectId) refreshSeeds();
   }, [projectId, refreshSeeds]);
 
+  // If a seed is selected, show full-page detail view
+  if (selectedSeedId) {
+    return (
+      <div
+        className="h-full bg-[#5a8043]"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(0deg, transparent, transparent 32px, rgba(0,0,0,0.05) 32px, rgba(0,0,0,0.05) 36px)",
+        }}
+      >
+        <SeedDetailView teamSlug={teamSlug} projectSlug={projectSlug} />
+      </div>
+    );
+  }
+
   return (
     <div
       className="h-full bg-[#5a8043] flex flex-col"
@@ -60,7 +76,6 @@ export default function ProjectGardenPage() {
         </div>
 
         <div className="flex gap-2 items-center">
-          {/* View tabs */}
           {(["garden", "board", "harvest"] as const).map((view) => (
             <button
               key={view}
@@ -102,7 +117,6 @@ export default function ProjectGardenPage() {
       {isDialogOpen && projectId && (
         <CreateSeedDialog projectId={projectId} onClose={() => { setIsDialogOpen(false); refreshSeeds(); }} />
       )}
-      <SeedDetailPanel teamSlug={teamSlug} />
     </div>
   );
 }
