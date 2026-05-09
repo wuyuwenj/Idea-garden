@@ -16,6 +16,7 @@ export default function VerifyPage() {
 function VerifyForm() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email") ?? "";
+  const redirectTo = searchParams.get("redirect") ?? "";
   const [digits, setDigits] = useState(["", "", "", "", "", ""]);
   const [resendStatus, setResendStatus] = useState<string | null>(null);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -98,6 +99,7 @@ function VerifyForm() {
         <form action={action}>
           <input type="hidden" name="email" value={email} />
           <input type="hidden" name="otp" value={otp} />
+          {redirectTo && <input type="hidden" name="redirect" value={redirectTo} />}
 
           {/* 6-digit code inputs */}
           <div

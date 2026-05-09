@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useGardenStore } from "@/store";
+import { createSeed } from "@/app/actions/seed";
 import { plantAssetMap } from "@/lib/plantAssets";
 import { stardew, getPriorityColor } from "@/lib/stardewTheme";
 import { X } from "lucide-react";
@@ -19,26 +20,50 @@ function getRandomPlantType(): PlantType {
   return types[Math.floor(Math.random() * types.length)];
 }
 
-export function CreateSeedDialog({ onClose }: { onClose: () => void }) {
+export function CreateSeedDialog({ teamSlug, onClose }: { teamSlug?: string; onClose: () => void }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState<SeedPriority>("medium");
   const [plantType, setPlantType] = useState<PlantType>(getRandomPlantType);
+  const [saving, setSaving] = useState(false);
 
   const addSeed = useGardenStore((s) => s.addSeed);
 
-  const handleSubmit = () => {
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async () => {
     if (!title.trim()) return;
-    addSeed({
-      id: `s-${Date.now()}`,
-      title: title.trim(),
-      description: description.trim(),
-      status: "seed",
-      priority,
-      plantType,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    });
+    setSaving(true);
+    setError(null);
+
+    if (teamSlug) {
+      const result = await createSeed(teamSlug, {
+        title: title.trim(),
+        description: description.trim(),
+        priority,
+        plantType,
+      });
+      if (result.error) {
+        setError(result.error);
+        setSaving(false);
+        return;
+      }
+      if (result.seed) {
+        addSeed(result.seed);
+      }
+    } else {
+      addSeed({
+        id: `s-${Date.now()}`,
+        title: title.trim(),
+        description: description.trim(),
+        status: "seed",
+        priority,
+        plantType,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      });
+    }
+
     onClose();
   };
 
@@ -62,6 +87,11 @@ export function CreateSeedDialog({ onClose }: { onClose: () => void }) {
 
         {/* Form */}
         <div className="p-6 overflow-y-auto flex flex-col gap-6">
+          {error && (
+            <div className="bg-red-900/30 border border-red-700 text-red-800 px-4 py-2 rounded text-sm">
+              {error}
+            </div>
+          )}
           <div>
             <label
               className={`${stardew.fontPixel} block mb-2 text-[#8b5a2b]`}
