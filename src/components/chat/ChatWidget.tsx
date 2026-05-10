@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { useGardenStore } from "@/store";
 import type { ChatMsg } from "@/store";
 import { getChatMessages, saveChatMessage } from "@/app/actions/chat";
@@ -28,6 +28,30 @@ export function ChatWidget({ projectId }: ChatWidgetProps) {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const loadedProjectRef = useRef<string | null>(null);
+
+  // Resizable state
+  const [size, setSize] = useState({ w: 380, h: 500 });
+  const resizing = useRef(false);
+  const resizeStart = useRef({ x: 0, y: 0, w: 0, h: 0 });
+
+  useEffect(() => {
+    const onMouseMove = (e: MouseEvent) => {
+      if (!resizing.current) return;
+      const dw = resizeStart.current.x - e.clientX;
+      const dh = resizeStart.current.y - e.clientY;
+      setSize({
+        w: Math.max(320, Math.min(800, resizeStart.current.w + dw)),
+        h: Math.max(400, Math.min(900, resizeStart.current.h + dh)),
+      });
+    };
+    const onMouseUp = () => { resizing.current = false; };
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
+  }, []);
 
   // Load chat history when projectId changes
   useEffect(() => {
@@ -197,7 +221,21 @@ export function ChatWidget({ projectId }: ChatWidgetProps) {
 
   // Expanded chat panel
   return (
-    <div className="fixed bottom-6 right-6 z-50 w-[380px] h-[500px] flex flex-col bg-[#6a4427] border-4 border-[#4a2f1e] shadow-[6px_6px_0px_rgba(0,0,0,0.3)] rounded-sm overflow-hidden">
+    <div
+      className="fixed bottom-6 right-6 z-50 flex flex-col bg-[#6a4427] border-4 border-[#4a2f1e] shadow-[6px_6px_0px_rgba(0,0,0,0.3)] rounded-sm overflow-hidden"
+      style={{ width: size.w, height: size.h }}
+    >
+      {/* Resize handle (top-left corner) */}
+      <div
+        className="absolute top-0 left-0 w-4 h-4 cursor-nw-resize z-50"
+        onMouseDown={(e) => {
+          e.preventDefault();
+          resizing.current = true;
+          resizeStart.current = { x: e.clientX, y: e.clientY, w: size.w, h: size.h };
+        }}
+      >
+        <div className="absolute top-1 left-1 w-2 h-2 border-t-2 border-l-2 border-[#8b5a2b] opacity-60" />
+      </div>
       {/* Header */}
       <div className={`${stardew.woodPanel} flex items-center justify-between px-3 py-2 border-b-0`}>
         <div className="flex items-center gap-2">
