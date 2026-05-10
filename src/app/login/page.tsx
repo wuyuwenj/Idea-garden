@@ -31,7 +31,7 @@ function LoginForm() {
         <h1
           className={`${stardew.fontPixel} text-3xl text-[#fbf236] drop-shadow-[2px_2px_0_#4a2f1e] text-center mb-2`}
         >
-          Idea Garden
+          Seedbase
         </h1>
         <p className="text-[#e8d6b3] text-sm text-center mb-6">
           Welcome back, farmer!

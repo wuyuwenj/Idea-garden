@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Idea Garden",
+  title: "Seedbase",
   description: "A shared knowledge garden where ideas evolve into tickets",
 };
 

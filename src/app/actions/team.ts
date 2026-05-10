@@ -145,25 +145,25 @@ export async function inviteMember(
   const inviteUrl = `${process.env.NEXT_PUBLIC_APP_URL}/invite/${inviteToken}`;
   await insforge.emails.send({
     to: parsed.data.email,
-    subject: `${inviterName} invited you to join ${team.name} on Idea Garden`,
+    subject: `${inviterName} invited you to join ${team.name} on Seedbase`,
     html: `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
         <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 40px;">
           <div style="margin-bottom: 24px;">
-            <span style="font-size: 18px; font-weight: 600; color: #111827;">🌱 Idea Garden</span>
+            <span style="font-size: 18px; font-weight: 600; color: #111827;">🌱 Seedbase</span>
           </div>
           <h1 style="font-size: 24px; color: #111827; margin: 0 0 12px 0;">
-            <strong>${inviterName}</strong> invited you to join <strong>${team.name}</strong> on Idea Garden
+            <strong>${inviterName}</strong> invited you to join <strong>${team.name}</strong> on Seedbase
           </h1>
           <p style="color: #6b7280; font-size: 16px; line-height: 1.5; margin: 0 0 24px 0;">
-            Use Idea Garden to plant ideas, grow progress, and harvest finished work across your team.
+            Use Seedbase to plant ideas, grow progress, and harvest finished work across your team.
           </p>
           <a href="${inviteUrl}" style="display: inline-block; background: #7ba65e; color: #ffffff; font-size: 16px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 6px;">
             Join your team
           </a>
         </div>
         <p style="color: #9ca3af; font-size: 13px; text-align: center; margin-top: 24px;">
-          Idea Garden
+          Seedbase
         </p>
       </div>
     `,

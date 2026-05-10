@@ -52,8 +52,11 @@ export function AssigneePicker({ seedId, teamSlug }: AssigneePickerProps) {
   }, [seedId, teamSlug]);
 
   useEffect(() => {
-    refresh();
-  }, [refresh]);
+    let cancelled = false;
+    getTeamMembers(teamSlug).then((m) => { if (!cancelled) setMembers(m); });
+    getSeedAssignees(seedId).then((a) => { if (!cancelled) setAssigneeIds(a); });
+    return () => { cancelled = true; };
+  }, [seedId, teamSlug]);
 
   // Close on outside click
   useEffect(() => {

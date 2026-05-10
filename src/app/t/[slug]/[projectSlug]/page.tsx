@@ -12,6 +12,7 @@ import { HarvestView } from "@/components/harvest/HarvestView";
 import { SeedDetailView } from "@/components/panels/IdeaDetailPanel";
 import { CompostView } from "@/components/compost/CompostView";
 import { CreateSeedDialog } from "@/components/panels/CreateSeedDialog";
+import { ChatWidget } from "@/components/chat/ChatWidget";
 import { Plus, Flower2, Archive } from "lucide-react";
 
 export default function ProjectGardenPage() {
@@ -59,6 +60,7 @@ export default function ProjectGardenPage() {
         }}
       >
         <SeedDetailView teamSlug={teamSlug} projectSlug={projectSlug} />
+        {projectId && <ChatWidget projectId={projectId} />}
       </div>
     );
   }
@@ -128,6 +130,9 @@ export default function ProjectGardenPage() {
       {isDialogOpen && projectId && (
         <CreateSeedDialog projectId={projectId} onClose={() => { setIsDialogOpen(false); refreshSeeds(); }} />
       )}
+
+      {/* AI Chat */}
+      {projectId && <ChatWidget projectId={projectId} />}
     </div>
   );
 }

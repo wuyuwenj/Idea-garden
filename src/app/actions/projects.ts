@@ -85,7 +85,7 @@ export async function createProject(
   // Create a Nia vault for this project
   const vaultResult = await createVault(
     name,
-    `Idea Garden knowledge base for project: ${name}`
+    `Seedbase knowledge base for project: ${name}`
   );
   if (vaultResult.vaultId) {
     await insforge.database

@@ -83,7 +83,7 @@ export default function InvitePage() {
               {teamName}
             </h2>
             <p className="text-[#e8d6b3] text-sm">
-              Idea Garden helps your team plant ideas, grow progress, and harvest finished work.
+              Seedbase helps your team plant ideas, grow progress, and harvest finished work.
             </p>
 
             <div className="border-t border-[#4a2f1e] pt-4 mt-4">

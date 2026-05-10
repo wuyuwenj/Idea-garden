@@ -186,7 +186,7 @@ export function CreateSeedDialog({ projectId, onClose }: { projectId: string; on
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState<SeedPriority>("medium");
   const [tags, setTags] = useState<SeedTag[]>([]);
-  const [plantType, setPlantType] = useState<PlantType>(getRandomPlantType);
+  const [plantType] = useState<PlantType>(getRandomPlantType);
   const [submitting, setSubmitting] = useState(false);
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState<string | null>(null);

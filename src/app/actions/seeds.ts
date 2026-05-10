@@ -103,7 +103,7 @@ export async function createSeed(input: CreateSeedInput): Promise<SeedActionStat
       created_at: seed.created_at,
     }).padEnd(50, " "),
     tags: ["seed", ...seed.tags],
-    agent: `idea-garden:${input.projectId}`,
+    agent: `seedbase:${input.projectId}`,
     workspace: input.projectId,
   }).then((result) => {
     if (result.contextId) {

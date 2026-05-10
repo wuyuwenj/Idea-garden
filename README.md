@@ -1,4 +1,4 @@
-# Idea Garden
+# Seedbase
 
 A Stardew Valley-inspired project tracker where ideas grow from seeds into blooms. Plant ideas, nurture them through stages, harvest completed work, and compost what doesn't make it — all in a cozy pixel-art garden.
 
@@ -78,8 +78,8 @@ Email/password and GitHub OAuth login, styled to match the Stardew Valley theme.
 ## Getting Started
 
 ```bash
-git clone https://github.com/wuyuwenj/idea-garden.git
-cd idea-garden
+git clone https://github.com/wuyuwenj/seedbase.git
+cd seedbase
 npm install
 ```
 

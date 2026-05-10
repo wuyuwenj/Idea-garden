@@ -64,7 +64,7 @@ export async function writeVaultSeedPage(
     "",
     "---",
     "## Timeline",
-    `- **${new Date(seed.created_at).toISOString().split("T")[0]}** | Seed planted [Source: idea-garden]`,
+    `- **${new Date(seed.created_at).toISOString().split("T")[0]}** | Seed planted [Source: seedbase]`,
   ].join("\n");
 
   try {
@@ -133,7 +133,7 @@ export async function saveNiaContext(
     "--content",
     input.content,
     "--agent",
-    input.agent || "idea-garden",
+    input.agent || "seedbase",
     "--memory-type",
     "episodic",
   ];
